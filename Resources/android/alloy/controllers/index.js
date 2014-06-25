@@ -2,10 +2,14 @@ function Controller() {
     function tryLogin() {
         Titanium.API.info("Trying login...");
         var cloud = Alloy.Globals.Cloud;
-        cloud.Users.secureLogin({
-            title: "Log in to NiftyApp"
+        cloud.Users.login({
+            login: $.email.value,
+            password: $.password.value
         }, function(e) {
-            e.success ? Ti.API.info("Success. accessToken = " + Cloud.accessToken) : Ti.API.info("Error: + ((e.error && e.message) || JSON.stringify(e))");
+            if (e.success) {
+                var user = e.users[0];
+                alert("Success:\nid: " + user.id + "\n" + "sessionId: " + cloud.sessionId + "\n" + "first name: " + user.first_name + "\n" + "last name: " + user.last_name);
+            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
         });
     }
     function newUserForm() {
@@ -15,6 +19,8 @@ function Controller() {
     }
     function terms() {
         Titanium.API.info("Show terms");
+        var terms = Alloy.createController("terms").getView();
+        terms.open();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "index";
@@ -32,7 +38,7 @@ function Controller() {
     $.__views.logo = Ti.UI.createImageView({
         id: "logo",
         image: "/images/logoMatchIdeas.png",
-        top: "20",
+        top: "10",
         width: "150",
         height: "100"
     });
@@ -41,7 +47,7 @@ function Controller() {
         id: "email",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         color: "#336699",
-        top: "180",
+        top: "150",
         left: "10",
         width: "300",
         height: "35",
@@ -53,7 +59,7 @@ function Controller() {
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         passwordMask: "true",
         color: "#336699",
-        top: "210",
+        top: "180",
         left: "10",
         width: "300",
         height: "35",
@@ -63,27 +69,27 @@ function Controller() {
     $.__views.tryLogin = Ti.UI.createButton({
         id: "tryLogin",
         title: "Entrar",
-        top: "250",
-        width: "100",
+        top: "210",
+        width: "130",
         height: "50",
-        left: "50"
+        left: "20"
     });
     $.__views.index.add($.__views.tryLogin);
     tryLogin ? $.__views.tryLogin.addEventListener("click", tryLogin) : __defers["$.__views.tryLogin!click!tryLogin"] = true;
     $.__views.newUser = Ti.UI.createButton({
         id: "newUser",
         title: "Registrarme",
-        top: "250",
-        width: "100",
+        top: "210",
+        width: "130",
         height: "50",
-        right: "50"
+        right: "20"
     });
     $.__views.index.add($.__views.newUser);
     newUserForm ? $.__views.newUser.addEventListener("click", newUserForm) : __defers["$.__views.newUser!click!newUserForm"] = true;
     $.__views.terms = Ti.UI.createButton({
         id: "terms",
         title: "Terminos y condiciones",
-        top: "300",
+        top: "260",
         width: "200",
         height: "50",
         backgroundColor: "white",
@@ -101,7 +107,7 @@ function Controller() {
     });
     fb.authorize();
     $.index.add(fb.createLoginButton({
-        top: 120,
+        top: 110,
         style: fb.BUTTON_STYLE_WIDE
     }));
     $.index.open();

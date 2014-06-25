@@ -1,7 +1,8 @@
 function createUser(e){
     //Displays log message on console
     Titanium.API.info("Creating user with ACS");
-    Alloy.Globals.Cloud.Users.create({
+    var cloud = Alloy.Globals.Cloud;
+    cloud.Users.create({
     email: $.email.value,
     first_name: $.firstName.value,
     last_name: $.lastName.value,
@@ -12,7 +13,7 @@ function createUser(e){
         var user = e.users[0];
         alert('Success:\n' +
             'id: ' + user.id + '\n' +
-            'sessionId: ' + Cloud.sessionId + '\n' +
+            'sessionId: ' + cloud.sessionId + '\n' +
             'first name: ' + user.first_name + '\n' +
             'last name: ' + user.last_name);
     } else {
@@ -25,6 +26,8 @@ function createUser(e){
 function terms(e){
     //Displays log message on console
     Titanium.API.info("Show terms");
+    var terms = Alloy.createController('terms').getView();
+    terms.open();
 };
 
 var fb  = Alloy.Globals.Facebook;
@@ -40,7 +43,7 @@ fb.addEventListener('login', function(e) {
     }
 });
 fb.authorize();
-this.getView().add(fb.createLoginButton({
-    top : 120,
+$.mainView.add(fb.createLoginButton({
+    top : 110,
     style : fb.BUTTON_STYLE_WIDE
 }));
