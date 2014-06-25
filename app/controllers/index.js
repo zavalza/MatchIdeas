@@ -1,10 +1,31 @@
 function tryLogin(e){
     //Displays log message on console
     Titanium.API.info("Trying login...");
+    var cloud = Alloy.Globals.Cloud;
+	cloud.Users.secureLogin({
+    title : "Log in to NiftyApp",
+	}, function(e) {
+    if (!e.success) {
+        Ti.API.info("Error: + ((e.error && e.message) || JSON.stringify(e))");
+    } else {
+        Ti.API.info('Success. accessToken = ' + Cloud.accessToken);
+    }
+});
+};
+function newUserForm(e){
+    //Displays log message on console
+    Titanium.API.info("Show new user form");
+    var newUser = Alloy.createController('newUser').getView();
+    newUser.open();
+};
+
+function terms(e){
+    //Displays log message on console
+    Titanium.API.info("Show terms");
 };
 
 
-var fb  = Alloy.Globals.Facebook;;
+var fb  = Alloy.Globals.Facebook;
 fb.appid = 305737346271076;
 fb.permissions = ['public_profile']; // Permissions your app needs
 fb.addEventListener('login', function(e) {
@@ -18,9 +39,10 @@ fb.addEventListener('login', function(e) {
 });
 fb.authorize();
 $.index.add(fb.createLoginButton({
-    top : 40,
+    top : 120,
     style : fb.BUTTON_STYLE_WIDE
 }));
+
 $.index.open();
 
 

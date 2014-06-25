@@ -1,9 +1,13 @@
 <Alloy>
 	<Window class="container">
-		<ImageView id="image" image="/images/logoMatchIdeas.png" />
-        <TextField id="email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="100" left="10" width="300" height="35" hintText= 'correo electrónico'/>
-		<TextField id="password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="150" left="10" width="300" height="35" hintText= 'password'/>
+		<ImageView id="logo" image="/images/logoMatchIdeas.png" top="20" width="150" height="100" />
+        <TextField id="email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="180" left="10" width="300" height="35" hintText= 'correo electrónico'/>
+		<TextField id="password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="210" left="10" width="300" height="35" hintText= 'password'/>
 		<Button id="tryLogin" onClick="tryLogin" title="Entrar"
-            top="180" width="100" height="50" />
+            top="250" width="100" height="50" left="50" />
+        <Button id="newUser" onClick="newUserForm" title="Registrarme"
+        top="250" width="100" height="50" right="50" />
+        <Button id="terms" onClick="terms" title="Terminos y condiciones"
+        top="300" width="200" height="50" backgroundColor="white" color="black"/>
 	</Window>
 </Alloy>
