@@ -1,0 +1,6 @@
+"/home/paulz/Titanium_Studio_Workspace/MatchIdeas/build/android/gen/com/matchideas/app/ApplicationStylesheet.java"
+"/home/paulz/Titanium_Studio_Workspace/MatchIdeas/build/android/gen/com/matchideas/app/AssetCryptImpl.java"
+"/home/paulz/Titanium_Studio_Workspace/MatchIdeas/build/android/gen/com/matchideas/app/MatchideasActivity.java"
+"/home/paulz/Titanium_Studio_Workspace/MatchIdeas/build/android/gen/com/matchideas/app/MatchideasAppInfo.java"
+"/home/paulz/Titanium_Studio_Workspace/MatchIdeas/build/android/gen/com/matchideas/app/MatchideasApplication.java"
+"/home/paulz/Titanium_Studio_Workspace/MatchIdeas/build/android/gen/com/matchideas/app/R.java"

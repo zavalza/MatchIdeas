@@ -1,0 +1,9 @@
+<Alloy>
+	<Window class="container">
+		<ImageView id="image" image="/images/logoMatchIdeas.png" />
+        <TextField id="email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="100" left="10" width="300" height="35" hintText= 'correo electrónico'/>
+		<TextField id="password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="150" left="10" width="300" height="35" hintText= 'password'/>
+		<Button id="tryLogin" onClick="tryLogin" title="Entrar"
+            top="180" width="100" height="50" />
+	</Window>
+</Alloy>
