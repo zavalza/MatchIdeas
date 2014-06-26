@@ -1,32 +1,47 @@
 function Controller() {
+    function showMenu() {
+        Titanium.API.info("Quit terms");
+        var newUser = Alloy.createController("newUser").getView();
+        newUser.open();
+    }
     function done() {
         Titanium.API.info("Quit terms");
         var newUser = Alloy.createController("newUser").getView();
         newUser.open();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
-    this.__controllerPath = "terms";
+    this.__controllerPath = "main";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
     arguments[0] ? arguments[0]["$model"] : null;
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
     var __defers = {};
-    $.__views.terms = Ti.UI.createWindow({
-        backgroundColor: "white",
-        id: "terms"
+    $.__views.main = Ti.UI.createWindow({
+        id: "main"
     });
-    $.__views.terms && $.addTopLevelView($.__views.terms);
-    $.__views.__alloyId2 = Ti.UI.createScrollView({
+    $.__views.main && $.addTopLevelView($.__views.main);
+    $.__views.menu = Ti.UI.createButton({
+        id: "menu",
+        backgroundImage: "/images/menuIcon.png",
+        top: "5",
+        width: "50",
+        height: "50",
+        backgroundColor: "white",
+        left: "5"
+    });
+    $.__views.main.add($.__views.menu);
+    showMenu ? $.__views.menu.addEventListener("click", showMenu) : __defers["$.__views.menu!click!showMenu"] = true;
+    $.__views.__alloyId0 = Ti.UI.createScrollView({
         height: "80%",
         width: "80%",
-        id: "__alloyId2"
+        id: "__alloyId0"
     });
-    $.__views.terms.add($.__views.__alloyId2);
+    $.__views.main.add($.__views.__alloyId0);
     $.__views.mainView = Ti.UI.createView({
         id: "mainView"
     });
-    $.__views.__alloyId2.add($.__views.mainView);
+    $.__views.__alloyId0.add($.__views.mainView);
     $.__views.label1 = Ti.UI.createLabel({
         id: "label1",
         color: "#900",
@@ -48,10 +63,10 @@ function Controller() {
         height: "200"
     });
     $.__views.mainView.add($.__views.label2);
-    $.__views.__alloyId3 = Ti.UI.createView({
-        id: "__alloyId3"
+    $.__views.__alloyId1 = Ti.UI.createView({
+        id: "__alloyId1"
     });
-    $.__views.terms.add($.__views.__alloyId3);
+    $.__views.main.add($.__views.__alloyId1);
     $.__views.ok = Ti.UI.createButton({
         id: "ok",
         title: "Acepto",
@@ -61,10 +76,11 @@ function Controller() {
         backgroundColor: "white",
         color: "black"
     });
-    $.__views.__alloyId3.add($.__views.ok);
+    $.__views.__alloyId1.add($.__views.ok);
     done ? $.__views.ok.addEventListener("click", done) : __defers["$.__views.ok!click!done"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
+    __defers["$.__views.menu!click!showMenu"] && $.__views.menu.addEventListener("click", showMenu);
     __defers["$.__views.ok!click!done"] && $.__views.ok.addEventListener("click", done);
     _.extend($, exports);
 }

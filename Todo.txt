@@ -1,0 +1,1 @@
+*Verificar si el correo de un usuario de facebook ya fue usado en la forma tradicional de login
