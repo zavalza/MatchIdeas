@@ -9,6 +9,11 @@ function Controller() {
         var newUser = Alloy.createController("newUser").getView();
         newUser.open();
     }
+    function showNewIdea() {
+        Titanium.API.info("show new idea");
+        var newIdea = Alloy.createController("newIdea").getView();
+        newIdea.open();
+    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "main";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
@@ -17,10 +22,15 @@ function Controller() {
     var $ = this;
     var exports = {};
     var __defers = {};
-    $.__views.main = Ti.UI.createWindow({
-        id: "main"
+    $.__views.win = Ti.UI.createWindow({
+        backgroundColor: "white",
+        id: "win"
     });
-    $.__views.main && $.addTopLevelView($.__views.main);
+    $.__views.win && $.addTopLevelView($.__views.win);
+    $.__views.__alloyId0 = Ti.UI.createView({
+        id: "__alloyId0"
+    });
+    $.__views.win.add($.__views.__alloyId0);
     $.__views.menu = Ti.UI.createButton({
         id: "menu",
         backgroundImage: "/images/menuIcon.png",
@@ -30,58 +40,154 @@ function Controller() {
         backgroundColor: "white",
         left: "5"
     });
-    $.__views.main.add($.__views.menu);
+    $.__views.__alloyId0.add($.__views.menu);
     showMenu ? $.__views.menu.addEventListener("click", showMenu) : __defers["$.__views.menu!click!showMenu"] = true;
-    $.__views.__alloyId0 = Ti.UI.createScrollView({
-        height: "80%",
-        width: "80%",
-        id: "__alloyId0"
+    $.__views.newIdea = Ti.UI.createButton({
+        id: "newIdea",
+        backgroundImage: "/images/newIdeaIcon.png",
+        top: "5",
+        width: "50",
+        height: "50",
+        backgroundColor: "white"
     });
-    $.__views.main.add($.__views.__alloyId0);
-    $.__views.mainView = Ti.UI.createView({
-        id: "mainView"
+    $.__views.__alloyId0.add($.__views.newIdea);
+    showNewIdea ? $.__views.newIdea.addEventListener("click", showNewIdea) : __defers["$.__views.newIdea!click!showNewIdea"] = true;
+    $.__views.__alloyId1 = Ti.UI.createScrollView({
+        top: "100",
+        bottom: "100",
+        contentHeight: "auto",
+        layout: "vertical",
+        showVerticalScrollIndicator: "true",
+        id: "__alloyId1"
     });
-    $.__views.__alloyId0.add($.__views.mainView);
+    $.__views.win.add($.__views.__alloyId1);
+    $.__views.__alloyId2 = Ti.UI.createView({
+        backgroundColor: "white",
+        borderColor: "#bbb",
+        borderWidth: 1,
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
+        id: "__alloyId2"
+    });
+    $.__views.__alloyId1.add($.__views.__alloyId2);
+    $.__views.logo = Ti.UI.createImageView({
+        id: "logo",
+        image: "/images/someImage.png",
+        width: "150",
+        height: "100"
+    });
+    $.__views.__alloyId2.add($.__views.logo);
+    $.__views.__alloyId3 = Ti.UI.createView({
+        backgroundColor: "white",
+        borderColor: "#bbb",
+        borderWidth: 1,
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
+        id: "__alloyId3"
+    });
+    $.__views.__alloyId1.add($.__views.__alloyId3);
     $.__views.label1 = Ti.UI.createLabel({
         id: "label1",
         color: "#900",
         shadowColor: "#aaa",
         text: "A simple label",
         textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-        top: "30",
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
     });
-    $.__views.mainView.add($.__views.label1);
+    $.__views.__alloyId3.add($.__views.label1);
+    $.__views.__alloyId4 = Ti.UI.createView({
+        backgroundColor: "white",
+        borderColor: "#bbb",
+        borderWidth: 1,
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
+        id: "__alloyId4"
+    });
+    $.__views.__alloyId1.add($.__views.__alloyId4);
     $.__views.label2 = Ti.UI.createLabel({
         text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols such as\na white chess piece ♕\nand the euro symbol €\nlooks like this!\n",
         id: "label2",
         color: "blue",
         textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-        top: "30",
-        width: "300",
+        width: "200",
         height: "200"
     });
-    $.__views.mainView.add($.__views.label2);
-    $.__views.__alloyId1 = Ti.UI.createView({
-        id: "__alloyId1"
-    });
-    $.__views.main.add($.__views.__alloyId1);
-    $.__views.ok = Ti.UI.createButton({
-        id: "ok",
-        title: "Acepto",
-        top: "350",
-        width: "200",
-        height: "50",
+    $.__views.__alloyId4.add($.__views.label2);
+    $.__views.__alloyId5 = Ti.UI.createView({
         backgroundColor: "white",
-        color: "black"
+        borderColor: "#bbb",
+        borderWidth: 1,
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
+        id: "__alloyId5"
     });
-    $.__views.__alloyId1.add($.__views.ok);
-    done ? $.__views.ok.addEventListener("click", done) : __defers["$.__views.ok!click!done"] = true;
+    $.__views.__alloyId1.add($.__views.__alloyId5);
+    $.__views.label3 = Ti.UI.createLabel({
+        text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols such as\na white chess piece ♕\nand the euro symbol €\nlooks like this!\n",
+        id: "label3",
+        color: "blue",
+        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+        width: "200",
+        height: "200"
+    });
+    $.__views.__alloyId5.add($.__views.label3);
+    $.__views.__alloyId6 = Ti.UI.createView({
+        backgroundColor: "white",
+        bottom: 0,
+        width: Titanium.UI.FILL,
+        height: 100,
+        id: "__alloyId6"
+    });
+    $.__views.win.add($.__views.__alloyId6);
+    $.__views.match = Ti.UI.createButton({
+        id: "match",
+        backgroundImage: "/images/like.png",
+        top: "5",
+        width: "50",
+        height: "50",
+        backgroundColor: "green",
+        left: "50"
+    });
+    $.__views.__alloyId6.add($.__views.match);
+    done ? $.__views.match.addEventListener("click", done) : __defers["$.__views.match!click!done"] = true;
+    $.__views.comment = Ti.UI.createButton({
+        id: "comment",
+        backgroundImage: "/images/comment.png",
+        top: "5",
+        width: "50",
+        height: "50",
+        backgroundColor: "white"
+    });
+    $.__views.__alloyId6.add($.__views.comment);
+    done ? $.__views.comment.addEventListener("click", done) : __defers["$.__views.comment!click!done"] = true;
+    $.__views.noMatch = Ti.UI.createButton({
+        id: "noMatch",
+        backgroundImage: "/images/dislike.png",
+        top: "5",
+        width: "50",
+        height: "50",
+        backgroundColor: "red",
+        right: "50"
+    });
+    $.__views.__alloyId6.add($.__views.noMatch);
+    done ? $.__views.noMatch.addEventListener("click", done) : __defers["$.__views.noMatch!click!done"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
+    Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
     __defers["$.__views.menu!click!showMenu"] && $.__views.menu.addEventListener("click", showMenu);
-    __defers["$.__views.ok!click!done"] && $.__views.ok.addEventListener("click", done);
+    __defers["$.__views.newIdea!click!showNewIdea"] && $.__views.newIdea.addEventListener("click", showNewIdea);
+    __defers["$.__views.match!click!done"] && $.__views.match.addEventListener("click", done);
+    __defers["$.__views.comment!click!done"] && $.__views.comment.addEventListener("click", done);
+    __defers["$.__views.noMatch!click!done"] && $.__views.noMatch.addEventListener("click", done);
     _.extend($, exports);
 }
 

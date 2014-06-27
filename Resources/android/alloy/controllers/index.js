@@ -101,6 +101,12 @@ function Controller() {
     terms ? $.__views.terms.addEventListener("click", terms) : __defers["$.__views.terms!click!terms"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
+    Alloy.Globals.Cloud.Users.showMe(function(e) {
+        if (e.success) {
+            var main = Alloy.createController("main").getView();
+            main.open();
+        } else alert("User is not logged in");
+    });
     var fb = Alloy.Globals.Facebook;
     fb.appid = 305737346271076;
     fb.permissions = [ "public_profile" ];
@@ -121,12 +127,19 @@ function Controller() {
             main.open();
         } else e.error ? alert(e.error) : e.cancelled && alert("Canceled");
     });
-    fb.authorize();
     $.index.add(fb.createLoginButton({
         top: 110,
         style: fb.BUTTON_STYLE_WIDE
     }));
-    $.index.open();
+    if (fb.loggedIn) {
+        alert("User IS logged in Facebook");
+        var main = Alloy.createController("main").getView();
+        main.open();
+    } else {
+        alert("User is not logged in Facebook");
+        fb.authorize();
+        $.index.open();
+    }
     __defers["$.__views.tryLogin!click!tryLogin"] && $.__views.tryLogin.addEventListener("click", tryLogin);
     __defers["$.__views.newUser!click!newUserForm"] && $.__views.newUser.addEventListener("click", newUserForm);
     __defers["$.__views.terms!click!terms"] && $.__views.terms.addEventListener("click", terms);

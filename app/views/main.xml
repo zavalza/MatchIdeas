@@ -1,16 +1,31 @@
 <Alloy>
-	<Window class="container">
+	<Window id="win" class="container">
+		<View class="navBar">
 			<Button id="menu" onClick="showMenu" backgroundImage="/images/menuIcon.png"top="5" width="50" height="50" backgroundColor="white" left="5"/>
-			<ScrollView height="80%" width="80%">
-			<View id="mainView">
-				<Label id="label1" color="#900" shadowColor="#aaa" text="A simple label" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER" top="30" width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
-				<Label id="label2" color="blue" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT" top="30" width="300" height="200">
-            	A long label with\na few line breaks\nand unicode (UTF8)\nsymbols such as\na white chess piece \u2655\nand the euro symbol \u20ac\nlooks like this!\n
-        		</Label>
-        	</View>
-        	</ScrollView>
-        	<View>
-        		<Button id="ok" onClick="done" title="Acepto" top="350" width="200" height="50" backgroundColor="white" color="black"/>
+			<Button id="newIdea" onClick="showNewIdea" backgroundImage="/images/newIdeaIcon.png"top="5" width="50" height="50" backgroundColor="white">
+		</View>
+		<ScrollView top="100" bottom="100" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+			<View class="row" >
+				<ImageView id="logo" image="/images/someImage.png" width="150" height="100" />
 			</View>
+			<View class="row">
+				<Label id="label1" color="#900" shadowColor="#aaa" text="A simple label" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			</View>	
+			<View class="row">
+				<Label id="label2" color="blue" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT" width="200" height="200">
+	        	A long label with\na few line breaks\nand unicode (UTF8)\nsymbols such as\na white chess piece \u2655\nand the euro symbol \u20ac\nlooks like this!\n
+	    		</Label>
+	    	</View>
+	    	<View class="row">
+	    		<Label id="label3" color="blue" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT" width="200" height="200">
+	        	A long label with\na few line breaks\nand unicode (UTF8)\nsymbols such as\na white chess piece \u2655\nand the euro symbol \u20ac\nlooks like this!\n
+	    		</Label>
+    		</View>
+    	</ScrollView>
+    	<View class="actions">
+    		<Button id="match" onClick="done" backgroundImage="/images/like.png" top="5" width="50" height="50" backgroundColor="green" left="50"/>
+    		<Button id="comment" onClick="done" backgroundImage="/images/comment.png" top="5" width="50" height="50" backgroundColor="white"/>
+    		<Button id="noMatch" onClick="done" backgroundImage="/images/dislike.png" top="5" width="50" height="50" backgroundColor="red" right="50"/>
+		</View>	
 	</Window>
 </Alloy>

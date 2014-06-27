@@ -1,0 +1,8 @@
+<Alloy>
+	<Window class="container">
+		<View id="navBar">
+			<Button id="menu" onClick="showMenu" backgroundImage="/images/menuIcon.png"top="5" width="50" height="50" backgroundColor="white" left="5"/>
+			<Button id="newIdea" onClick="showNewIdea" backgroundImage="/images/newIdeaIcon.png"top="5" width="50" height="50" backgroundColor="white">
+		</View>
+	</Window>
+</Alloy>

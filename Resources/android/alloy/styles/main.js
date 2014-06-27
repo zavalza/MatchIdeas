@@ -1,1 +1,1 @@
-module.exports = [];
+module.exports = [{"isClass":true,"priority":10000.0004,"key":"container","style":{backgroundColor:"white",}},{"isClass":true,"priority":10000.0005,"key":"row","style":{backgroundColor:"white",borderColor:"#bbb",borderWidth:1,width:"100%",height:70,top:0,left:0,}},{"isClass":true,"priority":10000.0006,"key":"navbar","style":{backgroundColor:"darkgray",top:0,width:Titanium.UI.FILL,height:100,}},{"isClass":true,"priority":10000.0007,"key":"actions","style":{backgroundColor:"white",bottom:0,width:Titanium.UI.FILL,height:100,}}];

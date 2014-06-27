@@ -1,1 +1,4 @@
+*Corregir las vistas cuando no caben o cuando se usa landscape
+*Corregir/borrar las lineas para saber si ya está logeado el usuario
 *Verificar si el correo de un usuario de facebook ya fue usado en la forma tradicional de login
+
