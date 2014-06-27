@@ -4,7 +4,7 @@
 			<Button id="menu" onClick="showMenu" backgroundImage="/images/menuIcon.png"top="5" width="50" height="50" backgroundColor="white" left="5"/>
 			<Button id="newIdea" onClick="showNewIdea" backgroundImage="/images/newIdeaIcon.png"top="5" width="50" height="50" backgroundColor="white">
 		</View>
-		<ScrollView top="100" bottom="100" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+		<ScrollView top="50" bottom="50" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
 			<View class="row" >
 				<ImageView id="logo" image="/images/someImage.png" width="150" height="100" />
 			</View>

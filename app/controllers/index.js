@@ -54,6 +54,7 @@ fb.forceDialogAuth = false; //Uses the native app of Facebook if aviable
 fb.addEventListener('login', function(e) {
     if (e.success) {
         alert('Logged In');
+        //Aqui tenemos que hacer nuestro metodo para hacer algo parecido pero que funcione el show me
         Alloy.Globals.Cloud.SocialIntegrations.externalAccountLogin({
 		type: 'facebook',
 		token: fb.accessToken

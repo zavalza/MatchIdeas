@@ -4,10 +4,28 @@ function Controller() {
         var newUser = Alloy.createController("newUser").getView();
         newUser.open();
     }
-    function showNewIdea() {
-        Titanium.API.info("show new idea");
-        var newIdea = Alloy.createController("newIdea").getView();
-        newIdea.close();
+    function closeNewIdea() {
+        Titanium.API.info("close new idea");
+        var main = Alloy.createController("main").getView();
+        main.open();
+    }
+    function done() {
+        Titanium.API.info("Quit terms");
+        Alloy.Globals.Cloud.Objects.create({
+            classname: "ideas",
+            fields: {
+                pitch: $.pitch.value,
+                author: Alloy.Globals.UserId
+            }
+        }, function(e) {
+            if (e.success) {
+                var idea = e.cars[0];
+                alert("Success:\nid: " + idea.id + "\n" + "pitch: " + idea.pitch + "\n" + "author: " + idea.author + "\n" + "created_at: " + idea.created_at);
+            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+        });
+        $.shareFb.value && alert("Idea compartida en Fb");
+        var main = Alloy.createController("main").getView();
+        main.open();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "newIdea";
@@ -17,15 +35,19 @@ function Controller() {
     var $ = this;
     var exports = {};
     var __defers = {};
-    $.__views.newIdea = Ti.UI.createWindow({
+    $.__views.win = Ti.UI.createWindow({
         backgroundColor: "white",
-        id: "newIdea"
+        id: "win"
     });
-    $.__views.newIdea && $.addTopLevelView($.__views.newIdea);
-    $.__views.navBar = Ti.UI.createView({
-        id: "navBar"
+    $.__views.win && $.addTopLevelView($.__views.win);
+    $.__views.__alloyId7 = Ti.UI.createView({
+        backgroundColor: "darkgray",
+        top: 0,
+        width: Titanium.UI.FILL,
+        height: 100,
+        id: "__alloyId7"
     });
-    $.__views.newIdea.add($.__views.navBar);
+    $.__views.win.add($.__views.__alloyId7);
     $.__views.menu = Ti.UI.createButton({
         id: "menu",
         backgroundImage: "/images/menuIcon.png",
@@ -35,7 +57,7 @@ function Controller() {
         backgroundColor: "white",
         left: "5"
     });
-    $.__views.navBar.add($.__views.menu);
+    $.__views.__alloyId7.add($.__views.menu);
     showMenu ? $.__views.menu.addEventListener("click", showMenu) : __defers["$.__views.menu!click!showMenu"] = true;
     $.__views.newIdea = Ti.UI.createButton({
         id: "newIdea",
@@ -45,12 +67,96 @@ function Controller() {
         height: "50",
         backgroundColor: "white"
     });
-    $.__views.navBar.add($.__views.newIdea);
-    showNewIdea ? $.__views.newIdea.addEventListener("click", showNewIdea) : __defers["$.__views.newIdea!click!showNewIdea"] = true;
+    $.__views.__alloyId7.add($.__views.newIdea);
+    closeNewIdea ? $.__views.newIdea.addEventListener("click", closeNewIdea) : __defers["$.__views.newIdea!click!closeNewIdea"] = true;
+    $.__views.__alloyId8 = Ti.UI.createScrollView({
+        top: "50",
+        contentHeight: "auto",
+        layout: "vertical",
+        showVerticalScrollIndicator: "true",
+        id: "__alloyId8"
+    });
+    $.__views.win.add($.__views.__alloyId8);
+    $.__views.__alloyId9 = Ti.UI.createView({
+        backgroundColor: "white",
+        borderWidth: 0,
+        width: "100%",
+        height: 150,
+        top: 0,
+        left: 0,
+        id: "__alloyId9"
+    });
+    $.__views.__alloyId8.add($.__views.__alloyId9);
+    $.__views.pitch = Ti.UI.createTextArea({
+        id: "pitch",
+        borderWidth: "2",
+        top: "5",
+        borderColor: "#bbb",
+        borderRadius: "5",
+        color: "#888",
+        textAlign: "left",
+        hintText: "Nueva idea...",
+        returnKeyType: Titanium.UI.RETURNKEY_DONE,
+        width: "100%",
+        height: "100%"
+    });
+    $.__views.__alloyId9.add($.__views.pitch);
+    $.__views.__alloyId10 = Ti.UI.createView({
+        backgroundColor: "white",
+        borderWidth: 0,
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
+        id: "__alloyId10"
+    });
+    $.__views.__alloyId8.add($.__views.__alloyId10);
+    $.__views.fb = Ti.UI.createLabel({
+        id: "fb",
+        color: "#900",
+        shadowColor: "#aaa",
+        text: "Compartir en facebook",
+        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+        width: Ti.UI.SIZE,
+        height: Ti.UI.SIZE
+    });
+    $.__views.__alloyId10.add($.__views.fb);
+    $.__views.__alloyId11 = Ti.UI.createView({
+        id: "__alloyId11"
+    });
+    $.__views.__alloyId10.add($.__views.__alloyId11);
+    $.__views.shareFb = Ti.UI.createSwitch({
+        value: true,
+        id: "shareFb",
+        left: "10"
+    });
+    $.__views.__alloyId11.add($.__views.shareFb);
+    $.__views.__alloyId12 = Ti.UI.createView({
+        backgroundColor: "white",
+        borderWidth: 0,
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
+        id: "__alloyId12"
+    });
+    $.__views.__alloyId8.add($.__views.__alloyId12);
+    $.__views.done = Ti.UI.createButton({
+        id: "done",
+        width: "150",
+        height: "50",
+        text: "Hecho",
+        color: "white",
+        backgroundColor: "orange"
+    });
+    $.__views.__alloyId12.add($.__views.done);
+    done ? $.__views.done.addEventListener("click", done) : __defers["$.__views.done!click!done"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
+    Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
     __defers["$.__views.menu!click!showMenu"] && $.__views.menu.addEventListener("click", showMenu);
-    __defers["$.__views.newIdea!click!showNewIdea"] && $.__views.newIdea.addEventListener("click", showNewIdea);
+    __defers["$.__views.newIdea!click!closeNewIdea"] && $.__views.newIdea.addEventListener("click", closeNewIdea);
+    __defers["$.__views.done!click!done"] && $.__views.done.addEventListener("click", done);
     _.extend($, exports);
 }
 

@@ -8,6 +8,7 @@ function Controller() {
         }, function(e) {
             if (e.success) {
                 var user = e.users[0];
+                Alloy.Globals.UserId = user.id;
                 alert("Success:\nid: " + user.id + "\n" + "sessionId: " + cloud.sessionId + "\n" + "first name: " + user.first_name + "\n" + "last name: " + user.last_name);
                 var main = Alloy.createController("main").getView();
                 main.open();
@@ -120,6 +121,7 @@ function Controller() {
             }, function(e) {
                 if (e.success) {
                     var user = e.users[0];
+                    Alloy.Globals.UserId = user.id;
                     alert("Success:\nid: " + user.id + "\n" + "first name: " + user.first_name + "\n" + "last name: " + user.last_name);
                 } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
             });

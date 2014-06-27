@@ -4,4 +4,6 @@ Alloy.Globals.Facebook = require("facebook");
 
 Alloy.Globals.Cloud = require("ti.cloud");
 
+Alloy.Globals.UserId = null;
+
 Alloy.createController("index");

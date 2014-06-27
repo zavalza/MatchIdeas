@@ -28,6 +28,10 @@ function Controller() {
     });
     $.__views.win && $.addTopLevelView($.__views.win);
     $.__views.__alloyId0 = Ti.UI.createView({
+        backgroundColor: "darkgray",
+        top: 0,
+        width: Titanium.UI.FILL,
+        height: 100,
         id: "__alloyId0"
     });
     $.__views.win.add($.__views.__alloyId0);
@@ -53,8 +57,8 @@ function Controller() {
     $.__views.__alloyId0.add($.__views.newIdea);
     showNewIdea ? $.__views.newIdea.addEventListener("click", showNewIdea) : __defers["$.__views.newIdea!click!showNewIdea"] = true;
     $.__views.__alloyId1 = Ti.UI.createScrollView({
-        top: "100",
-        bottom: "100",
+        top: "50",
+        bottom: "50",
         contentHeight: "auto",
         layout: "vertical",
         showVerticalScrollIndicator: "true",
