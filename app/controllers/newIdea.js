@@ -16,17 +16,20 @@ function closeNewIdea(e){
 function done(e){
     //Displays log message on console
     Titanium.API.info("Quit terms");
-    Alloy.Globals.Cloud.Objects.create({
-    classname: 'ideas',
-    fields: {
-        pitch: $.pitch.value,
-    }
-	}, function (e) {
-	    if (e.success) {
-			if($.shareFb.value)
+    var dict = {
+		    	classname: 'ideas',
+		   	   fields: {pitch: $.pitch.value}
+		   	   };
+	if(Alloy.Globals.Facebook.loggedIn)
+	{
+		dict.user_id = Alloy.Globals.FbUser;
+		if($.shareFb.value)
 		    {
 		    	alert("Idea compartida en Fb");
 		    }
+	}
+    Alloy.Globals.Cloud.Objects.create(dict, function (e) {
+	    if (e.success) {
 		    var main = Alloy.createController('main').getView();
 		    main.open();
 	    } else {

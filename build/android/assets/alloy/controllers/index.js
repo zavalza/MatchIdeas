@@ -7,9 +7,6 @@ function Controller() {
             password: $.password.value
         }, function(e) {
             if (e.success) {
-                var user = e.users[0];
-                Alloy.Globals.UserId = user.id;
-                alert("Success:\nid: " + user.id + "\n" + "sessionId: " + cloud.sessionId + "\n" + "first name: " + user.first_name + "\n" + "last name: " + user.last_name);
                 var main = Alloy.createController("main").getView();
                 main.open();
             } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
@@ -102,46 +99,39 @@ function Controller() {
     terms ? $.__views.terms.addEventListener("click", terms) : __defers["$.__views.terms!click!terms"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
+    var fb = Alloy.Globals.Facebook;
     Alloy.Globals.Cloud.Users.showMe(function(e) {
         if (e.success) {
             var main = Alloy.createController("main").getView();
             main.open();
-        } else alert("User is not logged in");
+        } else if (fb.loggedIn) {
+            var main = Alloy.createController("main").getView();
+            main.open();
+        } else {
+            fb.authorize();
+            $.index.open();
+        }
     });
-    var fb = Alloy.Globals.Facebook;
     fb.appid = 305737346271076;
     fb.permissions = [ "public_profile" ];
     fb.forceDialogAuth = false;
     fb.addEventListener("login", function(e) {
-        if (e.success) {
-            alert("Logged In");
-            Alloy.Globals.Cloud.SocialIntegrations.externalAccountLogin({
-                type: "facebook",
-                token: fb.accessToken
-            }, function(e) {
-                if (e.success) {
-                    var user = e.users[0];
-                    Alloy.Globals.UserId = user.id;
-                    alert("Success:\nid: " + user.id + "\n" + "first name: " + user.first_name + "\n" + "last name: " + user.last_name);
-                } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
-            });
-            var main = Alloy.createController("main").getView();
-            main.open();
-        } else e.error ? alert(e.error) : e.cancelled && alert("Canceled");
+        e.success ? Alloy.Globals.Cloud.SocialIntegrations.externalAccountLogin({
+            type: "facebook",
+            token: fb.accessToken
+        }, function(e) {
+            if (e.success) {
+                var user = e.users[0];
+                Alloy.Globals.FbUser = user.id;
+                var main = Alloy.createController("main").getView();
+                main.open();
+            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+        }) : e.error ? alert(e.error) : e.cancelled && alert("Cancelado");
     });
     $.index.add(fb.createLoginButton({
         top: 110,
         style: fb.BUTTON_STYLE_WIDE
     }));
-    if (fb.loggedIn) {
-        alert("User IS logged in Facebook");
-        var main = Alloy.createController("main").getView();
-        main.open();
-    } else {
-        alert("User is not logged in Facebook");
-        fb.authorize();
-        $.index.open();
-    }
     __defers["$.__views.tryLogin!click!tryLogin"] && $.__views.tryLogin.addEventListener("click", tryLogin);
     __defers["$.__views.newUser!click!newUserForm"] && $.__views.newUser.addEventListener("click", newUserForm);
     __defers["$.__views.terms!click!terms"] && $.__views.terms.addEventListener("click", terms);

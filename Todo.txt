@@ -1,4 +1,5 @@
 *Corregir las vistas cuando no caben o cuando se usa landscape
 *Corregir/borrar las lineas para saber si ya está logeado el usuario
 *Verificar si el correo de un usuario de facebook ya fue usado en la forma tradicional de login
-
+*cambiar la manera en que se está calculando la variable de Alloy.Globals.FbUser, porque solo se calcula una vez y luego se pierde cuando retomamos la sesión
+*admin user is not working to modify idea in votes

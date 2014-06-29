@@ -23,9 +23,9 @@
     		</View>
     	</ScrollView>
     	<View class="actions">
-    		<Button id="match" onClick="done" backgroundImage="/images/like.png" top="5" width="50" height="50" backgroundColor="green" left="50"/>
+    		<Button id="match" onClick="match" backgroundImage="/images/like.png" top="5" width="50" height="50" backgroundColor="green" left="50"/>
     		<Button id="comment" onClick="done" backgroundImage="/images/comment.png" top="5" width="50" height="50" backgroundColor="white"/>
-    		<Button id="noMatch" onClick="done" backgroundImage="/images/dislike.png" top="5" width="50" height="50" backgroundColor="red" right="50"/>
+    		<Button id="noMatch" onClick="noMatch" backgroundImage="/images/dislike.png" top="5" width="50" height="50" backgroundColor="red" right="50"/>
 		</View>	
 	</Window>
 </Alloy>

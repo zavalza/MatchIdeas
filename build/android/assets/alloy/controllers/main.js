@@ -1,4 +1,29 @@
 function Controller() {
+    function match() {
+        Titanium.API.info("Match");
+        alert("53af6e839444600821028619");
+        Alloy.Globals.Cloud.Objects.update({
+            classname: "ideas",
+            id: currentIdea.id,
+            fields: {
+                votedBy: {
+                    $push: currentUser
+                },
+                points: {
+                    $inc: 1
+                }
+            },
+            user_id: "53af6e839444600821028619"
+        }, function(e) {
+            if (e.success) {
+                var idea = e.ideas[0];
+                alert("Success:\nid: " + idea.id + "\n" + "votedBy: " + idea.votedBy + "\n" + "points: " + idea.points + "\n");
+            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+        });
+    }
+    function noMatch() {
+        Titanium.API.info("No Match");
+    }
     function showMenu() {
         Titanium.API.info("Quit terms");
         var newUser = Alloy.createController("newUser").getView();
@@ -162,7 +187,7 @@ function Controller() {
         left: "50"
     });
     $.__views.__alloyId6.add($.__views.match);
-    done ? $.__views.match.addEventListener("click", done) : __defers["$.__views.match!click!done"] = true;
+    match ? $.__views.match.addEventListener("click", match) : __defers["$.__views.match!click!match"] = true;
     $.__views.comment = Ti.UI.createButton({
         id: "comment",
         backgroundImage: "/images/comment.png",
@@ -183,15 +208,38 @@ function Controller() {
         right: "50"
     });
     $.__views.__alloyId6.add($.__views.noMatch);
-    done ? $.__views.noMatch.addEventListener("click", done) : __defers["$.__views.noMatch!click!done"] = true;
+    noMatch ? $.__views.noMatch.addEventListener("click", noMatch) : __defers["$.__views.noMatch!click!noMatch"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
+    var currentUser = null;
+    var currentIdea = null;
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
+    Alloy.Globals.Facebook.loggedIn ? currentUser = Alloy.Globals.FbUser : Alloy.Globals.Cloud.Users.showMe(function(e) {
+        if (e.success) {
+            var user = e.users[0];
+            currentUser = user.id;
+        } else alert("Algo estuvo mal, no pudimos obtener ideas");
+    });
+    Alloy.Globals.Cloud.Objects.query({
+        classname: "ideas",
+        limit: 1,
+        per_page: 10,
+        where: {
+            user_id: {
+                $ne: currentUser
+            }
+        }
+    }, function(e) {
+        if (e.success) {
+            currentIdea = e.ideas[0];
+            alert("id: " + currentIdea.id + "\n" + "pitch: " + currentIdea.pitch + "\n" + "created_at: " + currentIdea.created_at);
+        } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+    });
     __defers["$.__views.menu!click!showMenu"] && $.__views.menu.addEventListener("click", showMenu);
     __defers["$.__views.newIdea!click!showNewIdea"] && $.__views.newIdea.addEventListener("click", showNewIdea);
-    __defers["$.__views.match!click!done"] && $.__views.match.addEventListener("click", done);
+    __defers["$.__views.match!click!match"] && $.__views.match.addEventListener("click", match);
     __defers["$.__views.comment!click!done"] && $.__views.comment.addEventListener("click", done);
-    __defers["$.__views.noMatch!click!done"] && $.__views.noMatch.addEventListener("click", done);
+    __defers["$.__views.noMatch!click!noMatch"] && $.__views.noMatch.addEventListener("click", noMatch);
     _.extend($, exports);
 }
 

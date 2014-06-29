@@ -11,21 +11,22 @@ function Controller() {
     }
     function done() {
         Titanium.API.info("Quit terms");
-        Alloy.Globals.Cloud.Objects.create({
+        var dict = {
             classname: "ideas",
             fields: {
-                pitch: $.pitch.value,
-                author: Alloy.Globals.UserId
+                pitch: $.pitch.value
             }
-        }, function(e) {
+        };
+        if (Alloy.Globals.Facebook.loggedIn) {
+            dict.user_id = Alloy.Globals.FbUser;
+            $.shareFb.value && alert("Idea compartida en Fb");
+        }
+        Alloy.Globals.Cloud.Objects.create(dict, function(e) {
             if (e.success) {
-                var idea = e.cars[0];
-                alert("Success:\nid: " + idea.id + "\n" + "pitch: " + idea.pitch + "\n" + "author: " + idea.author + "\n" + "created_at: " + idea.created_at);
+                var main = Alloy.createController("main").getView();
+                main.open();
             } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
         });
-        $.shareFb.value && alert("Idea compartida en Fb");
-        var main = Alloy.createController("main").getView();
-        main.open();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "newIdea";

@@ -7,12 +7,6 @@ function tryLogin(e){
     password: $.password.value
 }, function (e) {
     if (e.success) {
-        var user = e.users[0];
-        alert('Success:\n' +
-            'id: ' + user.id + '\n' +
-            'sessionId: ' + cloud.sessionId + '\n' +
-            'first name: ' + user.first_name + '\n' +
-            'last name: ' + user.last_name);
         var main = Alloy.createController('main').getView();
         main.open();
     } else {
@@ -35,47 +29,65 @@ function terms(e){
     terms.open();
 };
 
+
+
+var fb  = Alloy.Globals.Facebook;
+
 //Check if user is logged in
 Alloy.Globals.Cloud.Users.showMe(function (e) {
-    if (e.success) {//Yes
+    if (e.success) 
+    {//User is logged with email
         var main = Alloy.createController('main').getView();
         main.open();
-    } else { //No
- 		//Nothing, display current view
- 		alert("User is not logged in");
+    } 
+    else
+    { 
+		 if(fb.loggedIn)
+		{
+			//user is logged with facebook
+			var main = Alloy.createController('main').getView();
+		        main.open();
+		}
+		else
+		{
+			//we require log in
+			fb.authorize();
+			$.index.open();
+		}
     }
 });
 
-var fb  = Alloy.Globals.Facebook;
 
 fb.appid = 305737346271076;
 fb.permissions = ['public_profile']; // Permissions your app needs
 fb.forceDialogAuth = false; //Uses the native app of Facebook if aviable
 fb.addEventListener('login', function(e) {
-    if (e.success) {
-        alert('Logged In');
-        //Aqui tenemos que hacer nuestro metodo para hacer algo parecido pero que funcione el show me
+    if (e.success) 
+    {
         Alloy.Globals.Cloud.SocialIntegrations.externalAccountLogin({
 		type: 'facebook',
 		token: fb.accessToken
 		}, function (e) {
 		if (e.success) {
 		var user = e.users[0];
-		alert('Success:\n' +
-		'id: ' + user.id + '\n' +
-		'first name: ' + user.first_name + '\n' +
-		'last name: ' + user.last_name);
-		} else {
+		Alloy.Globals.FbUser = user.id;;
+		var main = Alloy.createController('main').getView();
+        main.open();
+		} 
+		else 
+		{
 		alert('Error:\n' +
 		((e.error && e.message) || JSON.stringify(e)));
 		}
 		});
-        var main = Alloy.createController('main').getView();
-        main.open();
-    } else if (e.error) {
+    } 
+    else if (e.error) 
+    {
         alert(e.error);
-    } else if (e.cancelled) {
-        alert("Canceled");
+    } 
+    else if (e.cancelled) 
+    {
+        alert("Cancelado");
     }
 });
 
@@ -85,17 +97,7 @@ $.index.add(fb.createLoginButton({
     style : fb.BUTTON_STYLE_WIDE
 }));
 
-if(fb.loggedIn)
-{
-	alert("User IS logged in Facebook");
-	var main = Alloy.createController('main').getView();
-        main.open();
-}
-else{
-	alert("User is not logged in Facebook");
-	fb.authorize();
-	$.index.open();
-}
+
 
 
 
