@@ -20,14 +20,17 @@ function Controller() {
     function match() {
         Titanium.API.info("Match");
         alert(currentIdea);
-        alert(typeof currentIdea.user.id);
+        var votes = JSON.stringify(currentIdea.votedBy);
+        votes = votes.substring(1, votes.length - 1);
+        votes = votes + "," + '"10"';
+        votes = "[" + votes + "]";
+        votes = JSON.parse(votes);
+        alert(votes);
         var dict = {
             classname: "ideas",
             id: currentIdea.id,
             fields: {
-                votedBy: {
-                    $push: "10"
-                },
+                votedBy: votes,
                 points: {
                     $inc: 1
                 }

@@ -30,12 +30,22 @@ function getCurrentIdea(userId){
 function match (e) {
   Titanium.API.info("Match");
   alert(currentIdea);
-  alert(typeof currentIdea.user.id);
+  /*var votes = JSON.stringify(currentIdea.votedBy);
+  alert (votes);
+  var other = JSON.parse(votes);
+  alert(other);*/
+ //var votes = String(currentIdea.votedBy).split(',').push("10"); //Regresa 2
+ var votes =  JSON.stringify(currentIdea.votedBy);
+ votes = votes.substring(1, votes.length-1);
+ votes = votes + "," +"\"10\"";
+ votes = "["+votes+"]";
+ votes = JSON.parse(votes);
+ alert(votes);
   var dict = {
   	classname: 'ideas',
     id: currentIdea.id,
     fields: {
-        votedBy: {$push: '10'},
+        votedBy: votes,
         points: {$inc: 1}
     },
     acl_name:'ideasACL',
