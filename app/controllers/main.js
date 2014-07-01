@@ -1,19 +1,47 @@
 //Globals in this file
-var currentUser = null;
 var currentIdea = null;
+
+function getCurrentIdea(userId){
+	//Get current idea
+	alert(userId);
+	Alloy.Globals.Cloud.Objects.query({
+	    classname: 'ideas',
+	    limit: 1,
+	    per_page: 10,
+	    where: {
+	        user_id: {$ne:userId}
+	    }
+	}, function (e) {
+	    if (e.success) {
+	        currentIdea = e.ideas[0];
+	        
+	        alert('id: ' + currentIdea.id + '\n' +
+	            'pitch: ' + currentIdea.pitch + '\n' +
+	            'created_at: ' + currentIdea.created_at);
+	    } else {
+	        alert('Error:\n' +
+	            ((e.error && e.message) || JSON.stringify(e)));
+	    }
+	});	
+}
+
+
 
 function match (e) {
   Titanium.API.info("Match");
-  alert('53af6e839444600821028619');
-  Alloy.Globals.Cloud.Objects.update({
-    classname: 'ideas',
+  alert(currentIdea);
+  alert(typeof currentIdea.user.id);
+  var dict = {
+  	classname: 'ideas',
     id: currentIdea.id,
     fields: {
-        votedBy: {$push: currentUser},
+        votedBy: {$push: '10'},
         points: {$inc: 1}
     },
-    user_id:'53af6e839444600821028619' //master updates
-	}, function (e) {
+    acl_name:'ideasACL',
+    user_id:currentIdea.user.id //creator updates
+  };
+  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
     if (e.success) {
         var idea = e.ideas[0];
         alert('Success:\n' +
@@ -59,14 +87,16 @@ if (Ti.UI.Android){
 //Get current User id
 if(Alloy.Globals.Facebook.loggedIn)
 {
-	currentUser = Alloy.Globals.FbUser;
+	var currentUser = Alloy.Globals.FbUser;
+	getCurrentIdea(currentUser);
 }
 else{
 	Alloy.Globals.Cloud.Users.showMe(function (e) {
     if (e.success) 
     {
-         var user = e.users[0];
-         currentUser = user.id;
+         var currentUser = e.users[0].id;
+         getCurrentIdea(currentUser);
+         
     } 
     else
     {
@@ -75,24 +105,5 @@ else{
  	});
 }
 
-//Get current idea
-Alloy.Globals.Cloud.Objects.query({
-    classname: 'ideas',
-    limit: 1,
-    per_page: 10,
-    where: {
-        user_id: {$ne:currentUser}
-    }
-}, function (e) {
-    if (e.success) {
-        currentIdea = e.ideas[0];
-        
-        alert('id: ' + currentIdea.id + '\n' +
-            'pitch: ' + currentIdea.pitch + '\n' +
-            'created_at: ' + currentIdea.created_at);
-    } else {
-        alert('Error:\n' +
-            ((e.error && e.message) || JSON.stringify(e)));
-    }
-});
+
 

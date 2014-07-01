@@ -18,7 +18,10 @@ function done(e){
     Titanium.API.info("Quit terms");
     var dict = {
 		    	classname: 'ideas',
-		   	   fields: {pitch: $.pitch.value}
+		   	   fields: {pitch: $.pitch.value,
+		   	   			points: 0,
+		   	   			votedBy: []},
+		   	   acl_name: 'ideasACL'
 		   	   };
 	if(Alloy.Globals.Facebook.loggedIn)
 	{

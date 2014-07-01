@@ -1,20 +1,41 @@
 function Controller() {
+    function getCurrentIdea(userId) {
+        alert(userId);
+        Alloy.Globals.Cloud.Objects.query({
+            classname: "ideas",
+            limit: 1,
+            per_page: 10,
+            where: {
+                user_id: {
+                    $ne: userId
+                }
+            }
+        }, function(e) {
+            if (e.success) {
+                currentIdea = e.ideas[0];
+                alert("id: " + currentIdea.id + "\n" + "pitch: " + currentIdea.pitch + "\n" + "created_at: " + currentIdea.created_at);
+            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+        });
+    }
     function match() {
         Titanium.API.info("Match");
-        alert("53af6e839444600821028619");
-        Alloy.Globals.Cloud.Objects.update({
+        alert(currentIdea);
+        alert(typeof currentIdea.user.id);
+        var dict = {
             classname: "ideas",
             id: currentIdea.id,
             fields: {
                 votedBy: {
-                    $push: currentUser
+                    $push: "10"
                 },
                 points: {
                     $inc: 1
                 }
             },
-            user_id: "53af6e839444600821028619"
-        }, function(e) {
+            acl_name: "ideasACL",
+            user_id: currentIdea.user.id
+        };
+        Alloy.Globals.Cloud.Objects.update(dict, function(e) {
             if (e.success) {
                 var idea = e.ideas[0];
                 alert("Success:\nid: " + idea.id + "\n" + "votedBy: " + idea.votedBy + "\n" + "points: " + idea.points + "\n");
@@ -211,29 +232,16 @@ function Controller() {
     noMatch ? $.__views.noMatch.addEventListener("click", noMatch) : __defers["$.__views.noMatch!click!noMatch"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
-    var currentUser = null;
     var currentIdea = null;
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
-    Alloy.Globals.Facebook.loggedIn ? currentUser = Alloy.Globals.FbUser : Alloy.Globals.Cloud.Users.showMe(function(e) {
+    if (Alloy.Globals.Facebook.loggedIn) {
+        var currentUser = Alloy.Globals.FbUser;
+        getCurrentIdea(currentUser);
+    } else Alloy.Globals.Cloud.Users.showMe(function(e) {
         if (e.success) {
-            var user = e.users[0];
-            currentUser = user.id;
+            var currentUser = e.users[0].id;
+            getCurrentIdea(currentUser);
         } else alert("Algo estuvo mal, no pudimos obtener ideas");
-    });
-    Alloy.Globals.Cloud.Objects.query({
-        classname: "ideas",
-        limit: 1,
-        per_page: 10,
-        where: {
-            user_id: {
-                $ne: currentUser
-            }
-        }
-    }, function(e) {
-        if (e.success) {
-            currentIdea = e.ideas[0];
-            alert("id: " + currentIdea.id + "\n" + "pitch: " + currentIdea.pitch + "\n" + "created_at: " + currentIdea.created_at);
-        } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
     });
     __defers["$.__views.menu!click!showMenu"] && $.__views.menu.addEventListener("click", showMenu);
     __defers["$.__views.newIdea!click!showNewIdea"] && $.__views.newIdea.addEventListener("click", showNewIdea);

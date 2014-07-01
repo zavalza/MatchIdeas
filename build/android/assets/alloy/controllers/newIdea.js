@@ -14,8 +14,11 @@ function Controller() {
         var dict = {
             classname: "ideas",
             fields: {
-                pitch: $.pitch.value
-            }
+                pitch: $.pitch.value,
+                points: 0,
+                votedBy: []
+            },
+            acl_name: "ideasACL"
         };
         if (Alloy.Globals.Facebook.loggedIn) {
             dict.user_id = Alloy.Globals.FbUser;
