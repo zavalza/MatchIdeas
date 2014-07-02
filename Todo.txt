@@ -3,3 +3,6 @@
 *Verificar si el correo de un usuario de facebook ya fue usado en la forma tradicional de login
 *cambiar la manera en que se está calculando la variable de Alloy.Globals.FbUser, porque solo se calcula una vez y luego se pierde cuando retomamos la sesión
 *voted by todavía no funciona
+*que el registro de usuario no requiera nombre ni apellido 
+*que las ideas que el mismo usuario creo, no salgan votedBy: ["0"]}, //aqui se puede guardar el id para que ya no se desplieguen las ideas de el mismo
+*guardar usuario Completo como global

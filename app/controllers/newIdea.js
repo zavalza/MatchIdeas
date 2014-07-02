@@ -19,8 +19,9 @@ function done(e){
     var dict = {
 		    	classname: 'ideas',
 		   	   fields: {pitch: $.pitch.value,
-		   	   			points: 0,
-		   	   			votedBy: []},
+		   	   			matches: 0,
+		   	   			noMatches: 0,
+		   	   			votedBy: ["0"]}, //aqui se puede guardar el id para que ya no se desplieguen las ideas de el mismo
 		   	   acl_name: 'ideasACL'
 		   	   };
 	if(Alloy.Globals.Facebook.loggedIn)

@@ -15,8 +15,9 @@ function Controller() {
             classname: "ideas",
             fields: {
                 pitch: $.pitch.value,
-                points: 0,
-                votedBy: []
+                matches: 0,
+                noMatches: 0,
+                votedBy: [ "0" ]
             },
             acl_name: "ideasACL"
         };

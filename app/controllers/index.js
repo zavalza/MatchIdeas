@@ -70,7 +70,7 @@ fb.addEventListener('login', function(e) {
 		}, function (e) {
 		if (e.success) {
 		var user = e.users[0];
-		Alloy.Globals.FbUser = user.id;;
+		Alloy.Globals.FbUser = user.id;
 		var main = Alloy.createController('main').getView();
         main.open();
 		} 

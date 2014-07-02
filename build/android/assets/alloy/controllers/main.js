@@ -6,47 +6,84 @@ function Controller() {
             limit: 1,
             per_page: 10,
             where: {
-                user_id: {
-                    $ne: userId
+                votedBy: {
+                    $nin: [ userId ]
                 }
             }
         }, function(e) {
-            if (e.success) {
+            if (e.success) if (null != e.ideas[0]) {
                 currentIdea = e.ideas[0];
-                alert("id: " + currentIdea.id + "\n" + "pitch: " + currentIdea.pitch + "\n" + "created_at: " + currentIdea.created_at);
-            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                $.pitch.text = currentIdea.pitch;
+                $.match.title = currentIdea.matches;
+                $.noMatch.title = currentIdea.noMatches;
+            } else $.pitch.text = "No hay ideas"; else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+        });
+    }
+    function findIdea(ideaId) {
+        Alloy.Globals.Cloud.Objects.query({
+            classname: "ideas",
+            limit: 1,
+            per_page: 10,
+            where: {
+                id: ideaId
+            }
+        }, function(e) {
+            e.success ? currentIdea = e.ideas[0] : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
         });
     }
     function match() {
         Titanium.API.info("Match");
-        alert(currentIdea);
-        var votes = JSON.stringify(currentIdea.votedBy);
-        votes = votes.substring(1, votes.length - 1);
-        votes = votes + "," + '"10"';
-        votes = "[" + votes + "]";
-        votes = JSON.parse(votes);
-        alert(votes);
-        var dict = {
-            classname: "ideas",
-            id: currentIdea.id,
-            fields: {
-                votedBy: votes,
-                points: {
-                    $inc: 1
-                }
-            },
-            acl_name: "ideasACL",
-            user_id: currentIdea.user.id
-        };
-        Alloy.Globals.Cloud.Objects.update(dict, function(e) {
-            if (e.success) {
-                var idea = e.ideas[0];
-                alert("Success:\nid: " + idea.id + "\n" + "votedBy: " + idea.votedBy + "\n" + "points: " + idea.points + "\n");
-            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
-        });
+        if (null != currentIdea) {
+            findIdea(currentIdea.id);
+            var votes = JSON.stringify(currentIdea.votedBy);
+            votes = votes.substring(1, votes.length - 1);
+            votes = votes + "," + '"' + currentUser + '"';
+            votes = "[" + votes + "]";
+            votes = JSON.parse(votes);
+            alert(votes);
+            var dict = {
+                classname: "ideas",
+                id: currentIdea.id,
+                fields: {
+                    votedBy: votes,
+                    matches: {
+                        $inc: 1
+                    }
+                },
+                acl_name: "ideasACL",
+                user_id: currentIdea.user.id
+            };
+            Alloy.Globals.Cloud.Objects.update(dict, function(e) {
+                e.success ? getCurrentIdea(currentUser) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+            });
+        } else alert("Necesitas ideas para votar");
     }
     function noMatch() {
         Titanium.API.info("No Match");
+        if (null != currentIdea) {
+            findIdea(currentIdea.id);
+            var votes = JSON.stringify(currentIdea.votedBy);
+            votes = votes.substring(1, votes.length - 1);
+            votes = votes + "," + '"' + currentUser + '"';
+            votes = "[" + votes + "]";
+            votes = JSON.parse(votes);
+            alert(votes);
+            var dict = {
+                classname: "ideas",
+                id: currentIdea.id,
+                fields: {
+                    votedBy: votes,
+                    noMatches: {
+                        $inc: 1
+                    }
+                },
+                acl_name: "ideasACL",
+                user_id: currentIdea.user.id
+            };
+            Alloy.Globals.Cloud.Objects.update(dict, function(e) {
+                e.success ? getCurrentIdea(currentUser) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+            });
+        } else alert("Necesitas ideas para votar");
     }
     function showMenu() {
         Titanium.API.info("Quit terms");
@@ -125,13 +162,13 @@ function Controller() {
         id: "__alloyId2"
     });
     $.__views.__alloyId1.add($.__views.__alloyId2);
-    $.__views.logo = Ti.UI.createImageView({
-        id: "logo",
+    $.__views.userImage = Ti.UI.createImageView({
+        id: "userImage",
         image: "/images/someImage.png",
         width: "150",
         height: "100"
     });
-    $.__views.__alloyId2.add($.__views.logo);
+    $.__views.__alloyId2.add($.__views.userImage);
     $.__views.__alloyId3 = Ti.UI.createView({
         backgroundColor: "white",
         borderColor: "#bbb",
@@ -143,8 +180,8 @@ function Controller() {
         id: "__alloyId3"
     });
     $.__views.__alloyId1.add($.__views.__alloyId3);
-    $.__views.label1 = Ti.UI.createLabel({
-        id: "label1",
+    $.__views.userName = Ti.UI.createLabel({
+        id: "userName",
         color: "#900",
         shadowColor: "#aaa",
         text: "A simple label",
@@ -152,7 +189,7 @@ function Controller() {
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
     });
-    $.__views.__alloyId3.add($.__views.label1);
+    $.__views.__alloyId3.add($.__views.userName);
     $.__views.__alloyId4 = Ti.UI.createView({
         backgroundColor: "white",
         borderColor: "#bbb",
@@ -164,15 +201,15 @@ function Controller() {
         id: "__alloyId4"
     });
     $.__views.__alloyId1.add($.__views.__alloyId4);
-    $.__views.label2 = Ti.UI.createLabel({
-        text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols such as\na white chess piece ♕\nand the euro symbol €\nlooks like this!\n",
-        id: "label2",
+    $.__views.pitch = Ti.UI.createLabel({
+        text: "",
+        id: "pitch",
         color: "blue",
         textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
         width: "200",
         height: "200"
     });
-    $.__views.__alloyId4.add($.__views.label2);
+    $.__views.__alloyId4.add($.__views.pitch);
     $.__views.__alloyId5 = Ti.UI.createView({
         backgroundColor: "white",
         borderColor: "#bbb",
@@ -184,15 +221,15 @@ function Controller() {
         id: "__alloyId5"
     });
     $.__views.__alloyId1.add($.__views.__alloyId5);
-    $.__views.label3 = Ti.UI.createLabel({
+    $.__views.comments = Ti.UI.createLabel({
         text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols such as\na white chess piece ♕\nand the euro symbol €\nlooks like this!\n",
-        id: "label3",
+        id: "comments",
         color: "blue",
         textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
         width: "200",
         height: "200"
     });
-    $.__views.__alloyId5.add($.__views.label3);
+    $.__views.__alloyId5.add($.__views.comments);
     $.__views.__alloyId6 = Ti.UI.createView({
         backgroundColor: "white",
         bottom: 0,
@@ -236,13 +273,14 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var currentIdea = null;
+    var currentUser = null;
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
     if (Alloy.Globals.Facebook.loggedIn) {
-        var currentUser = Alloy.Globals.FbUser;
+        currentUser = Alloy.Globals.FbUser;
         getCurrentIdea(currentUser);
     } else Alloy.Globals.Cloud.Users.showMe(function(e) {
         if (e.success) {
-            var currentUser = e.users[0].id;
+            currentUser = e.users[0].id;
             getCurrentIdea(currentUser);
         } else alert("Algo estuvo mal, no pudimos obtener ideas");
     });
