@@ -8,6 +8,12 @@
     width:'100%', height: 70,
     top: 0, left: 0
 },
+".bigRow":{
+	backgroundColor: 'white',
+    borderWidth: 0,
+    width:'100%', height: 150,
+    top: 0, left: 0
+},
 ".navBar":{
 	  backgroundColor:'darkgray',
   	  top:0,
@@ -16,5 +22,5 @@
 ".actions":{
 	  backgroundColor:'white',
   	  bottom:0,
-  	  width: Titanium.UI.FILL, height:100
+  	  width: Titanium.UI.FILL, height:50
 }

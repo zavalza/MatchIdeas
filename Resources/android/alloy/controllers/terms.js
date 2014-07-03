@@ -17,16 +17,16 @@ function Controller() {
         id: "terms"
     });
     $.__views.terms && $.addTopLevelView($.__views.terms);
-    $.__views.__alloyId13 = Ti.UI.createScrollView({
+    $.__views.__alloyId15 = Ti.UI.createScrollView({
         height: "80%",
         width: "80%",
-        id: "__alloyId13"
+        id: "__alloyId15"
     });
-    $.__views.terms.add($.__views.__alloyId13);
+    $.__views.terms.add($.__views.__alloyId15);
     $.__views.mainView = Ti.UI.createView({
         id: "mainView"
     });
-    $.__views.__alloyId13.add($.__views.mainView);
+    $.__views.__alloyId15.add($.__views.mainView);
     $.__views.label1 = Ti.UI.createLabel({
         id: "label1",
         color: "#900",
@@ -48,10 +48,10 @@ function Controller() {
         height: "200"
     });
     $.__views.mainView.add($.__views.label2);
-    $.__views.__alloyId14 = Ti.UI.createView({
-        id: "__alloyId14"
+    $.__views.__alloyId16 = Ti.UI.createView({
+        id: "__alloyId16"
     });
-    $.__views.terms.add($.__views.__alloyId14);
+    $.__views.terms.add($.__views.__alloyId16);
     $.__views.ok = Ti.UI.createButton({
         id: "ok",
         title: "Acepto",
@@ -61,7 +61,7 @@ function Controller() {
         backgroundColor: "white",
         color: "black"
     });
-    $.__views.__alloyId14.add($.__views.ok);
+    $.__views.__alloyId16.add($.__views.ok);
     done ? $.__views.ok.addEventListener("click", done) : __defers["$.__views.ok!click!done"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);

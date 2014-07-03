@@ -145,7 +145,7 @@ function Controller() {
     showNewIdea ? $.__views.newIdea.addEventListener("click", showNewIdea) : __defers["$.__views.newIdea!click!showNewIdea"] = true;
     $.__views.__alloyId1 = Ti.UI.createScrollView({
         top: "50",
-        bottom: "50",
+        bottom: "30",
         contentHeight: "auto",
         layout: "vertical",
         showVerticalScrollIndicator: "true",
@@ -154,10 +154,9 @@ function Controller() {
     $.__views.win.add($.__views.__alloyId1);
     $.__views.__alloyId2 = Ti.UI.createView({
         backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
+        borderWidth: 0,
         width: "100%",
-        height: 70,
+        height: 150,
         top: 0,
         left: 0,
         id: "__alloyId2"
@@ -223,7 +222,7 @@ function Controller() {
     });
     $.__views.__alloyId1.add($.__views.__alloyId5);
     $.__views.comments = Ti.UI.createLabel({
-        text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols such as\na white chess piece ♕\nand the euro symbol €\nlooks like this!\n",
+        text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols",
         id: "comments",
         color: "blue",
         textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
@@ -233,43 +232,83 @@ function Controller() {
     $.__views.__alloyId5.add($.__views.comments);
     $.__views.__alloyId6 = Ti.UI.createView({
         backgroundColor: "white",
-        bottom: 0,
-        width: Titanium.UI.FILL,
-        height: 100,
+        borderColor: "#bbb",
+        borderWidth: 1,
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
         id: "__alloyId6"
     });
-    $.__views.win.add($.__views.__alloyId6);
+    $.__views.__alloyId1.add($.__views.__alloyId6);
+    $.__views.comments2 = Ti.UI.createLabel({
+        text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols",
+        id: "comments2",
+        color: "blue",
+        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+        width: "200",
+        height: "200"
+    });
+    $.__views.__alloyId6.add($.__views.comments2);
+    $.__views.__alloyId7 = Ti.UI.createView({
+        backgroundColor: "white",
+        borderColor: "#bbb",
+        borderWidth: 1,
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
+        id: "__alloyId7"
+    });
+    $.__views.__alloyId1.add($.__views.__alloyId7);
+    $.__views.comments3 = Ti.UI.createLabel({
+        text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols",
+        id: "comments3",
+        color: "blue",
+        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+        width: "200",
+        height: "200"
+    });
+    $.__views.__alloyId7.add($.__views.comments3);
+    $.__views.__alloyId8 = Ti.UI.createView({
+        backgroundColor: "white",
+        bottom: 0,
+        width: Titanium.UI.FILL,
+        height: 50,
+        id: "__alloyId8"
+    });
+    $.__views.win.add($.__views.__alloyId8);
     $.__views.match = Ti.UI.createButton({
         id: "match",
         backgroundImage: "/images/like.png",
-        top: "5",
+        bottom: "5",
         width: "50",
         height: "50",
         backgroundColor: "green",
         left: "50"
     });
-    $.__views.__alloyId6.add($.__views.match);
+    $.__views.__alloyId8.add($.__views.match);
     match ? $.__views.match.addEventListener("click", match) : __defers["$.__views.match!click!match"] = true;
     $.__views.comment = Ti.UI.createButton({
         id: "comment",
         backgroundImage: "/images/comment.png",
-        top: "5",
+        bottom: "5",
         width: "50",
         height: "50",
         backgroundColor: "white"
     });
-    $.__views.__alloyId6.add($.__views.comment);
+    $.__views.__alloyId8.add($.__views.comment);
     done ? $.__views.comment.addEventListener("click", done) : __defers["$.__views.comment!click!done"] = true;
     $.__views.noMatch = Ti.UI.createButton({
         id: "noMatch",
         backgroundImage: "/images/dislike.png",
-        top: "5",
+        bottom: "5",
         width: "50",
         height: "50",
         backgroundColor: "red",
         right: "50"
     });
-    $.__views.__alloyId6.add($.__views.noMatch);
+    $.__views.__alloyId8.add($.__views.noMatch);
     noMatch ? $.__views.noMatch.addEventListener("click", noMatch) : __defers["$.__views.noMatch!click!noMatch"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
