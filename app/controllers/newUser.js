@@ -3,9 +3,8 @@ function createUser(e){
     Titanium.API.info("Creating user with ACS");
     var cloud = Alloy.Globals.Cloud;
     cloud.Users.create({
+    username: $.email.value,
     email: $.email.value,
-    first_name: $.firstName.value,
-    last_name: $.lastName.value,
     password: $.password.value,
     password_confirmation: $.passwordConfirmation.value
 }, function (e) {

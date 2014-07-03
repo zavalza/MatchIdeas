@@ -46,6 +46,7 @@ function Controller() {
     $.__views.index.add($.__views.logo);
     $.__views.email = Ti.UI.createTextField({
         id: "email",
+        autocorrect: "false",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         color: "#336699",
         top: "150",

@@ -18,7 +18,7 @@
     	</ScrollView>
     	<View class="actions">
     		<Button id="match" onClick="match" backgroundImage="/images/like.png" bottom="5" width="50" height="50" backgroundColor="green" left="50"/>
-    		<Button id="comment" onClick="done" backgroundImage="/images/comment.png" bottom="5" width="50" height="50" backgroundColor="white"/>
+    		<Button id="comment" onClick="comment" backgroundImage="/images/comment.png" bottom="5" width="50" height="50" backgroundColor="white"/>
     		<Button id="noMatch" onClick="noMatch" backgroundImage="/images/dislike.png" bottom="5" width="50" height="50" backgroundColor="red" right="50"/>
 		</View>	
 	</Window>

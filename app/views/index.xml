@@ -1,7 +1,7 @@
 <Alloy>
 	<Window class="container">
 		<ImageView id="logo" image="/images/logoMatchIdeas.png" top="10" width="150" height="100" />
-        <TextField id="email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="150" left="10" width="300" height="35" hintText= 'correo electrónico'/>
+        <TextField id="email" autocorrect="false" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="150" left="10" width="300" height="35" hintText= 'correo electrónico'/>
 		<TextField id="password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="180" left="10" width="300" height="35" hintText= 'password'/>
 		<Button id="tryLogin" onClick="tryLogin" title="Entrar"
             top="210" width="130" height="50" left="20" />

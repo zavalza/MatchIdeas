@@ -3,9 +3,8 @@ function Controller() {
         Titanium.API.info("Creating user with ACS");
         var cloud = Alloy.Globals.Cloud;
         cloud.Users.create({
+            username: $.email.value,
             email: $.email.value,
-            first_name: $.firstName.value,
-            last_name: $.lastName.value,
             password: $.password.value,
             password_confirmation: $.passwordConfirmation.value
         }, function(e) {
@@ -46,33 +45,11 @@ function Controller() {
         height: "100"
     });
     $.__views.mainView.add($.__views.logo);
-    $.__views.firstName = Ti.UI.createTextField({
-        id: "firstName",
-        borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
-        color: "#336699",
-        top: "150",
-        left: "10",
-        width: "300",
-        height: "35",
-        hintText: "Nombre"
-    });
-    $.__views.mainView.add($.__views.firstName);
-    $.__views.lastName = Ti.UI.createTextField({
-        id: "lastName",
-        borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
-        color: "#336699",
-        top: "180",
-        left: "10",
-        width: "300",
-        height: "35",
-        hintText: "Apellido"
-    });
-    $.__views.mainView.add($.__views.lastName);
     $.__views.email = Ti.UI.createTextField({
         id: "email",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         color: "#336699",
-        top: "210",
+        top: "150",
         left: "10",
         width: "300",
         height: "35",
@@ -81,10 +58,11 @@ function Controller() {
     $.__views.mainView.add($.__views.email);
     $.__views.password = Ti.UI.createTextField({
         id: "password",
+        autocorrect: "false",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         passwordMask: "true",
         color: "#336699",
-        top: "240",
+        top: "180",
         left: "10",
         width: "300",
         height: "35",
@@ -93,10 +71,11 @@ function Controller() {
     $.__views.mainView.add($.__views.password);
     $.__views.passwordConfirmation = Ti.UI.createTextField({
         id: "passwordConfirmation",
+        autocorrect: "false",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         passwordMask: "true",
         color: "#336699",
-        top: "270",
+        top: "210",
         left: "10",
         width: "300",
         height: "35",

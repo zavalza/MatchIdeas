@@ -39,6 +39,17 @@ function Controller() {
                     var comment = createComment(currentIdea.comments[i]);
                     $.content.add(comment);
                 }
+                var newComment = Ti.UI.createView({
+                    backgroundColor: "white",
+                    borderColor: "#bbb",
+                    borderWidth: 1,
+                    width: "100%",
+                    height: 150,
+                    top: 0,
+                    left: 0
+                });
+                newComment.add(commentArea);
+                $.content.add(newComment);
             } else {
                 $.pitch.text = "No hay ideas";
                 $.match.title = "0";
@@ -115,10 +126,9 @@ function Controller() {
         var newUser = Alloy.createController("newUser").getView();
         newUser.open();
     }
-    function done() {
-        Titanium.API.info("Quit terms");
-        var newUser = Alloy.createController("newUser").getView();
-        newUser.open();
+    function comment() {
+        Titanium.API.info("comment");
+        $.content.scrollTo(commentArea.getCenter().x, commentArea.getCenter().y);
     }
     function showNewIdea() {
         Titanium.API.info("show new idea");
@@ -262,7 +272,7 @@ function Controller() {
         backgroundColor: "white"
     });
     $.__views.__alloyId4.add($.__views.comment);
-    done ? $.__views.comment.addEventListener("click", done) : __defers["$.__views.comment!click!done"] = true;
+    comment ? $.__views.comment.addEventListener("click", comment) : __defers["$.__views.comment!click!comment"] = true;
     $.__views.noMatch = Ti.UI.createButton({
         id: "noMatch",
         backgroundImage: "/images/dislike.png",
@@ -278,6 +288,15 @@ function Controller() {
     _.extend($, $.__views);
     var currentIdea = null;
     var currentUser = null;
+    var commentArea = Titanium.UI.createTextArea({
+        borderStyle: Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
+        hintText: "Nuevo comentario...",
+        color: "black",
+        textAlign: "left",
+        returnKeyType: Ti.UI.RETURNKEY_DONE,
+        width: "80%",
+        height: 100
+    });
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
     if (Alloy.Globals.Facebook.loggedIn) {
         currentUser = Alloy.Globals.FbUser;
@@ -291,7 +310,7 @@ function Controller() {
     __defers["$.__views.menu!click!showMenu"] && $.__views.menu.addEventListener("click", showMenu);
     __defers["$.__views.newIdea!click!showNewIdea"] && $.__views.newIdea.addEventListener("click", showNewIdea);
     __defers["$.__views.match!click!match"] && $.__views.match.addEventListener("click", match);
-    __defers["$.__views.comment!click!done"] && $.__views.comment.addEventListener("click", done);
+    __defers["$.__views.comment!click!comment"] && $.__views.comment.addEventListener("click", comment);
     __defers["$.__views.noMatch!click!noMatch"] && $.__views.noMatch.addEventListener("click", noMatch);
     _.extend($, exports);
 }

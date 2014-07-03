@@ -1,7 +1,14 @@
 //Globals in this file
 var currentIdea = null;
 var currentUser = null;
-
+var commentArea = Titanium.UI.createTextArea({
+				    borderStyle : Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
+				    hintText : 'Nuevo comentario...',
+				    color: 'black',
+				    textAlign: 'left',
+				    returnKeyType: Ti.UI.RETURNKEY_DONE,
+				    width : '80%', height : 100
+					});
 
 function createComment(commentText) {
   var comment = Ti.UI.createView({
@@ -48,6 +55,15 @@ function getCurrentIdea(userId){
 				var comment = createComment(currentIdea.comments[i]);
   				$.content.add(comment);
 				}
+				var newComment = Ti.UI.createView({
+				    backgroundColor: 'white',
+				    borderColor: '#bbb',
+				    borderWidth: 1,
+				    width:'100%', height: 150,
+				    top: 0, left: 0
+				  });
+				newComment.add(commentArea);
+				$.content.add(newComment);
 	    	}
 	        	
 	        else
@@ -184,11 +200,11 @@ function showMenu(e){
     newUser.open();
 };
 
-function done(e){
+function comment(e){
     //Displays log message on console
-    Titanium.API.info("Quit terms");
-    var newUser = Alloy.createController('newUser').getView();
-    newUser.open();
+    Titanium.API.info("comment");
+    //commentArea.focus();
+    $.content.scrollTo(commentArea.getCenter().x, commentArea.getCenter().y);
 };
 
 function showNewIdea(e){
