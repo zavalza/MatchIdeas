@@ -12,3 +12,26 @@
 Alloy.Globals.Facebook = require('facebook');
 Alloy.Globals.Cloud = require('ti.cloud');
 Alloy.Globals.FbUser = null;
+Alloy.Globals.NormalUser = null;
+
+Alloy.Globals.getUserId = function(){
+	if(Alloy.Globals.Facebook.loggedIn)
+	{
+		alert("Face");
+		return Alloy.Globals.FbUser;
+	}
+	else
+	{
+		Alloy.Globals.Cloud.Users.showMe(function (e) {
+		    if (e.success) 
+		    {//User is logged with email
+		    	alert("Email");
+		    } 
+		    else
+		    {
+		    	alert("No hay usuario con sesión");
+		    }
+		});
+		return Alloy.Globals.NormalUser;
+	}
+};

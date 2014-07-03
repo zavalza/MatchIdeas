@@ -4,7 +4,7 @@
 			<Button id="menu" onClick="showMenu" backgroundImage="/images/menuIcon.png"top="5" width="50" height="50" backgroundColor="white" left="5"/>
 			<Button id="newIdea" onClick="showNewIdea" backgroundImage="/images/newIdeaIcon.png"top="5" width="50" height="50" backgroundColor="white">
 		</View>
-		<ScrollView top="50" bottom="30" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+		<ScrollView id="content" top="50" bottom="30" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
 			<View class="bigRow" >
 				<ImageView id="userImage" image="/images/someImage.png" width="150" height="100" />
 			</View>
@@ -15,21 +15,6 @@
 				<Label id="pitch" color="blue" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT" width="200" height="200">
 	    		</Label>
 	    	</View>
-	    	<View class="row">
-	    		<Label id="comments" color="blue" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT" width="200" height="200">
-	        	A long label with\na few line breaks\nand unicode (UTF8)\nsymbols
-	    		</Label>
-    		</View>
-    		<View class="row">
-	    		<Label id="comments2" color="blue" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT" width="200" height="200">
-	        	A long label with\na few line breaks\nand unicode (UTF8)\nsymbols
-	    		</Label>
-    		</View>
-    		<View class="row">
-	    		<Label id="comments3" color="blue" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT" width="200" height="200">
-	        	A long label with\na few line breaks\nand unicode (UTF8)\nsymbols
-	    		</Label>
-    		</View>
     	</ScrollView>
     	<View class="actions">
     		<Button id="match" onClick="match" backgroundImage="/images/like.png" bottom="5" width="50" height="50" backgroundColor="green" left="50"/>

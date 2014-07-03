@@ -10,10 +10,9 @@ function Controller() {
             password_confirmation: $.passwordConfirmation.value
         }, function(e) {
             if (e.success) {
-                var user = e.users[0];
-                alert("Success:\nid: " + user.id + "\n" + "sessionId: " + cloud.sessionId + "\n" + "first name: " + user.first_name + "\n" + "last name: " + user.last_name);
-                var main = Alloy.createController("main").getView();
-                main.open();
+                Alloy.Globals.NormalUser = e.users[0].id;
+                var newIdea = Alloy.createController("newIdea").getView();
+                newIdea.open();
             } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
         });
     }

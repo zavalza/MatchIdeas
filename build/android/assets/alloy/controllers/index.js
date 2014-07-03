@@ -7,6 +7,7 @@ function Controller() {
             password: $.password.value
         }, function(e) {
             if (e.success) {
+                Alloy.Globals.NormalUser = e.users[0].id;
                 var main = Alloy.createController("main").getView();
                 main.open();
             } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));

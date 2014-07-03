@@ -1,4 +1,24 @@
 function Controller() {
+    function createComment(commentText) {
+        var comment = Ti.UI.createView({
+            backgroundColor: "white",
+            borderColor: "#bbb",
+            borderWidth: 1,
+            width: "100%",
+            height: 70,
+            top: 0,
+            left: 0
+        });
+        var inputTextField = Ti.UI.createTextField({
+            hintText: commentText,
+            top: 10,
+            left: "10%",
+            width: "80%",
+            height: 60
+        });
+        comment.add(inputTextField);
+        return comment;
+    }
     function getCurrentIdea(userId) {
         Alloy.Globals.Cloud.Objects.query({
             classname: "ideas",
@@ -15,6 +35,10 @@ function Controller() {
                 $.pitch.text = currentIdea.pitch;
                 $.match.title = String(currentIdea.matches);
                 $.noMatch.title = String(currentIdea.noMatches);
+                for (var i = 0; currentIdea.comments.legth >= i; i++) {
+                    var comment = createComment(currentIdea.comments[i]);
+                    $.content.add(comment);
+                }
             } else {
                 $.pitch.text = "No hay ideas";
                 $.match.title = "0";
@@ -143,32 +167,53 @@ function Controller() {
     });
     $.__views.__alloyId0.add($.__views.newIdea);
     showNewIdea ? $.__views.newIdea.addEventListener("click", showNewIdea) : __defers["$.__views.newIdea!click!showNewIdea"] = true;
-    $.__views.__alloyId1 = Ti.UI.createScrollView({
+    $.__views.content = Ti.UI.createScrollView({
+        id: "content",
         top: "50",
         bottom: "30",
         contentHeight: "auto",
         layout: "vertical",
-        showVerticalScrollIndicator: "true",
-        id: "__alloyId1"
+        showVerticalScrollIndicator: "true"
     });
-    $.__views.win.add($.__views.__alloyId1);
-    $.__views.__alloyId2 = Ti.UI.createView({
+    $.__views.win.add($.__views.content);
+    $.__views.__alloyId1 = Ti.UI.createView({
         backgroundColor: "white",
         borderWidth: 0,
         width: "100%",
         height: 150,
         top: 0,
         left: 0,
-        id: "__alloyId2"
+        id: "__alloyId1"
     });
-    $.__views.__alloyId1.add($.__views.__alloyId2);
+    $.__views.content.add($.__views.__alloyId1);
     $.__views.userImage = Ti.UI.createImageView({
         id: "userImage",
         image: "/images/someImage.png",
         width: "150",
         height: "100"
     });
-    $.__views.__alloyId2.add($.__views.userImage);
+    $.__views.__alloyId1.add($.__views.userImage);
+    $.__views.__alloyId2 = Ti.UI.createView({
+        backgroundColor: "white",
+        borderColor: "#bbb",
+        borderWidth: 1,
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
+        id: "__alloyId2"
+    });
+    $.__views.content.add($.__views.__alloyId2);
+    $.__views.userName = Ti.UI.createLabel({
+        id: "userName",
+        color: "#900",
+        shadowColor: "#aaa",
+        text: "A simple label",
+        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+        width: Ti.UI.SIZE,
+        height: Ti.UI.SIZE
+    });
+    $.__views.__alloyId2.add($.__views.userName);
     $.__views.__alloyId3 = Ti.UI.createView({
         backgroundColor: "white",
         borderColor: "#bbb",
@@ -179,28 +224,7 @@ function Controller() {
         left: 0,
         id: "__alloyId3"
     });
-    $.__views.__alloyId1.add($.__views.__alloyId3);
-    $.__views.userName = Ti.UI.createLabel({
-        id: "userName",
-        color: "#900",
-        shadowColor: "#aaa",
-        text: "A simple label",
-        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-        width: Ti.UI.SIZE,
-        height: Ti.UI.SIZE
-    });
-    $.__views.__alloyId3.add($.__views.userName);
-    $.__views.__alloyId4 = Ti.UI.createView({
-        backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
-        width: "100%",
-        height: 70,
-        top: 0,
-        left: 0,
-        id: "__alloyId4"
-    });
-    $.__views.__alloyId1.add($.__views.__alloyId4);
+    $.__views.content.add($.__views.__alloyId3);
     $.__views.pitch = Ti.UI.createLabel({
         text: "",
         id: "pitch",
@@ -209,75 +233,15 @@ function Controller() {
         width: "200",
         height: "200"
     });
-    $.__views.__alloyId4.add($.__views.pitch);
-    $.__views.__alloyId5 = Ti.UI.createView({
-        backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
-        width: "100%",
-        height: 70,
-        top: 0,
-        left: 0,
-        id: "__alloyId5"
-    });
-    $.__views.__alloyId1.add($.__views.__alloyId5);
-    $.__views.comments = Ti.UI.createLabel({
-        text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols",
-        id: "comments",
-        color: "blue",
-        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-        width: "200",
-        height: "200"
-    });
-    $.__views.__alloyId5.add($.__views.comments);
-    $.__views.__alloyId6 = Ti.UI.createView({
-        backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
-        width: "100%",
-        height: 70,
-        top: 0,
-        left: 0,
-        id: "__alloyId6"
-    });
-    $.__views.__alloyId1.add($.__views.__alloyId6);
-    $.__views.comments2 = Ti.UI.createLabel({
-        text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols",
-        id: "comments2",
-        color: "blue",
-        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-        width: "200",
-        height: "200"
-    });
-    $.__views.__alloyId6.add($.__views.comments2);
-    $.__views.__alloyId7 = Ti.UI.createView({
-        backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
-        width: "100%",
-        height: 70,
-        top: 0,
-        left: 0,
-        id: "__alloyId7"
-    });
-    $.__views.__alloyId1.add($.__views.__alloyId7);
-    $.__views.comments3 = Ti.UI.createLabel({
-        text: "A long label with\na few line breaks\nand unicode (UTF8)\nsymbols",
-        id: "comments3",
-        color: "blue",
-        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-        width: "200",
-        height: "200"
-    });
-    $.__views.__alloyId7.add($.__views.comments3);
-    $.__views.__alloyId8 = Ti.UI.createView({
+    $.__views.__alloyId3.add($.__views.pitch);
+    $.__views.__alloyId4 = Ti.UI.createView({
         backgroundColor: "white",
         bottom: 0,
         width: Titanium.UI.FILL,
         height: 50,
-        id: "__alloyId8"
+        id: "__alloyId4"
     });
-    $.__views.win.add($.__views.__alloyId8);
+    $.__views.win.add($.__views.__alloyId4);
     $.__views.match = Ti.UI.createButton({
         id: "match",
         backgroundImage: "/images/like.png",
@@ -287,7 +251,7 @@ function Controller() {
         backgroundColor: "green",
         left: "50"
     });
-    $.__views.__alloyId8.add($.__views.match);
+    $.__views.__alloyId4.add($.__views.match);
     match ? $.__views.match.addEventListener("click", match) : __defers["$.__views.match!click!match"] = true;
     $.__views.comment = Ti.UI.createButton({
         id: "comment",
@@ -297,7 +261,7 @@ function Controller() {
         height: "50",
         backgroundColor: "white"
     });
-    $.__views.__alloyId8.add($.__views.comment);
+    $.__views.__alloyId4.add($.__views.comment);
     done ? $.__views.comment.addEventListener("click", done) : __defers["$.__views.comment!click!done"] = true;
     $.__views.noMatch = Ti.UI.createButton({
         id: "noMatch",
@@ -308,7 +272,7 @@ function Controller() {
         backgroundColor: "red",
         right: "50"
     });
-    $.__views.__alloyId8.add($.__views.noMatch);
+    $.__views.__alloyId4.add($.__views.noMatch);
     noMatch ? $.__views.noMatch.addEventListener("click", noMatch) : __defers["$.__views.noMatch!click!noMatch"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);

@@ -2,6 +2,26 @@
 var currentIdea = null;
 var currentUser = null;
 
+
+function createComment(commentText) {
+  var comment = Ti.UI.createView({
+    backgroundColor: 'white',
+    borderColor: '#bbb',
+    borderWidth: 1,
+    width:'100%', height: 70,
+    top: 0, left: 0
+  });
+  var inputTextField = Ti.UI.createTextField({
+    hintText: commentText,
+    top: 10, left: '10%',
+    width: '80%', height: 60
+  });
+  comment.add(inputTextField);
+  return comment;
+}
+
+
+
 /*Get an Idea from ACS, where the user has not already voted and that it has not created.
  * global currentIdea contains the result
  */
@@ -24,6 +44,10 @@ function getCurrentIdea(userId){
 	        	$.pitch.text = currentIdea.pitch;
 	        	$.match.title = String(currentIdea.matches);
 	        	$.noMatch.title = String(currentIdea.noMatches);
+	        	for(var i = 0; i <= currentIdea.comments.legth; i++){
+				var comment = createComment(currentIdea.comments[i]);
+  				$.content.add(comment);
+				}
 	    	}
 	        	
 	        else

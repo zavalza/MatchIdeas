@@ -1,3 +1,6 @@
+
+
+
 function showMenu(e){
     //Displays log message on console
     Titanium.API.info("Quit terms");
@@ -16,22 +19,21 @@ function closeNewIdea(e){
 function done(e){
     //Displays log message on console
     Titanium.API.info("Quit terms");
+    var userId = Alloy.Globals.getUserId();
     var dict = {
 		    	classname: 'ideas',
 		   	   fields: {pitch: $.pitch.value,
 		   	   			matches: 0,
 		   	   			noMatches: 0,
-		   	   			votedBy: ["0"]}, //aqui se puede guardar el id para que ya no se desplieguen las ideas de el mismo
-		   	   acl_name: 'ideasACL'
+		   	   			comments:[],
+		   	   			votedBy: [userId]},
+		   	   acl_name: 'ideasACL',
+		   	   user_id: userId
 		   	   };
-	if(Alloy.Globals.Facebook.loggedIn)
-	{
-		dict.user_id = Alloy.Globals.FbUser;
-		if($.shareFb.value)
+	if($.shareFb.value)
 		    {
 		    	alert("Idea compartida en Fb");
 		    }
-	}
     Alloy.Globals.Cloud.Objects.create(dict, function (e) {
 	    if (e.success) {
 		    var main = Alloy.createController('main').getView();
