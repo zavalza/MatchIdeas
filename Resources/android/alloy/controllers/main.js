@@ -1,6 +1,5 @@
 function Controller() {
     function getCurrentIdea(userId) {
-        alert(userId);
         Alloy.Globals.Cloud.Objects.query({
             classname: "ideas",
             limit: 1,
@@ -14,9 +13,13 @@ function Controller() {
             if (e.success) if (null != e.ideas[0]) {
                 currentIdea = e.ideas[0];
                 $.pitch.text = currentIdea.pitch;
-                $.match.title = currentIdea.matches;
-                $.noMatch.title = currentIdea.noMatches;
-            } else $.pitch.text = "No hay ideas"; else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                $.match.title = String(currentIdea.matches);
+                $.noMatch.title = String(currentIdea.noMatches);
+            } else {
+                $.pitch.text = "No hay ideas";
+                $.match.title = "0";
+                $.noMatch.title = "0";
+            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
         });
     }
     function findIdea(ideaId) {
@@ -40,7 +43,6 @@ function Controller() {
             votes = votes + "," + '"' + currentUser + '"';
             votes = "[" + votes + "]";
             votes = JSON.parse(votes);
-            alert(votes);
             var dict = {
                 classname: "ideas",
                 id: currentIdea.id,
@@ -67,7 +69,6 @@ function Controller() {
             votes = votes + "," + '"' + currentUser + '"';
             votes = "[" + votes + "]";
             votes = JSON.parse(votes);
-            alert(votes);
             var dict = {
                 classname: "ideas",
                 id: currentIdea.id,

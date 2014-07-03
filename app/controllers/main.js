@@ -6,7 +6,7 @@ var currentUser = null;
  * global currentIdea contains the result
  */
 function getCurrentIdea(userId){
-	alert(userId);
+	//alert(userId);
 	Alloy.Globals.Cloud.Objects.query({
 	    classname: 'ideas',
 	    limit: 1,
@@ -22,12 +22,20 @@ function getCurrentIdea(userId){
 	    	{
 	    		currentIdea = e.ideas[0];
 	        	$.pitch.text = currentIdea.pitch;
-	        	$.match.title = currentIdea.matches;
-	        	$.noMatch.title = currentIdea.noMatches;
+	        	$.match.title = String(currentIdea.matches);
+	        	$.noMatch.title = String(currentIdea.noMatches);
 	    	}
 	        	
 	        else
+	        {
+	        	//Lo mas seguro es que despleguemos una ventana totalmente diferente, pero por ahora reseteamos los valores
 	        	$.pitch.text = "No hay ideas";
+	        	$.match.title = "0";
+	        	$.noMatch.title= "0";
+	        	
+	        }
+	        	
+	        	
 	        
 	    } else {
 	        alert('Error:\n' +
@@ -76,7 +84,7 @@ function match (e) {
  votes = votes + "," +"\""+currentUser+"\"";
  votes = "["+votes+"]";
  votes = JSON.parse(votes);
- alert(votes);
+ //alert(votes);
   var dict = {
   	classname: 'ideas',
     id: currentIdea.id,
@@ -119,7 +127,7 @@ function noMatch (e) {
 	 votes = votes + "," +"\""+currentUser+"\"";
 	 votes = "["+votes+"]";
 	 votes = JSON.parse(votes);
-	 alert(votes);
+	 //alert(votes);
 	  var dict = {
 	  	classname: 'ideas',
 	    id: currentIdea.id,

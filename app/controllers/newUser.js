@@ -40,17 +40,18 @@ fb.permissions = ['public_profile']; // Permissions your app needs
 fb.forceDialogAuth = false; //Uses the native app of Facebook if aviable
 fb.addEventListener('login', function(e) {
     if (e.success) {
-        alert('Logged In');
+        //alert('Logged In');
      	Alloy.Globals.Cloud.SocialIntegrations.externalAccountLogin({
 		type: 'facebook',
 		token: fb.accessToken
 		}, function (e) {
 		if (e.success) {
 		var user = e.users[0];
-		alert('Success:\n' +
+		Alloy.Globals.FbUser = user.id;
+		/*alert('Success:\n' +
 		'id: ' + user.id + '\n' +
 		'first name: ' + user.first_name + '\n' +
-		'last name: ' + user.last_name);
+		'last name: ' + user.last_name);*/
 		} else {
 		alert('Error:\n' +
 		((e.error && e.message) || JSON.stringify(e)));

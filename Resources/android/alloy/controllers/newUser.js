@@ -132,14 +132,13 @@ function Controller() {
     fb.forceDialogAuth = false;
     fb.addEventListener("login", function(e) {
         if (e.success) {
-            alert("Logged In");
             Alloy.Globals.Cloud.SocialIntegrations.externalAccountLogin({
                 type: "facebook",
                 token: fb.accessToken
             }, function(e) {
                 if (e.success) {
                     var user = e.users[0];
-                    alert("Success:\nid: " + user.id + "\n" + "first name: " + user.first_name + "\n" + "last name: " + user.last_name);
+                    Alloy.Globals.FbUser = user.id;
                 } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
             });
             var main = Alloy.createController("main").getView();
