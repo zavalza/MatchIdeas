@@ -9,14 +9,14 @@ function Controller() {
             top: 0,
             left: 0
         });
-        var inputTextField = Ti.UI.createTextField({
-            hintText: commentText,
+        var textLabel = Ti.UI.createLabel({
+            text: commentText,
             top: 10,
             left: "10%",
             width: "80%",
             height: 60
         });
-        comment.add(inputTextField);
+        comment.add(textLabel);
         return comment;
     }
     function getCurrentIdea(userId) {
@@ -35,21 +35,52 @@ function Controller() {
                 $.pitch.text = currentIdea.pitch;
                 $.match.title = String(currentIdea.matches);
                 $.noMatch.title = String(currentIdea.noMatches);
-                for (var i = 0; currentIdea.comments.legth >= i; i++) {
-                    var comment = createComment(currentIdea.comments[i]);
-                    $.content.add(comment);
-                }
-                var newComment = Ti.UI.createView({
-                    backgroundColor: "white",
-                    borderColor: "#bbb",
-                    borderWidth: 1,
-                    width: "100%",
-                    height: 150,
-                    top: 0,
-                    left: 0
+                Alloy.Globals.Cloud.Objects.query({
+                    classname: "comments",
+                    where: {
+                        ideaId: currentIdea.id
+                    }
+                }, function(e) {
+                    if (e.success) {
+                        alert("Comentarios encontrados");
+                        for (var i = 0; e.comments.length > i; i++) {
+                            var commentView = createComment(e.comments[i].text);
+                            $.content.add(commentView);
+                        }
+                        var commentArea = Titanium.UI.createTextArea({
+                            id: "comment",
+                            borderStyle: Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
+                            hintText: "Nuevo comentario...",
+                            color: "black",
+                            textAlign: "left",
+                            returnKeyType: Ti.UI.RETURNKEY_DONE,
+                            width: "80%",
+                            height: 100
+                        });
+                        commentArea.addEventListener("return", function() {
+                            var textComment = commentArea.value;
+                            var userId = Alloy.Globals.getUserId();
+                            var dict = {
+                                classname: "comments",
+                                fields: {
+                                    text: textComment,
+                                    ideaId: currentIdea.id
+                                },
+                                acl_name: "commentsACL",
+                                user_id: userId
+                            };
+                            alert("Hecho");
+                            Alloy.Globals.Cloud.Objects.create(dict, function(e) {
+                                if (e.success) {
+                                    var main = Alloy.createController("main").getView();
+                                    main.open();
+                                } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                            });
+                        });
+                        newComment.add(commentArea);
+                        $.content.add(newComment);
+                    } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
                 });
-                newComment.add(commentArea);
-                $.content.add(newComment);
             } else {
                 $.pitch.text = "No hay ideas";
                 $.match.title = "0";
@@ -91,7 +122,7 @@ function Controller() {
                 user_id: currentIdea.user.id
             };
             Alloy.Globals.Cloud.Objects.update(dict, function(e) {
-                e.success ? getCurrentIdea(currentUser) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                e.success ? Alloy.createController("main").getView().open() : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
             });
         } else alert("Necesitas ideas para votar");
     }
@@ -117,7 +148,7 @@ function Controller() {
                 user_id: currentIdea.user.id
             };
             Alloy.Globals.Cloud.Objects.update(dict, function(e) {
-                e.success ? getCurrentIdea(currentUser) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                e.success ? Alloy.createController("main").getView().open() : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
             });
         } else alert("Necesitas ideas para votar");
     }
@@ -128,7 +159,7 @@ function Controller() {
     }
     function comment() {
         Titanium.API.info("comment");
-        $.content.scrollTo(commentArea.getCenter().x, commentArea.getCenter().y);
+        $.content.scrollTo(newComment.getCenter().x, newComment.getCenter().y);
     }
     function showNewIdea() {
         Titanium.API.info("show new idea");
@@ -288,14 +319,18 @@ function Controller() {
     _.extend($, $.__views);
     var currentIdea = null;
     var currentUser = null;
-    var commentArea = Titanium.UI.createTextArea({
-        borderStyle: Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
-        hintText: "Nuevo comentario...",
-        color: "black",
-        textAlign: "left",
-        returnKeyType: Ti.UI.RETURNKEY_DONE,
-        width: "80%",
-        height: 100
+    var newComment = Ti.UI.createView({
+        center: {
+            x: 160,
+            y: 240
+        },
+        backgroundColor: "white",
+        borderColor: "#bbb",
+        borderWidth: 1,
+        width: "100%",
+        height: 150,
+        top: 0,
+        left: 0
     });
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
     if (Alloy.Globals.Facebook.loggedIn) {

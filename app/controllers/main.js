@@ -1,14 +1,14 @@
 //Globals in this file
 var currentIdea = null;
 var currentUser = null;
-var commentArea = Titanium.UI.createTextArea({
-				    borderStyle : Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
-				    hintText : 'Nuevo comentario...',
-				    color: 'black',
-				    textAlign: 'left',
-				    returnKeyType: Ti.UI.RETURNKEY_DONE,
-				    width : '80%', height : 100
-					});
+var newComment = Ti.UI.createView({
+					center : {x: 160, y: 240},
+				    backgroundColor: 'white',
+				    borderColor: '#bbb',
+				    borderWidth: 1,
+				    width:'100%', height: 150,
+				    top: 0, left: 0
+				  });
 
 function createComment(commentText) {
   var comment = Ti.UI.createView({
@@ -18,12 +18,12 @@ function createComment(commentText) {
     width:'100%', height: 70,
     top: 0, left: 0
   });
-  var inputTextField = Ti.UI.createTextField({
-    hintText: commentText,
+  var textLabel = Ti.UI.createLabel({
+    text: commentText,
     top: 10, left: '10%',
     width: '80%', height: 60
   });
-  comment.add(inputTextField);
+  comment.add(textLabel);
   return comment;
 }
 
@@ -51,19 +51,64 @@ function getCurrentIdea(userId){
 	        	$.pitch.text = currentIdea.pitch;
 	        	$.match.title = String(currentIdea.matches);
 	        	$.noMatch.title = String(currentIdea.noMatches);
-	        	for(var i = 0; i <= currentIdea.comments.legth; i++){
-				var comment = createComment(currentIdea.comments[i]);
-  				$.content.add(comment);
-				}
-				var newComment = Ti.UI.createView({
-				    backgroundColor: 'white',
-				    borderColor: '#bbb',
-				    borderWidth: 1,
-				    width:'100%', height: 150,
-				    top: 0, left: 0
-				  });
-				newComment.add(commentArea);
-				$.content.add(newComment);
+	        	//Returns all the comments of the specified ideaId
+	        	Alloy.Globals.Cloud.Objects.query({
+				    classname: 'comments',
+				    where: {
+				        ideaId: currentIdea.id
+				    }
+				}, function (e) {
+				    if (e.success) {
+				    	alert("Comentarios encontrados");
+			        	for(var i = 0; i < e.comments.length; i++){
+						var commentView = createComment(e.comments[i].text);
+		  				$.content.add(commentView);
+						}
+						var commentArea = Titanium.UI.createTextArea({
+						id: 'comment',
+					    borderStyle : Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
+					    hintText : 'Nuevo comentario...',
+					    color: 'black',
+					    textAlign: 'left',
+					    returnKeyType: Ti.UI.RETURNKEY_DONE,
+					    width : '80%', height : 100
+						});
+						
+						commentArea.addEventListener('return',function(e)
+						{
+							var textComment = commentArea.value;
+							var userId = Alloy.Globals.getUserId();
+							var dict = {
+					    	classname: 'comments',
+						   	   fields: {text: textComment, 
+						   	   			ideaId: currentIdea.id,
+						   	   		},
+						   	   acl_name: 'commentsACL',
+						   	   user_id: userId
+						   	   };
+						   alert("Hecho");
+						   Alloy.Globals.Cloud.Objects.create(dict, function (e) {
+							    if (e.success) {
+							    	var main = Alloy.createController('main').getView();
+		    						main.open();
+							   		
+							    } else {
+									//Posible funcion para guardar en base de datos
+							        alert('Error:\n' +
+							            ((e.error && e.message) || JSON.stringify(e)));
+							    }
+							});
+				   
+						});
+						newComment.add(commentArea);
+						$.content.add(newComment);
+					    } else {
+					        alert('Error:\n' +
+					            ((e.error && e.message) || JSON.stringify(e)));
+					    }
+					});	
+	    		
+				
 	    	}
 	        	
 	        else
@@ -106,6 +151,7 @@ function findIdea(ideaId){
 }
 
 
+
 /*Updates the fields votedBy and points(+1) of the currentIdea, and stores the idea in the currentUser profile 
  * 
  *Desgraciadamente hasta ahora no hay un push atomico para alterar la base de datos,
@@ -137,7 +183,8 @@ function match (e) {
   };
   Alloy.Globals.Cloud.Objects.update(dict, function (e) {
     if (e.success) {
-        getCurrentIdea(currentUser); //loads another idea
+        //getCurrentIdea(currentUser); //loads another idea
+		Alloy.createController('main').getView().open();
     } else {
         alert('Error:\n' +
             ((e.error && e.message) || JSON.stringify(e)));
@@ -180,7 +227,8 @@ function noMatch (e) {
 	  };
 	  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
 	    if (e.success) {
-	        getCurrentIdea(currentUser); //loads another idea
+	        //getCurrentIdea(currentUser); //loads another idea
+	        Alloy.createController('main').getView().open();
 	    } else {
 	        alert('Error:\n' +
 	            ((e.error && e.message) || JSON.stringify(e)));
@@ -204,7 +252,7 @@ function comment(e){
     //Displays log message on console
     Titanium.API.info("comment");
     //commentArea.focus();
-    $.content.scrollTo(commentArea.getCenter().x, commentArea.getCenter().y);
+    $.content.scrollTo(newComment.getCenter().x, newComment.getCenter().y);
 };
 
 function showNewIdea(e){
