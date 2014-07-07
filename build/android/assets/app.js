@@ -9,12 +9,9 @@ Alloy.Globals.FbUser = null;
 Alloy.Globals.NormalUser = null;
 
 Alloy.Globals.getUserId = function() {
-    if (Alloy.Globals.Facebook.loggedIn) {
-        alert("Face");
-        return Alloy.Globals.FbUser;
-    }
+    if (Alloy.Globals.Facebook.loggedIn) return Alloy.Globals.FbUser;
     Alloy.Globals.Cloud.Users.showMe(function(e) {
-        e.success ? alert("Email") : alert("No hay usuario con sesión");
+        e.success || alert("No hay usuario con sesión");
     });
     return Alloy.Globals.NormalUser;
 };

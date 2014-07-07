@@ -11,13 +11,15 @@
 // Alloy.Globals.someGlobalFunction = function(){};
 Alloy.Globals.Facebook = require('facebook');
 Alloy.Globals.Cloud = require('ti.cloud');
+//Store the ids of currentUser according to used login function
 Alloy.Globals.FbUser = null;
 Alloy.Globals.NormalUser = null;
+
 
 Alloy.Globals.getUserId = function(){
 	if(Alloy.Globals.Facebook.loggedIn)
 	{
-		alert("Face");
+		//alert("Face");
 		return Alloy.Globals.FbUser;
 	}
 	else
@@ -25,7 +27,7 @@ Alloy.Globals.getUserId = function(){
 		Alloy.Globals.Cloud.Users.showMe(function (e) {
 		    if (e.success) 
 		    {//User is logged with email
-		    	alert("Email");
+		    	//alert("Email");
 		    } 
 		    else
 		    {

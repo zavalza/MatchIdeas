@@ -1,0 +1,25 @@
+<Alloy>
+	<Window id="win" class="container">
+		<View class="navBar">
+			<Button id="menu" onClick="showMenu" backgroundImage="/images/menuIcon.png"top="5" width="50" height="50" backgroundColor="white" left="5"/>
+			<Button id="newIdea" onClick="showNewIdea" backgroundImage="/images/newIdeaIcon.png"top="5" width="50" height="50" backgroundColor="white">
+		</View>
+		<ScrollView id="content" top="50" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+			<View class="bigRow" >
+				<ImageView id="userImage" image="/images/someImage.png" width="150" height="100" />
+			</View>
+			<View class="row">
+				<TextField id="firstName" color="#900" shadowColor="#aaa" hintText="Nombre" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			</View>
+			<View class="row">
+				<TextField id="lastName" color="#900" shadowColor="#aaa" hintText="Apellido" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			</View>
+			<View class="row">
+				<TextField id="email" color="#900" shadowColor="#aaa" hintText="Correo electrónico" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			</View>
+			<View class="row">
+				<Button id="passReset" onClick="passReset" title="Cambiar password" backgroundColor="white" color="black"/>
+	    	</View>
+    	</ScrollView>
+	</Window>
+</Alloy>

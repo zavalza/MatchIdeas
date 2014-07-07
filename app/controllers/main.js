@@ -51,15 +51,19 @@ function getCurrentIdea(userId){
 	        	$.pitch.text = currentIdea.pitch;
 	        	$.match.title = String(currentIdea.matches);
 	        	$.noMatch.title = String(currentIdea.noMatches);
+	        	//find authors' data
+	        	$.userName.text = currentIdea.user.first_name +" "+ currentIdea.user.last_name;
 	        	//Returns all the comments of the specified ideaId
 	        	Alloy.Globals.Cloud.Objects.query({
 				    classname: 'comments',
 				    where: {
 				        ideaId: currentIdea.id
-				    }
+				    },
+				    order: "make,created_at"
 				}, function (e) {
 				    if (e.success) {
-				    	alert("Comentarios encontrados");
+				    	//alert("Comentarios encontrados");
+				    	$.comment.title=e.comments.length;
 			        	for(var i = 0; i < e.comments.length; i++){
 						var commentView = createComment(e.comments[i].text);
 		  				$.content.add(commentView);
@@ -86,7 +90,7 @@ function getCurrentIdea(userId){
 						   	   acl_name: 'commentsACL',
 						   	   user_id: userId
 						   	   };
-						   alert("Hecho");
+						   //alert("Hecho");
 						   Alloy.Globals.Cloud.Objects.create(dict, function (e) {
 							    if (e.success) {
 							    	var main = Alloy.createController('main').getView();
@@ -149,7 +153,6 @@ function findIdea(ideaId){
 	    }
 	});	
 }
-
 
 
 /*Updates the fields votedBy and points(+1) of the currentIdea, and stores the idea in the currentUser profile 
@@ -243,9 +246,10 @@ function noMatch (e) {
 
 function showMenu(e){
     //Displays log message on console
-    Titanium.API.info("Quit terms");
-    var newUser = Alloy.createController('newUser').getView();
-    newUser.open();
+    Titanium.API.info("Menu");
+    Alloy.createController('menu').getView().open();
+    /*var newUser = Alloy.createController('newUser').getView();
+    newUser.open();*/
 };
 
 function comment(e){
