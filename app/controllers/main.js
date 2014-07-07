@@ -52,7 +52,14 @@ function getCurrentIdea(userId){
 	        	$.match.title = String(currentIdea.matches);
 	        	$.noMatch.title = String(currentIdea.noMatches);
 	        	//find authors' data
-	        	$.userName.text = currentIdea.user.first_name +" "+ currentIdea.user.last_name;
+	        	if(currentIdea.user.first_name)
+	        	{
+	        		$.userName.text = currentIdea.user.first_name +" "+ currentIdea.user.last_name;
+	        	}
+	        	else
+	        	{
+	        		$.userName.text = "Sin nombre";
+	        	}
 	        	//Returns all the comments of the specified ideaId
 	        	Alloy.Globals.Cloud.Objects.query({
 				    classname: 'comments',
@@ -243,6 +250,16 @@ function noMatch (e) {
   	alert("Necesitas ideas para votar");
   }
 }
+
+function showProfile(e){
+    //Displays log message on console
+    Titanium.API.info("show profile");
+    Alloy.Globals.userToShow = currentIdea.user.id;
+    Alloy.createController('userProfile').getView().open();
+    
+
+};
+
 
 function showMenu(e){
     //Displays log message on console

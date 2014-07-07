@@ -9,7 +9,7 @@
 				<ImageView id="userImage" image="/images/someImage.png" width="150" height="100" />
 			</View>
 			<View class="smallRow">
-				<Label id="name" color="#900" shadowColor="#aaa" text="Anónimo" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+				<Label id="name" color="#900" shadowColor="#aaa" text="Sin nombre" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
 			</View>
 			<View class="smallRow">
 				<Label id="fb" color="#900" shadowColor="#aaa" text="Facebook" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />

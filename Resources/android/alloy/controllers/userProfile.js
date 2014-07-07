@@ -110,7 +110,7 @@ function Controller() {
         id: "name",
         color: "#900",
         shadowColor: "#aaa",
-        text: "Anónimo",
+        text: "Sin nombre",
         textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
@@ -167,6 +167,13 @@ function Controller() {
     }, function(e) {
         if (e.success) {
             currentUser = e.users[0];
+            currentUser.external_accounts ? Alloy.Globals.Facebook.requestWithGraphPath(currentUser.external_accounts[0].external_id, {}, "GET", function(e) {
+                if (e.success) {
+                    alert(e.result);
+                    $.name.text = e.result.first_name + " " + e.result.last_name;
+                    $.email.text = e.result.email;
+                } else e.error ? alert(e.error) : alert("Unknown response");
+            }) : currentUser.first_name && ($.name.text = currentUser.first_name + " " + currentUser.last_name);
             Alloy.Globals.Cloud.Objects.query({
                 classname: "ideas",
                 where: {

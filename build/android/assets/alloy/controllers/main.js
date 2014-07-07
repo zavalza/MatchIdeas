@@ -35,7 +35,7 @@ function Controller() {
                 $.pitch.text = currentIdea.pitch;
                 $.match.title = String(currentIdea.matches);
                 $.noMatch.title = String(currentIdea.noMatches);
-                $.userName.text = currentIdea.user.first_name + " " + currentIdea.user.last_name;
+                $.userName.text = currentIdea.user.first_name ? currentIdea.user.first_name + " " + currentIdea.user.last_name : "Sin nombre";
                 Alloy.Globals.Cloud.Objects.query({
                     classname: "comments",
                     where: {
@@ -153,6 +153,11 @@ function Controller() {
             });
         } else alert("Necesitas ideas para votar");
     }
+    function showProfile() {
+        Titanium.API.info("show profile");
+        Alloy.Globals.userToShow = currentIdea.user.id;
+        Alloy.createController("userProfile").getView().open();
+    }
     function showMenu() {
         Titanium.API.info("Menu");
         Alloy.createController("menu").getView().open();
@@ -234,6 +239,7 @@ function Controller() {
         height: "100"
     });
     $.__views.__alloyId7.add($.__views.userImage);
+    showProfile ? $.__views.userImage.addEventListener("click", showProfile) : __defers["$.__views.userImage!click!showProfile"] = true;
     $.__views.__alloyId8 = Ti.UI.createView({
         backgroundColor: "white",
         borderColor: "#bbb",
@@ -249,12 +255,12 @@ function Controller() {
         id: "userName",
         color: "#900",
         shadowColor: "#aaa",
-        text: "A simple label",
         textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
     });
     $.__views.__alloyId8.add($.__views.userName);
+    showProfile ? $.__views.userName.addEventListener("click", showProfile) : __defers["$.__views.userName!click!showProfile"] = true;
     $.__views.__alloyId9 = Ti.UI.createView({
         backgroundColor: "white",
         borderColor: "#bbb",
@@ -344,6 +350,8 @@ function Controller() {
     });
     __defers["$.__views.menu!click!showMenu"] && $.__views.menu.addEventListener("click", showMenu);
     __defers["$.__views.newIdea!click!showNewIdea"] && $.__views.newIdea.addEventListener("click", showNewIdea);
+    __defers["$.__views.userImage!click!showProfile"] && $.__views.userImage.addEventListener("click", showProfile);
+    __defers["$.__views.userName!click!showProfile"] && $.__views.userName.addEventListener("click", showProfile);
     __defers["$.__views.match!click!match"] && $.__views.match.addEventListener("click", match);
     __defers["$.__views.comment!click!comment"] && $.__views.comment.addEventListener("click", comment);
     __defers["$.__views.noMatch!click!noMatch"] && $.__views.noMatch.addEventListener("click", noMatch);

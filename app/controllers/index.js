@@ -65,6 +65,7 @@ fb.forceDialogAuth = false; //Uses the native app of Facebook if aviable
 fb.addEventListener('login', function(e) {
     if (e.success) 
     {
+    	
         Alloy.Globals.Cloud.SocialIntegrations.externalAccountLogin({
 		type: 'facebook',
 		token: fb.accessToken
@@ -72,6 +73,8 @@ fb.addEventListener('login', function(e) {
 		if (e.success) {
 		var user = e.users[0];
 		Alloy.Globals.FbUser = user.id;
+		
+	    
 		var main = Alloy.createController('main').getView();
         main.open();
 		} 
@@ -97,38 +100,3 @@ $.index.add(fb.createLoginButton({
     top : 110,
     style : fb.BUTTON_STYLE_WIDE
 }));
-
-
-
-
-
-/*var win = Ti.UI.createWindow({backgroundColor: 'white'});
-var send = Titanium.UI.createButton({
-    title : 'Send',
-    style : Titanium.UI.iPhone.SystemButtonStyle.DONE,
-});
-var cancel = Titanium.UI.createButton({
-    systemButton : Titanium.UI.iPhone.SystemButton.CANCEL
-});
-var flexSpace = Titanium.UI.createButton({
-    systemButton : Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
-});
-
-var textField = Titanium.UI.createTextField({
-    borderStyle : Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
-    hintText : 'correo electrónico',
-    keyboardToolbar : [cancel, flexSpace, send],
-    keyboardToolbarColor : '#999',
-    keyboardToolbarHeight : 40,
-    top : 30,
-    width : 300, height : 35
-});
-
-win.add(textField);
-// Add the Facebook button.  Note that it doesn't need a click event listener.
-win.add(fb.createLoginButton({
-    top : 10,
-    style : fb.BUTTON_STYLE_WIDE
-}));
-
-win.open();*/

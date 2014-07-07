@@ -52,6 +52,32 @@ Alloy.Globals.Cloud.Users.show({
     if (e.success) {
         currentUser = e.users[0];
         //alert(currentUser);
+        if(currentUser.external_accounts)//if user is fb user, get the fb data
+        {
+        	//alert(JSON.stringify(currentUser.external_accounts));
+        	//alert(JSON.stringify(currentUser.external_accounts[0].external_id));
+        	Alloy.Globals.Facebook.requestWithGraphPath(currentUser.external_accounts[0].external_id, {}, 'GET', function(e) {
+			    if (e.success) {
+			    	alert(e.result);
+			        $.name.text = e.result.first_name+ " "+e.result.last_name;
+			        $.email.text = e.result.email;
+			        //$.fb.text = e.result.link; 
+			    } else if (e.error) {
+			        alert(e.error);
+			    } else {
+			        alert('Unknown response');
+			    }
+			});
+        }
+        else
+        {
+        	if(currentUser.first_name)
+	        {
+	        	$.name.text = currentUser.first_name +" "+currentUser.last_name;
+	        }
+        }
+        
+        //alert(currentUser);
         //Returns all the ideas of the specified userId
 		Alloy.Globals.Cloud.Objects.query({
 		    classname: 'ideas',

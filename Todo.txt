@@ -14,3 +14,4 @@
             ((e.error && e.message) || JSON.stringify(e)));
 
 *que en lugar de mi perfil, salga el nombre
+*email, nombre en formato y formas de contacto, cuando se logea con fb
