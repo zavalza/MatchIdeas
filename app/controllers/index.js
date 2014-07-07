@@ -52,7 +52,7 @@ Alloy.Globals.Cloud.Users.showMe(function (e) {
 		else
 		{
 			//we require log in
-			fb.authorize();
+			//fb.authorize();
 			$.index.open();
 		}
     }

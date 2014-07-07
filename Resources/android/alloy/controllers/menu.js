@@ -1,7 +1,7 @@
 function Controller() {
     function showMenu() {
-        Titanium.API.info("Quit terms");
-        Alloy.createController("menu").getView().close();
+        Titanium.API.info("Quit menu");
+        $.win.close();
     }
     function showNewIdea() {
         Titanium.API.info("show new idea");
@@ -10,7 +10,8 @@ function Controller() {
     }
     function showProfile() {
         Titanium.API.info("show profile");
-        Alloy.createController("editProfile").getView().open();
+        Alloy.Globals.userToShow = Alloy.Globals.getUserId();
+        Alloy.createController("userProfile").getView().open();
     }
     function showIdeas() {
         Titanium.API.info("show ideas");
@@ -113,9 +114,6 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var fb = Alloy.Globals.Facebook;
-    fb.appid = 305737346271076;
-    fb.permissions = [ "public_profile" ];
-    fb.forceDialogAuth = false;
     fb.addEventListener("logout", function(e) {
         e.success ? Alloy.createController("index").getView().open() : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
     });

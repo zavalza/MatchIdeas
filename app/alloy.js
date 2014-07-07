@@ -14,6 +14,8 @@ Alloy.Globals.Cloud = require('ti.cloud');
 //Store the ids of currentUser according to used login function
 Alloy.Globals.FbUser = null;
 Alloy.Globals.NormalUser = null;
+//Stores the id of the profile to show
+Alloy.Globals.userToShow = null;
 
 
 Alloy.Globals.getUserId = function(){

@@ -5,3 +5,10 @@
 *guardar usuario Completo como global
 *el scroll al picarle al boton de comment no baja hasta el commentArea
 *hacer un mensaje de error donde diga que verifiques tu conexion a internet y se despliegue en lugar de los alerts
+*esto en fb logout genera error:
+    //alert('Logged out');
+     if (e.success) {
+        Alloy.createController('index').getView().open();
+    } else {
+        alert('Error:\n' +
+            ((e.error && e.message) || JSON.stringify(e)));

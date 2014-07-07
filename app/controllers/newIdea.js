@@ -11,8 +11,7 @@ function showMenu(e){
 function closeNewIdea(e){
     //Displays log message on console
     Titanium.API.info("close new idea");
-    var  main= Alloy.createController('main').getView();
-    main.open();
+    $.win.close();
 };
 
 

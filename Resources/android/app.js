@@ -8,6 +8,8 @@ Alloy.Globals.FbUser = null;
 
 Alloy.Globals.NormalUser = null;
 
+Alloy.Globals.userToShow = null;
+
 Alloy.Globals.getUserId = function() {
     if (Alloy.Globals.Facebook.loggedIn) return Alloy.Globals.FbUser;
     Alloy.Globals.Cloud.Users.showMe(function(e) {

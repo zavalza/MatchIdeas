@@ -6,8 +6,7 @@ function Controller() {
     }
     function closeNewIdea() {
         Titanium.API.info("close new idea");
-        var main = Alloy.createController("main").getView();
-        main.open();
+        $.win.close();
     }
     function done() {
         Titanium.API.info("Quit terms");

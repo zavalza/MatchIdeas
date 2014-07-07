@@ -1,9 +1,7 @@
 function showMenu(e){
     //Displays log message on console
-    Titanium.API.info("Quit terms");
-    Alloy.createController('menu').getView().close();
-    /*var newUser = Alloy.createController('newUser').getView();
-    newUser.open();*/
+    Titanium.API.info("Quit menu");
+    $.win.close();
 };
 
 
@@ -17,7 +15,9 @@ function showNewIdea(e){
 function showProfile(e){
     //Displays log message on console
     Titanium.API.info("show profile");
-    Alloy.createController('editProfile').getView().open();
+    Alloy.Globals.userToShow = Alloy.Globals.getUserId();
+    Alloy.createController('userProfile').getView().open();
+    
 
 };
 
@@ -28,9 +28,9 @@ function showIdeas(e){
 };
 
 var fb = Alloy.Globals.Facebook;
-fb.appid = 305737346271076;
+/*fb.appid = 305737346271076;
 fb.permissions = ['public_profile']; // Permissions your app needs
-fb.forceDialogAuth = false; //Uses the native app of Facebook if aviable
+fb.forceDialogAuth = false; //Uses the native app of Facebook if aviable*/
 fb.addEventListener('logout', function(e) {
     //alert('Logged out');
     if (e.success) {
@@ -42,12 +42,14 @@ fb.addEventListener('logout', function(e) {
       }
 });
 
+
 if(fb.loggedIn)
 {
 	$.content.add(fb.createLoginButton({
     top : 10,
     style : fb.BUTTON_STYLE_WIDE
 	}));
+	//fb.logout();
 }
 else
 {
@@ -59,6 +61,8 @@ else
 	});
 	button.addEventListener('click',function(e)
 	{
+		
+		//Alloy.createController('index').getView().open();
 	   Alloy.Globals.Cloud.Users.logout(function (e) {
 		    if (e.success) {
 		        Alloy.createController('index').getView().open();

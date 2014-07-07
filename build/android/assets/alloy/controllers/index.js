@@ -109,10 +109,7 @@ function Controller() {
         } else if (fb.loggedIn) {
             var main = Alloy.createController("main").getView();
             main.open();
-        } else {
-            fb.authorize();
-            $.index.open();
-        }
+        } else $.index.open();
     });
     fb.appid = 305737346271076;
     fb.permissions = [ "public_profile" ];
