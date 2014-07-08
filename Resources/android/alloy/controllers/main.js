@@ -190,14 +190,14 @@ function Controller() {
         id: "win"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    $.__views.__alloyId6 = Ti.UI.createView({
+    $.__views.__alloyId11 = Ti.UI.createView({
         backgroundColor: "darkgray",
         top: 0,
         width: Titanium.UI.FILL,
         height: 100,
-        id: "__alloyId6"
+        id: "__alloyId11"
     });
-    $.__views.win.add($.__views.__alloyId6);
+    $.__views.win.add($.__views.__alloyId11);
     $.__views.menu = Ti.UI.createButton({
         id: "menu",
         backgroundImage: "/images/menuIcon.png",
@@ -207,7 +207,7 @@ function Controller() {
         backgroundColor: "white",
         left: "5"
     });
-    $.__views.__alloyId6.add($.__views.menu);
+    $.__views.__alloyId11.add($.__views.menu);
     showMenu ? $.__views.menu.addEventListener("click", showMenu) : __defers["$.__views.menu!click!showMenu"] = true;
     $.__views.newIdea = Ti.UI.createButton({
         id: "newIdea",
@@ -217,7 +217,7 @@ function Controller() {
         height: "50",
         backgroundColor: "white"
     });
-    $.__views.__alloyId6.add($.__views.newIdea);
+    $.__views.__alloyId11.add($.__views.newIdea);
     showNewIdea ? $.__views.newIdea.addEventListener("click", showNewIdea) : __defers["$.__views.newIdea!click!showNewIdea"] = true;
     $.__views.content = Ti.UI.createScrollView({
         id: "content",
@@ -228,35 +228,32 @@ function Controller() {
         showVerticalScrollIndicator: "true"
     });
     $.__views.win.add($.__views.content);
-    $.__views.__alloyId7 = Ti.UI.createView({
+    $.__views.__alloyId12 = Ti.UI.createView({
         backgroundColor: "white",
-        borderWidth: 0,
         width: "100%",
         height: 150,
         top: 0,
         left: 0,
-        id: "__alloyId7"
+        id: "__alloyId12"
     });
-    $.__views.content.add($.__views.__alloyId7);
+    $.__views.content.add($.__views.__alloyId12);
     $.__views.userImage = Ti.UI.createImageView({
         id: "userImage",
         image: "/images/someImage.png",
         width: "150",
         height: "100"
     });
-    $.__views.__alloyId7.add($.__views.userImage);
+    $.__views.__alloyId12.add($.__views.userImage);
     showProfile ? $.__views.userImage.addEventListener("click", showProfile) : __defers["$.__views.userImage!click!showProfile"] = true;
-    $.__views.__alloyId8 = Ti.UI.createView({
+    $.__views.__alloyId13 = Ti.UI.createView({
         backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
         width: "100%",
         height: 70,
         top: 0,
         left: 0,
-        id: "__alloyId8"
+        id: "__alloyId13"
     });
-    $.__views.content.add($.__views.__alloyId8);
+    $.__views.content.add($.__views.__alloyId13);
     $.__views.userName = Ti.UI.createLabel({
         id: "userName",
         color: "#900",
@@ -265,19 +262,17 @@ function Controller() {
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
     });
-    $.__views.__alloyId8.add($.__views.userName);
+    $.__views.__alloyId13.add($.__views.userName);
     showProfile ? $.__views.userName.addEventListener("click", showProfile) : __defers["$.__views.userName!click!showProfile"] = true;
-    $.__views.__alloyId9 = Ti.UI.createView({
+    $.__views.__alloyId14 = Ti.UI.createView({
         backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
         width: "100%",
         height: 70,
         top: 0,
         left: 0,
-        id: "__alloyId9"
+        id: "__alloyId14"
     });
-    $.__views.content.add($.__views.__alloyId9);
+    $.__views.content.add($.__views.__alloyId14);
     $.__views.pitch = Ti.UI.createLabel({
         text: "",
         id: "pitch",
@@ -286,15 +281,15 @@ function Controller() {
         width: "200",
         height: "200"
     });
-    $.__views.__alloyId9.add($.__views.pitch);
-    $.__views.__alloyId10 = Ti.UI.createView({
+    $.__views.__alloyId14.add($.__views.pitch);
+    $.__views.__alloyId15 = Ti.UI.createView({
         backgroundColor: "white",
         bottom: 0,
         width: Titanium.UI.FILL,
         height: 50,
-        id: "__alloyId10"
+        id: "__alloyId15"
     });
-    $.__views.win.add($.__views.__alloyId10);
+    $.__views.win.add($.__views.__alloyId15);
     $.__views.match = Ti.UI.createButton({
         id: "match",
         backgroundImage: "/images/like.png",
@@ -304,7 +299,7 @@ function Controller() {
         backgroundColor: "green",
         left: "50"
     });
-    $.__views.__alloyId10.add($.__views.match);
+    $.__views.__alloyId15.add($.__views.match);
     match ? $.__views.match.addEventListener("click", match) : __defers["$.__views.match!click!match"] = true;
     $.__views.comment = Ti.UI.createButton({
         id: "comment",
@@ -314,7 +309,7 @@ function Controller() {
         height: "50",
         backgroundColor: "white"
     });
-    $.__views.__alloyId10.add($.__views.comment);
+    $.__views.__alloyId15.add($.__views.comment);
     comment ? $.__views.comment.addEventListener("click", comment) : __defers["$.__views.comment!click!comment"] = true;
     $.__views.noMatch = Ti.UI.createButton({
         id: "noMatch",
@@ -325,7 +320,7 @@ function Controller() {
         backgroundColor: "red",
         right: "50"
     });
-    $.__views.__alloyId10.add($.__views.noMatch);
+    $.__views.__alloyId15.add($.__views.noMatch);
     noMatch ? $.__views.noMatch.addEventListener("click", noMatch) : __defers["$.__views.noMatch!click!noMatch"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);

@@ -70,8 +70,7 @@ fb.addEventListener('login', function(e) {
 });
 
 
-$.index.add(fb.createLoginButton({
-    top : 110,
+$.fbLogin.add(fb.createLoginButton({
     style : fb.BUTTON_STYLE_WIDE
 }));
 

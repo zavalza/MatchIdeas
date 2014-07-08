@@ -301,7 +301,7 @@ if(Alloy.Globals.ideaToShow != null)
 }
 else
 {
-	getCurrentIdea(currentUser);;
+	getCurrentIdea(currentUser);
 }
 
 

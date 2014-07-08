@@ -1,16 +1,33 @@
 <Alloy>
 	<Window class="container">
-			<View id="mainView">
-				<ImageView id="logo" image="/images/logoMatchIdeas.png" top="10" width="150" height="100" />
-		        <TextField id="firstName" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="150" left="10" width="300" height="35" hintText= 'Nombre'/>
-				<TextField id="lastName" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="180" left="10" width="300" height="35" hintText= 'Apellido'/>
-				<TextField id="email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="210" left="10" width="300" height="35" hintText= 'Correo electrónico'/>
-				<TextField id="password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="240" left="10" width="300" height="35" hintText= 'Contraseña'/>
-				<TextField id="passwordConfirmation" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="270" left="10" width="300" height="35" hintText= 'Confirma contraseña'/>
-				<Button id="createUser" onClick="createUser" title="Registrarme"
-				top="300" width="150" height="50"/>
-				<Button id="terms" onClick="terms" title="Terminos y condiciones"
-				top="350" width="200" height="50" backgroundColor="white" color="black"/>
-			</View>
+			<ScrollView id="content" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+				<View id="header" class="bigRow">
+					<ImageView id="logo" image="/images/logoMatchIdeas.png" width="180" height="120" />
+				</View>
+				<View id="fbLogin" class="smallRow"/>
+				<View class="smallRow">
+		        	<TextField id="firstName" class="sansPro input"  color="#336699"   width="80%" height="35" hintText= 'Nombre'/>
+				</View>
+				<View class="smallRow">
+					<TextField id="lastName" class="sansPro input"  color="#336699"   width="80%" height="35" hintText= 'Apellido'/>
+				</View>
+				<View class="smallRow">
+					<TextField id="email" class="sansPro input"  color="#336699"   width="80%" height="35" hintText= 'Correo electrónico'/>
+				</View>
+				<View class="smallRow">
+					<TextField id="password" class="sansPro input" passwordMask="true" color="#336699"  width="80%" height="35" hintText= 'Contraseña'/>
+				</View>
+				<View class="smallRow">
+					<TextField id="passwordConfirmation" class="sansPro input"  passwordMask="true" color="#336699"  width="80%" height="35" hintText= 'Confirma contraseña'/>
+				</View>
+				<View class="row">
+					<Button id="createUser" onClick="createUser" title="Registrarme"
+					width="150" height="50"/>
+				</View>
+				<View class="row">
+					<Button id="terms" class="sansPro" onClick="terms" title="TERMINOS Y CONDICIONES"
+	       			 width="200" height="50" backgroundColor="white" color="black"/>
+	       		</View>
+			</ScrollView>
 	</Window>
 </Alloy>

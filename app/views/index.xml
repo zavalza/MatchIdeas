@@ -1,13 +1,26 @@
 <Alloy>
 	<Window class="container">
-		<ImageView id="logo" image="/images/logoMatchIdeas.png" top="10" width="150" height="100" />
-        <TextField id="email" autocorrect="false" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="150" left="10" width="300" height="35" hintText= 'correo electrónico'/>
-		<TextField id="password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="180" left="10" width="300" height="35" hintText= 'password'/>
-		<Button id="tryLogin" onClick="tryLogin" title="Entrar"
-            top="210" width="130" height="50" left="20" />
-        <Button id="newUser" onClick="newUserForm" title="Registrarme"
-        top="210" width="130" height="50" right="20" />
-        <Button id="terms" onClick="terms" title="Terminos y condiciones"
-        top="260" width="200" height="50" backgroundColor="white" color="black"/>
+		<ScrollView id="content" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+		<View class="bigRow">
+			<ImageView id="logo" image="/images/logoMatchIdeas.png" width="180" height="120" />
+        </View>
+        <View id="fbLogin" class="smallRow"/>
+        <View class="smallRow">
+        	<TextField id="email" class="sansPro input" autocorrect="false"  color="#336699"  width="70%" height="35" hintText= 'correo electrónico'/>
+		</View>
+		<View class="smallRow">
+			<TextField id="password" class="sansPro input"  passwordMask="true" borderColor="#e9e9e9" borderWidth="2" borderRadius="5" color="#336699"  width="70%" height="35" hintText= 'contraseña'/>
+		</View>
+		<View class="row">
+			<Button id="tryLogin" onClick="tryLogin" title="Entrar"
+	             width="130" height="50" left="20" />
+	        <Button id="newUser" onClick="newUserForm" title="Registrarme"
+	         width="130" height="50" right="20" />
+        </View>
+        <View class="row">
+	        <Button id="terms" class="sansPro" onClick="terms" title="TERMINOS Y CONDICIONES"
+	         width="200" height="50" backgroundColor="white" color="black"/>
+        </View>
+        </ScrollView>
 	</Window>
 </Alloy>

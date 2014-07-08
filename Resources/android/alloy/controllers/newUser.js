@@ -34,94 +34,175 @@ function Controller() {
         id: "newUser"
     });
     $.__views.newUser && $.addTopLevelView($.__views.newUser);
-    $.__views.mainView = Ti.UI.createView({
-        id: "mainView"
+    $.__views.content = Ti.UI.createScrollView({
+        id: "content",
+        contentHeight: "auto",
+        layout: "vertical",
+        showVerticalScrollIndicator: "true"
     });
-    $.__views.newUser.add($.__views.mainView);
+    $.__views.newUser.add($.__views.content);
+    $.__views.header = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: 150,
+        top: 0,
+        left: 0,
+        id: "header"
+    });
+    $.__views.content.add($.__views.header);
     $.__views.logo = Ti.UI.createImageView({
         id: "logo",
         image: "/images/logoMatchIdeas.png",
-        top: "10",
-        width: "150",
-        height: "100"
+        width: "180",
+        height: "120"
     });
-    $.__views.mainView.add($.__views.logo);
+    $.__views.header.add($.__views.logo);
+    $.__views.fbLogin = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: 40,
+        top: 0,
+        left: 0,
+        id: "fbLogin"
+    });
+    $.__views.content.add($.__views.fbLogin);
+    $.__views.__alloyId25 = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: 40,
+        top: 0,
+        left: 0,
+        id: "__alloyId25"
+    });
+    $.__views.content.add($.__views.__alloyId25);
     $.__views.firstName = Ti.UI.createTextField({
+        borderColor: "#e9e9e9",
+        borderWidth: "2",
+        borderRadius: "5",
         id: "firstName",
-        borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         color: "#336699",
-        top: "150",
-        left: "10",
-        width: "300",
+        width: "80%",
         height: "35",
         hintText: "Nombre"
     });
-    $.__views.mainView.add($.__views.firstName);
+    $.__views.__alloyId25.add($.__views.firstName);
+    $.__views.__alloyId26 = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: 40,
+        top: 0,
+        left: 0,
+        id: "__alloyId26"
+    });
+    $.__views.content.add($.__views.__alloyId26);
     $.__views.lastName = Ti.UI.createTextField({
+        borderColor: "#e9e9e9",
+        borderWidth: "2",
+        borderRadius: "5",
         id: "lastName",
-        borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         color: "#336699",
-        top: "180",
-        left: "10",
-        width: "300",
+        width: "80%",
         height: "35",
         hintText: "Apellido"
     });
-    $.__views.mainView.add($.__views.lastName);
+    $.__views.__alloyId26.add($.__views.lastName);
+    $.__views.__alloyId27 = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: 40,
+        top: 0,
+        left: 0,
+        id: "__alloyId27"
+    });
+    $.__views.content.add($.__views.__alloyId27);
     $.__views.email = Ti.UI.createTextField({
+        borderColor: "#e9e9e9",
+        borderWidth: "2",
+        borderRadius: "5",
         id: "email",
-        borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         color: "#336699",
-        top: "210",
-        left: "10",
-        width: "300",
+        width: "80%",
         height: "35",
         hintText: "Correo electrónico"
     });
-    $.__views.mainView.add($.__views.email);
+    $.__views.__alloyId27.add($.__views.email);
+    $.__views.__alloyId28 = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: 40,
+        top: 0,
+        left: 0,
+        id: "__alloyId28"
+    });
+    $.__views.content.add($.__views.__alloyId28);
     $.__views.password = Ti.UI.createTextField({
+        borderColor: "#e9e9e9",
+        borderWidth: "2",
+        borderRadius: "5",
         id: "password",
-        borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         passwordMask: "true",
         color: "#336699",
-        top: "240",
-        left: "10",
-        width: "300",
+        width: "80%",
         height: "35",
         hintText: "Contraseña"
     });
-    $.__views.mainView.add($.__views.password);
+    $.__views.__alloyId28.add($.__views.password);
+    $.__views.__alloyId29 = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: 40,
+        top: 0,
+        left: 0,
+        id: "__alloyId29"
+    });
+    $.__views.content.add($.__views.__alloyId29);
     $.__views.passwordConfirmation = Ti.UI.createTextField({
+        borderColor: "#e9e9e9",
+        borderWidth: "2",
+        borderRadius: "5",
         id: "passwordConfirmation",
-        borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         passwordMask: "true",
         color: "#336699",
-        top: "270",
-        left: "10",
-        width: "300",
+        width: "80%",
         height: "35",
         hintText: "Confirma contraseña"
     });
-    $.__views.mainView.add($.__views.passwordConfirmation);
+    $.__views.__alloyId29.add($.__views.passwordConfirmation);
+    $.__views.__alloyId30 = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
+        id: "__alloyId30"
+    });
+    $.__views.content.add($.__views.__alloyId30);
     $.__views.createUser = Ti.UI.createButton({
         id: "createUser",
         title: "Registrarme",
-        top: "300",
         width: "150",
         height: "50"
     });
-    $.__views.mainView.add($.__views.createUser);
+    $.__views.__alloyId30.add($.__views.createUser);
     createUser ? $.__views.createUser.addEventListener("click", createUser) : __defers["$.__views.createUser!click!createUser"] = true;
+    $.__views.__alloyId31 = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: 70,
+        top: 0,
+        left: 0,
+        id: "__alloyId31"
+    });
+    $.__views.content.add($.__views.__alloyId31);
     $.__views.terms = Ti.UI.createButton({
         id: "terms",
-        title: "Terminos y condiciones",
-        top: "350",
+        title: "TERMINOS Y CONDICIONES",
         width: "200",
         height: "50",
         backgroundColor: "white",
         color: "black"
     });
-    $.__views.mainView.add($.__views.terms);
+    $.__views.__alloyId31.add($.__views.terms);
     terms ? $.__views.terms.addEventListener("click", terms) : __defers["$.__views.terms!click!terms"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
@@ -145,8 +226,7 @@ function Controller() {
         } else e.error ? alert(e.error) : e.cancelled && alert("Canceled");
     });
     fb.authorize();
-    $.mainView.add(fb.createLoginButton({
-        top: 110,
+    $.fbLogin.add(fb.createLoginButton({
         style: fb.BUTTON_STYLE_WIDE
     }));
     __defers["$.__views.createUser!click!createUser"] && $.__views.createUser.addEventListener("click", createUser);

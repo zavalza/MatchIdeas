@@ -60,8 +60,6 @@ fb.addEventListener('login', function(e) {
         alert("Canceled");
     }
 });
-fb.authorize();
-$.mainView.add(fb.createLoginButton({
-    top : 110,
+$.fbLogin.add(fb.createLoginButton({
     style : fb.BUTTON_STYLE_WIDE
 }));

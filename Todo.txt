@@ -16,4 +16,5 @@
 *email, nombre en formato y formas de contacto, cuando se logea con fb
 *bug 	//Se puede comentar, entonces se pierde la idea
 	Alloy.Globals.ideaToShow = null;
-*Terminar el edit
+*Terminar el edit: 
+
