@@ -2,13 +2,15 @@
 	<Window class="container">
 			<View id="mainView">
 				<ImageView id="logo" image="/images/logoMatchIdeas.png" top="10" width="150" height="100" />
-		        <TextField id="email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="150" left="10" width="300" height="35" hintText= 'Correo electrónico'/>
-				<TextField id="password" autocorrect="false" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="180" left="10" width="300" height="35" hintText= 'Contraseña'/>
-				<TextField id="passwordConfirmation" autocorrect="false" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="210" left="10" width="300" height="35" hintText= 'Confirma contraseña'/>
-		        <Button id="createUser" onClick="createUser" title="Registrarme"
-		        top="300" width="150" height="50"/>
-		        <Button id="terms" onClick="terms" title="Terminos y condiciones"
-		        top="350" width="200" height="50" backgroundColor="white" color="black"/>
+		        <TextField id="firstName" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="150" left="10" width="300" height="35" hintText= 'Nombre'/>
+				<TextField id="lastName" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="180" left="10" width="300" height="35" hintText= 'Apellido'/>
+				<TextField id="email" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" color="#336699" top="210" left="10" width="300" height="35" hintText= 'Correo electrónico'/>
+				<TextField id="password" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="240" left="10" width="300" height="35" hintText= 'Contraseña'/>
+				<TextField id="passwordConfirmation" borderStyle="Ti.UI.INPUT_BORDERSTYLE_ROUNDED" passwordMask="true" color="#336699" top="270" left="10" width="300" height="35" hintText= 'Confirma contraseña'/>
+				<Button id="createUser" onClick="createUser" title="Registrarme"
+				top="300" width="150" height="50"/>
+				<Button id="terms" onClick="terms" title="Terminos y condiciones"
+				top="350" width="200" height="50" backgroundColor="white" color="black"/>
 			</View>
 	</Window>
 </Alloy>

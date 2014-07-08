@@ -32,56 +32,7 @@ function Controller() {
         }, function(e) {
             if (e.success) if (null != e.ideas[0]) {
                 currentIdea = e.ideas[0];
-                $.pitch.text = currentIdea.pitch;
-                $.match.title = String(currentIdea.matches);
-                $.noMatch.title = String(currentIdea.noMatches);
-                $.userName.text = currentIdea.user.first_name ? currentIdea.user.first_name + " " + currentIdea.user.last_name : "Sin nombre";
-                Alloy.Globals.Cloud.Objects.query({
-                    classname: "comments",
-                    where: {
-                        ideaId: currentIdea.id
-                    },
-                    order: "make,created_at"
-                }, function(e) {
-                    if (e.success) {
-                        $.comment.title = e.comments.length;
-                        for (var i = 0; e.comments.length > i; i++) {
-                            var commentView = createComment(e.comments[i].text);
-                            $.content.add(commentView);
-                        }
-                        var commentArea = Titanium.UI.createTextArea({
-                            id: "comment",
-                            borderStyle: Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
-                            hintText: "Nuevo comentario...",
-                            color: "black",
-                            textAlign: "left",
-                            returnKeyType: Ti.UI.RETURNKEY_DONE,
-                            width: "80%",
-                            height: 100
-                        });
-                        commentArea.addEventListener("return", function() {
-                            var textComment = commentArea.value;
-                            var userId = Alloy.Globals.getUserId();
-                            var dict = {
-                                classname: "comments",
-                                fields: {
-                                    text: textComment,
-                                    ideaId: currentIdea.id
-                                },
-                                acl_name: "commentsACL",
-                                user_id: userId
-                            };
-                            Alloy.Globals.Cloud.Objects.create(dict, function(e) {
-                                if (e.success) {
-                                    var main = Alloy.createController("main").getView();
-                                    main.open();
-                                } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
-                            });
-                        });
-                        newComment.add(commentArea);
-                        $.content.add(newComment);
-                    } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
-                });
+                fillData();
             } else {
                 $.pitch.text = "No hay ideas";
                 $.match.title = "0";
@@ -98,7 +49,10 @@ function Controller() {
                 id: ideaId
             }
         }, function(e) {
-            e.success ? currentIdea = e.ideas[0] : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+            if (e.success) {
+                currentIdea = e.ideas[0];
+                fillData();
+            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
         });
     }
     function match() {
@@ -157,6 +111,58 @@ function Controller() {
         Titanium.API.info("show profile");
         Alloy.Globals.userToShow = currentIdea.user.id;
         Alloy.createController("userProfile").getView().open();
+    }
+    function fillData() {
+        $.pitch.text = currentIdea.pitch;
+        $.match.title = String(currentIdea.matches);
+        $.noMatch.title = String(currentIdea.noMatches);
+        $.userName.text = currentIdea.user.first_name ? currentIdea.user.first_name + " " + currentIdea.user.last_name : "Sin nombre";
+        Alloy.Globals.Cloud.Objects.query({
+            classname: "comments",
+            where: {
+                ideaId: currentIdea.id
+            },
+            order: "make,created_at"
+        }, function(e) {
+            if (e.success) {
+                $.comment.title = e.comments.length;
+                for (var i = 0; e.comments.length > i; i++) {
+                    var commentView = createComment(e.comments[i].text);
+                    $.content.add(commentView);
+                }
+                var commentArea = Titanium.UI.createTextArea({
+                    id: "comment",
+                    borderStyle: Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
+                    hintText: "Nuevo comentario...",
+                    color: "black",
+                    textAlign: "left",
+                    returnKeyType: Ti.UI.RETURNKEY_DONE,
+                    width: "80%",
+                    height: 100
+                });
+                commentArea.addEventListener("return", function() {
+                    var textComment = commentArea.value;
+                    var userId = Alloy.Globals.getUserId();
+                    var dict = {
+                        classname: "comments",
+                        fields: {
+                            text: textComment,
+                            ideaId: currentIdea.id
+                        },
+                        acl_name: "commentsACL",
+                        user_id: userId
+                    };
+                    Alloy.Globals.Cloud.Objects.create(dict, function(e) {
+                        if (e.success) {
+                            var main = Alloy.createController("main").getView();
+                            main.open();
+                        } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                    });
+                });
+                newComment.add(commentArea);
+                $.content.add(newComment);
+            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+        });
     }
     function showMenu() {
         Titanium.API.info("Menu");
@@ -339,15 +345,11 @@ function Controller() {
         left: 0
     });
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
-    if (Alloy.Globals.Facebook.loggedIn) {
-        currentUser = Alloy.Globals.FbUser;
-        getCurrentIdea(currentUser);
-    } else Alloy.Globals.Cloud.Users.showMe(function(e) {
-        if (e.success) {
-            currentUser = e.users[0].id;
-            getCurrentIdea(currentUser);
-        } else alert("Algo estuvo mal, no pudimos obtener ideas");
-    });
+    currentUser = Alloy.Globals.getUserId();
+    if (null != Alloy.Globals.ideaToShow) {
+        findIdea(Alloy.Globals.ideaToShow);
+        Alloy.Globals.ideaToShow = null;
+    } else getCurrentIdea(currentUser);
     __defers["$.__views.menu!click!showMenu"] && $.__views.menu.addEventListener("click", showMenu);
     __defers["$.__views.newIdea!click!showNewIdea"] && $.__views.newIdea.addEventListener("click", showNewIdea);
     __defers["$.__views.userImage!click!showProfile"] && $.__views.userImage.addEventListener("click", showProfile);

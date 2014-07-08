@@ -2,7 +2,6 @@
 *Corregir/borrar las lineas para saber si ya está logeado el usuario
 *Verificar si el correo de un usuario de facebook ya fue usado en la forma tradicional de login
 *cambiar la manera en que se está calculando la variable de Alloy.Globals.FbUser, porque solo se calcula una vez y luego se pierde cuando retomamos la sesión
-*guardar usuario Completo como global
 *el scroll al picarle al boton de comment no baja hasta el commentArea
 *hacer un mensaje de error donde diga que verifiques tu conexion a internet y se despliegue en lugar de los alerts
 *esto en fb logout genera error:
@@ -14,3 +13,6 @@
             ((e.error && e.message) || JSON.stringify(e)));
 
 *que en lugar de mi perfil, salga el nombre
+*email, nombre en formato y formas de contacto, cuando se logea con fb
+*bug 	//Se puede comentar, entonces se pierde la idea
+	Alloy.Globals.ideaToShow = null;

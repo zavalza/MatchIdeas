@@ -48,78 +48,7 @@ function getCurrentIdea(userId){
 	    	if(e.ideas[0] != null)
 	    	{
 	    		currentIdea = e.ideas[0];
-	        	$.pitch.text = currentIdea.pitch;
-	        	$.match.title = String(currentIdea.matches);
-	        	$.noMatch.title = String(currentIdea.noMatches);
-	        	//find authors' data
-	        	if(currentIdea.user.first_name)
-	        	{
-	        		$.userName.text = currentIdea.user.first_name +" "+ currentIdea.user.last_name;
-	        	}
-	        	else
-	        	{
-	        		$.userName.text = "Sin nombre";
-	        	}
-	        	//Returns all the comments of the specified ideaId
-	        	Alloy.Globals.Cloud.Objects.query({
-				    classname: 'comments',
-				    where: {
-				        ideaId: currentIdea.id
-				    },
-				    order: "make,created_at"
-				}, function (e) {
-				    if (e.success) {
-				    	//alert("Comentarios encontrados");
-				    	$.comment.title=e.comments.length;
-			        	for(var i = 0; i < e.comments.length; i++){
-						var commentView = createComment(e.comments[i].text);
-		  				$.content.add(commentView);
-						}
-						var commentArea = Titanium.UI.createTextArea({
-						id: 'comment',
-					    borderStyle : Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
-					    hintText : 'Nuevo comentario...',
-					    color: 'black',
-					    textAlign: 'left',
-					    returnKeyType: Ti.UI.RETURNKEY_DONE,
-					    width : '80%', height : 100
-						});
-						
-						commentArea.addEventListener('return',function(e)
-						{
-							var textComment = commentArea.value;
-							var userId = Alloy.Globals.getUserId();
-							var dict = {
-					    	classname: 'comments',
-						   	   fields: {text: textComment, 
-						   	   			ideaId: currentIdea.id,
-						   	   		},
-						   	   acl_name: 'commentsACL',
-						   	   user_id: userId
-						   	   };
-						   //alert("Hecho");
-						   Alloy.Globals.Cloud.Objects.create(dict, function (e) {
-							    if (e.success) {
-							    	var main = Alloy.createController('main').getView();
-		    						main.open();
-							   		
-							    } else {
-									//Posible funcion para guardar en base de datos
-							        alert('Error:\n' +
-							            ((e.error && e.message) || JSON.stringify(e)));
-							    }
-							});
-				   
-						});
-						newComment.add(commentArea);
-						$.content.add(newComment);
-					    } else {
-					        alert('Error:\n' +
-					            ((e.error && e.message) || JSON.stringify(e)));
-					    }
-					});	
-	    		
-				
+	    		fillData();
 	    	}
 	        	
 	        else
@@ -154,6 +83,7 @@ function findIdea(ideaId){
 	}, function (e) {
 	    if (e.success) {
 	        currentIdea = e.ideas[0];
+	        fillData();
 	    } else {
 	        alert('Error:\n' +
 	            ((e.error && e.message) || JSON.stringify(e)));
@@ -260,6 +190,80 @@ function showProfile(e){
 
 };
 
+//fills Data once currentIdea (ideaToShow) is defined
+function fillData(e){
+	$.pitch.text = currentIdea.pitch;
+	$.match.title = String(currentIdea.matches);
+	$.noMatch.title = String(currentIdea.noMatches);
+	//find authors' data
+	if(currentIdea.user.first_name)
+	{
+		$.userName.text = currentIdea.user.first_name +" "+ currentIdea.user.last_name;
+	}
+	else
+	{
+		$.userName.text = "Sin nombre";
+	}
+	//Returns all the comments of the specified ideaId
+	Alloy.Globals.Cloud.Objects.query({
+	    classname: 'comments',
+	    where: {
+	        ideaId: currentIdea.id
+	    },
+	    order: "make,created_at"
+	}, function (e) {
+	    if (e.success) {
+	    	//alert("Comentarios encontrados");
+	    	$.comment.title=e.comments.length;
+	    	for(var i = 0; i < e.comments.length; i++){
+			var commentView = createComment(e.comments[i].text);
+			$.content.add(commentView);
+			}
+			var commentArea = Titanium.UI.createTextArea({
+			id: 'comment',
+		    borderStyle : Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
+		    hintText : 'Nuevo comentario...',
+		    color: 'black',
+		    textAlign: 'left',
+		    returnKeyType: Ti.UI.RETURNKEY_DONE,
+		    width : '80%', height : 100
+			});
+			
+			commentArea.addEventListener('return',function(e)
+			{
+				var textComment = commentArea.value;
+				var userId = Alloy.Globals.getUserId();
+				var dict = {
+		    	classname: 'comments',
+			   	   fields: {text: textComment, 
+			   	   			ideaId: currentIdea.id,
+			   	   		},
+			   	   acl_name: 'commentsACL',
+			   	   user_id: userId
+			   	   };
+			   //alert("Hecho");
+			   Alloy.Globals.Cloud.Objects.create(dict, function (e) {
+				    if (e.success) {
+				    	var main = Alloy.createController('main').getView();
+						main.open();
+				   		
+				    } else {
+						//Posible funcion para guardar en base de datos
+				        alert('Error:\n' +
+				            ((e.error && e.message) || JSON.stringify(e)));
+				    }
+				});
+	   
+			});
+			newComment.add(commentArea);
+			$.content.add(newComment);
+		    } else {
+		        alert('Error:\n' +
+		            ((e.error && e.message) || JSON.stringify(e)));
+		    }
+		});	
+}
+
 
 function showMenu(e){
     //Displays log message on console
@@ -288,25 +292,18 @@ if (Ti.UI.Android){
 }
 
 //Get current User id
-if(Alloy.Globals.Facebook.loggedIn)
+currentUser = Alloy.Globals.getUserId();
+if(Alloy.Globals.ideaToShow != null)
 {
-	currentUser = Alloy.Globals.FbUser;
-	getCurrentIdea(currentUser);
+	findIdea(Alloy.Globals.ideaToShow);
+	//Se puede comentar, entonces se pierde la idea
+	Alloy.Globals.ideaToShow = null;
 }
-else{
-	Alloy.Globals.Cloud.Users.showMe(function (e) {
-    if (e.success) 
-    {
-         currentUser = e.users[0].id;
-         getCurrentIdea(currentUser);
-         
-    } 
-    else
-    {
-    	alert("Algo estuvo mal, no pudimos obtener ideas");
-    }
- 	});
+else
+{
+	getCurrentIdea(currentUser);;
 }
+
 
 
 

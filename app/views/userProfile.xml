@@ -11,12 +11,7 @@
 			<View class="smallRow">
 				<Label id="name" color="#900" shadowColor="#aaa" text="Sin nombre" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
 			</View>
-			<View class="smallRow">
-				<Label id="fb" color="#900" shadowColor="#aaa" text="Facebook" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
-			</View>
-			<View class="smallRow">
-				<Label id="email" color="#900" shadowColor="#aaa" text="zse.paul@gmail.com" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
-			</View>
+			<View class="row" id="networks" />
     	</ScrollView>
 	</Window>
 </Alloy>

@@ -33,32 +33,6 @@ function terms(e){
 
 
 var fb  = Alloy.Globals.Facebook;
-
-//Check if user is logged in
-Alloy.Globals.Cloud.Users.showMe(function (e) {
-    if (e.success) 
-    {//User is logged with email
-        var main = Alloy.createController('main').getView();
-        main.open();
-    } 
-    else
-    { 
-		 if(fb.loggedIn)
-		{
-			//user is logged with facebook
-			var main = Alloy.createController('main').getView();
-		        main.open();
-		}
-		else
-		{
-			//we require log in
-			//fb.authorize();
-			$.index.open();
-		}
-    }
-});
-
-
 fb.appid = 305737346271076;
 fb.permissions = ['public_profile']; // Permissions your app needs
 fb.forceDialogAuth = false; //Uses the native app of Facebook if aviable
@@ -100,3 +74,28 @@ $.index.add(fb.createLoginButton({
     top : 110,
     style : fb.BUTTON_STYLE_WIDE
 }));
+
+
+//Check if user is logged in
+Alloy.Globals.Cloud.Users.showMe(function (e) {
+    if (e.success) 
+    {//User is logged with email
+        var main = Alloy.createController('main').getView();
+        main.open();
+    } 
+    else
+    { 
+		 if(fb.loggedIn)
+		{
+			//user is logged with facebook
+			var main = Alloy.createController('main').getView();
+		        main.open();
+		}
+		else
+		{
+			//we require log in
+			//fb.authorize();
+			$.index.open();
+		}
+    }
+});

@@ -16,7 +16,8 @@ Alloy.Globals.FbUser = null;
 Alloy.Globals.NormalUser = null;
 //Stores the id of the profile to show
 Alloy.Globals.userToShow = null;
-
+//Stores the id of the idea to show
+Alloy.Globals.ideaToShow = null;
 
 Alloy.Globals.getUserId = function(){
 	if(Alloy.Globals.Facebook.loggedIn)

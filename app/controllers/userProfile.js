@@ -1,6 +1,6 @@
 var currentUser = null; //stores the complete object user
 
-function createIdea(pitch) {
+function createIdea(id, pitch) {
   var idea = Ti.UI.createView({
     backgroundColor: 'white',
     borderColor: '#bbb',
@@ -14,6 +14,13 @@ function createIdea(pitch) {
     width: '80%', height: 60
   });
   idea.add(textLabel);
+  idea.addEventListener('click',function(e)
+	{
+		alert('idea ' + id );
+		Alloy.Globals.ideaToShow = id;
+		Alloy.createController('main').getView().open();
+		
+	});
   return idea;
 }
 
@@ -59,9 +66,40 @@ Alloy.Globals.Cloud.Users.show({
         	Alloy.Globals.Facebook.requestWithGraphPath(currentUser.external_accounts[0].external_id, {}, 'GET', function(e) {
 			    if (e.success) {
 			    	alert(e.result);
-			        $.name.text = e.result.first_name+ " "+e.result.last_name;
-			        $.email.text = e.result.email;
-			        //$.fb.text = e.result.link; 
+			    	var fbUser =  JSON.parse(e.result);
+			    	alert(fbUser);
+			        $.name.text = fbUser.first_name+ " "+fbUser.last_name;
+			        var emailButton = Titanium.UI.createButton({
+					   title: 'Email',
+					   top: 10,
+					   left: 20,
+					   width: 100,
+					   height: 50
+					});
+					emailButton.addEventListener('click',function(e)
+					{
+						 var emailDialog = Ti.UI.createEmailDialog();
+						emailDialog.subject = "Contacto de MatchIdeas";
+						emailDialog.toRecipients = [fbUser.email];
+						emailDialog.messageBody = 'Mensaje...';
+						emailDialog.open();
+					});
+					$.networks.add(emailButton);
+			        var fbButton = Titanium.UI.createButton({
+					   title: 'Facebook',
+					   top: 10,
+					   right: 20,
+					   width: 100,
+					   height: 50
+					});
+					fbButton.addEventListener('click',function(e)
+					{
+						var webview = Titanium.UI.createWebView({url:fbUser.link});
+					    var window = Titanium.UI.createWindow();
+					    window.add(webview);
+					    window.open({modal:true});
+					});
+					$.networks.add(fbButton);
 			    } else if (e.error) {
 			        alert(e.error);
 			    } else {
@@ -90,7 +128,7 @@ Alloy.Globals.Cloud.Users.show({
 		    	//alert("ideas encontradas");
 		    	//alert(e.ideas.length);
 		    	for(var i = 0; i < e.ideas.length; i++){
-				var ideasView = createIdea(e.ideas[i].pitch);
+				var ideasView = createIdea(e.ideas[i].id, e.ideas[i].pitch);
 				$.content.add(ideasView);
 				}
 			 } else {

@@ -102,15 +102,6 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var fb = Alloy.Globals.Facebook;
-    Alloy.Globals.Cloud.Users.showMe(function(e) {
-        if (e.success) {
-            var main = Alloy.createController("main").getView();
-            main.open();
-        } else if (fb.loggedIn) {
-            var main = Alloy.createController("main").getView();
-            main.open();
-        } else $.index.open();
-    });
     fb.appid = 305737346271076;
     fb.permissions = [ "public_profile" ];
     fb.forceDialogAuth = false;
@@ -131,6 +122,15 @@ function Controller() {
         top: 110,
         style: fb.BUTTON_STYLE_WIDE
     }));
+    Alloy.Globals.Cloud.Users.showMe(function(e) {
+        if (e.success) {
+            var main = Alloy.createController("main").getView();
+            main.open();
+        } else if (fb.loggedIn) {
+            var main = Alloy.createController("main").getView();
+            main.open();
+        } else $.index.open();
+    });
     __defers["$.__views.tryLogin!click!tryLogin"] && $.__views.tryLogin.addEventListener("click", tryLogin);
     __defers["$.__views.newUser!click!newUserForm"] && $.__views.newUser.addEventListener("click", newUserForm);
     __defers["$.__views.terms!click!terms"] && $.__views.terms.addEventListener("click", terms);

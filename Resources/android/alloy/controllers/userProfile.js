@@ -1,5 +1,5 @@
 function Controller() {
-    function createIdea(pitch) {
+    function createIdea(id, pitch) {
         var idea = Ti.UI.createView({
             backgroundColor: "white",
             borderColor: "#bbb",
@@ -17,6 +17,11 @@ function Controller() {
             height: 60
         });
         idea.add(textLabel);
+        idea.addEventListener("click", function() {
+            alert("idea " + id);
+            Alloy.Globals.ideaToShow = id;
+            Alloy.createController("main").getView().open();
+        });
         return idea;
     }
     function showMenu() {
@@ -116,48 +121,17 @@ function Controller() {
         height: Ti.UI.SIZE
     });
     $.__views.__alloyId24.add($.__views.name);
-    $.__views.__alloyId25 = Ti.UI.createView({
+    $.__views.networks = Ti.UI.createView({
         backgroundColor: "white",
         borderColor: "#bbb",
         borderWidth: 1,
         width: "100%",
-        height: 30,
+        height: 70,
         top: 0,
         left: 0,
-        id: "__alloyId25"
+        id: "networks"
     });
-    $.__views.content.add($.__views.__alloyId25);
-    $.__views.fb = Ti.UI.createLabel({
-        id: "fb",
-        color: "#900",
-        shadowColor: "#aaa",
-        text: "Facebook",
-        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-        width: Ti.UI.SIZE,
-        height: Ti.UI.SIZE
-    });
-    $.__views.__alloyId25.add($.__views.fb);
-    $.__views.__alloyId26 = Ti.UI.createView({
-        backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
-        width: "100%",
-        height: 30,
-        top: 0,
-        left: 0,
-        id: "__alloyId26"
-    });
-    $.__views.content.add($.__views.__alloyId26);
-    $.__views.email = Ti.UI.createLabel({
-        id: "email",
-        color: "#900",
-        shadowColor: "#aaa",
-        text: "zse.paul@gmail.com",
-        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-        width: Ti.UI.SIZE,
-        height: Ti.UI.SIZE
-    });
-    $.__views.__alloyId26.add($.__views.email);
+    $.__views.content.add($.__views.networks);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var currentUser = null;
@@ -170,8 +144,42 @@ function Controller() {
             currentUser.external_accounts ? Alloy.Globals.Facebook.requestWithGraphPath(currentUser.external_accounts[0].external_id, {}, "GET", function(e) {
                 if (e.success) {
                     alert(e.result);
-                    $.name.text = e.result.first_name + " " + e.result.last_name;
-                    $.email.text = e.result.email;
+                    var fbUser = JSON.parse(e.result);
+                    alert(fbUser);
+                    $.name.text = fbUser.first_name + " " + fbUser.last_name;
+                    var emailButton = Titanium.UI.createButton({
+                        title: "Email",
+                        top: 10,
+                        left: 20,
+                        width: 100,
+                        height: 50
+                    });
+                    emailButton.addEventListener("click", function() {
+                        var emailDialog = Ti.UI.createEmailDialog();
+                        emailDialog.subject = "Contacto de MatchIdeas";
+                        emailDialog.toRecipients = [ fbUser.email ];
+                        emailDialog.messageBody = "Mensaje...";
+                        emailDialog.open();
+                    });
+                    $.networks.add(emailButton);
+                    var fbButton = Titanium.UI.createButton({
+                        title: "Facebook",
+                        top: 10,
+                        right: 20,
+                        width: 100,
+                        height: 50
+                    });
+                    fbButton.addEventListener("click", function() {
+                        var webview = Titanium.UI.createWebView({
+                            url: fbUser.link
+                        });
+                        var window = Titanium.UI.createWindow();
+                        window.add(webview);
+                        window.open({
+                            modal: true
+                        });
+                    });
+                    $.networks.add(fbButton);
                 } else e.error ? alert(e.error) : alert("Unknown response");
             }) : currentUser.first_name && ($.name.text = currentUser.first_name + " " + currentUser.last_name);
             Alloy.Globals.Cloud.Objects.query({
@@ -182,7 +190,7 @@ function Controller() {
                 order: "make,created_at"
             }, function(e) {
                 if (e.success) for (var i = 0; e.ideas.length > i; i++) {
-                    var ideasView = createIdea(e.ideas[i].pitch);
+                    var ideasView = createIdea(e.ideas[i].id, e.ideas[i].pitch);
                     $.content.add(ideasView);
                 } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
             });
