@@ -2,7 +2,7 @@
 	<Window id="win" class="container">
 		<ScrollView id="content" top="30" bottom="70" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
 			<View class="bigRow" >
-				<ImageView id="userImage" onClick="showProfile" image="/images/someImage.png" top="10" width="150" height="100" />
+				<ImageView id="userImage" onClick="showProfile" image="/images/profilePic.png" top="10" width="120" height="120" />
 			</View>
 			<View class="smallRow">
 				<Label id="userName" class="sansPro pink" onClick="showProfile" width="Ti.UI.SIZE" height="Ti.UI.SIZE" />

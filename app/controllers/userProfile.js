@@ -1,4 +1,4 @@
-var currentUser = null; //stores the complete object user
+var currentUser = null; //stores the complete user object
 
 function createIdea(id, pitch) {
   var idea = Ti.UI.createView({
@@ -25,20 +25,6 @@ function createIdea(id, pitch) {
 }
 
 
-function showMenu(e){
-    //Displays log message on console
-    Titanium.API.info("menu");
-     Alloy.createController('menu').getView().open();
-};
-
-function showNewIdea(e){
-    //Displays log message on console
-    Titanium.API.info("show new idea");
-    var newIdea = Alloy.createController('newIdea').getView();
-    newIdea.open();
-}
-
-
 function passReset(){
 	Alloy.Globals.Cloud.Users.requestResetPassword({
     email: 'paulz_91@hotmail.com'
@@ -53,13 +39,14 @@ function passReset(){
 }
 
 var userId = Alloy.Globals.userToShow;
+alert(userId);
 Alloy.Globals.Cloud.Users.show({
     user_id: userId
 }, function (e) {
     if (e.success) {
         currentUser = e.users[0];
         //alert(currentUser);
-        if(currentUser.external_accounts)//if user is fb user, get the fb data
+        if(typeof currentUser.external_accounts[0] != 'undefined')//if user is fb user, get the fb data
         {
         	//alert(JSON.stringify(currentUser.external_accounts));
         	//alert(JSON.stringify(currentUser.external_accounts[0].external_id));
@@ -76,7 +63,7 @@ Alloy.Globals.Cloud.Users.show({
 					   width: 100,
 					   height: 50
 					});
-					emailButton.addEventListener('click',function(e)
+					/*emailButton.addEventListener('click',function(e)
 					{
 						 var emailDialog = Ti.UI.createEmailDialog();
 						emailDialog.subject = "Contacto de MatchIdeas";
@@ -84,7 +71,7 @@ Alloy.Globals.Cloud.Users.show({
 						emailDialog.messageBody = 'Mensaje...';
 						emailDialog.open();
 					});
-					$.networks.add(emailButton);
+					$.networks.add(emailButton);*/
 			        var fbButton = Titanium.UI.createButton({
 					   title: 'Facebook',
 					   top: 10,
@@ -109,10 +96,25 @@ Alloy.Globals.Cloud.Users.show({
         }
         else
         {
-        	if(currentUser.first_name)
-	        {
-	        	$.name.text = currentUser.first_name +" "+currentUser.last_name;
-	        }
+			alert(currentUser);
+	        $.name.text = currentUser.first_name +" "+currentUser.last_name;
+	        /*var emailButton = Titanium.UI.createButton({
+					   title: 'Email',
+					   top: 10,
+					   left: 20,
+					   width: 100,
+					   height: 50
+					});
+					emailButton.addEventListener('click',function(e)
+					{
+						 var emailDialog = Ti.UI.createEmailDialog();
+						emailDialog.subject = "Contacto de MatchIdeas";
+						emailDialog.toRecipients = [currentUser.email];
+						emailDialog.messageBody = '';
+						emailDialog.open();
+					});
+					$.networks.add(emailButton);*/
+	        
         }
         
         //alert(currentUser);

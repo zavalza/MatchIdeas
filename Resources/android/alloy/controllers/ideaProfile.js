@@ -209,10 +209,10 @@ function Controller() {
     $.__views.content.add($.__views.__alloyId6);
     $.__views.userImage = Ti.UI.createImageView({
         id: "userImage",
-        image: "/images/someImage.png",
+        image: "/images/profilePic.png",
         top: "10",
-        width: "150",
-        height: "100"
+        width: "120",
+        height: "120"
     });
     $.__views.__alloyId6.add($.__views.userImage);
     showProfile ? $.__views.userImage.addEventListener("click", showProfile) : __defers["$.__views.userImage!click!showProfile"] = true;
