@@ -1,15 +1,14 @@
 <Alloy>
 	<Window id="win" class="container">
-		<View class="navBar">
-			<Button id="menu" onClick="showMenu" backgroundImage="/images/menuIcon.png"top="5" width="50" height="50" backgroundColor="white" left="5"/>
-			<Button id="newIdea" onClick="showNewIdea" backgroundImage="/images/newIdeaIcon.png"top="5" width="50" height="50" backgroundColor="white">
-		</View>
-		<ScrollView id="content" top="50" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+		<ScrollView id="content" top="30" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
 			<View class="row">
-				<Label id="profile" onClick="showProfile" color="#900" shadowColor="#aaa" text="Mi perfil" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+				<Label id="profile" class="sansPro pink" onClick="showProfile"  text="Mi perfil"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
 			</View>
 			<View class="row">
-				<Label id="ideas" onClick="showIdeas" color="#900" shadowColor="#aaa" text="Más ideas" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+				<Label id="ideas" class="sansPro aqua" onClick="showIdeas" text="Más ideas"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			</View>
+			<View class="row">
+				<Label id="ideas" class="sansPro gold" onClick="showIdeas" text="Nueva idea"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
 			</View>
     	</ScrollView>
 	</Window>

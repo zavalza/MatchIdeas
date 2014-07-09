@@ -1,12 +1,8 @@
 <Alloy>
 	<Window id="win" class="container">
-		<View class="navBar">
-			<Button id="menu" onClick="showMenu" backgroundImage="/images/menuIcon.png"top="5" width="50" height="50" backgroundColor="white" left="5"/>
-			<Button id="newIdea" onClick="closeNewIdea" backgroundImage="/images/newIdeaIcon.png"top="5" width="50" height="50" backgroundColor="white">
-		</View>
-		<ScrollView top="50" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+		<ScrollView top="30" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
 			<View class="bigRow">
-				<TextArea id="pitch" borderWidth="2" top="5" borderColor="#bbb" borderRadius="5"color="#888" textAlign="left" hintText="Nueva idea..." returnKeyType="Titanium.UI.RETURNKEY_DONE" width="100%" height="100%" />
+				<TextArea id="pitch" class="input" color="#888" textAlign="left" hintText="Nueva idea..." returnKeyType="Titanium.UI.RETURNKEY_DONE" width="90%" height="90%" />
 			</View>	
 			<View class="row">
 				<Label id="fb" color="#900" shadowColor="#aaa" text="Compartir en facebook" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />

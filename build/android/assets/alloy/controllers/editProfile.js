@@ -32,8 +32,8 @@ function Controller() {
     $.__views.__alloyId0 = Ti.UI.createView({
         backgroundColor: "darkgray",
         top: 0,
-        width: Titanium.UI.FILL,
-        height: 100,
+        width: "100%",
+        height: 50,
         id: "__alloyId0"
     });
     $.__views.win.add($.__views.__alloyId0);

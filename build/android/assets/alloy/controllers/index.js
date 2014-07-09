@@ -43,22 +43,22 @@ function Controller() {
         showVerticalScrollIndicator: "true"
     });
     $.__views.index.add($.__views.content);
-    $.__views.__alloyId6 = Ti.UI.createView({
+    $.__views.__alloyId10 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 150,
         top: 0,
         left: 0,
-        id: "__alloyId6"
+        id: "__alloyId10"
     });
-    $.__views.content.add($.__views.__alloyId6);
+    $.__views.content.add($.__views.__alloyId10);
     $.__views.logo = Ti.UI.createImageView({
         id: "logo",
         image: "/images/logoMatchIdeas.png",
         width: "180",
         height: "120"
     });
-    $.__views.__alloyId6.add($.__views.logo);
+    $.__views.__alloyId10.add($.__views.logo);
     $.__views.fbLogin = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
@@ -68,15 +68,15 @@ function Controller() {
         id: "fbLogin"
     });
     $.__views.content.add($.__views.fbLogin);
-    $.__views.__alloyId7 = Ti.UI.createView({
+    $.__views.__alloyId11 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 40,
         top: 0,
         left: 0,
-        id: "__alloyId7"
+        id: "__alloyId11"
     });
-    $.__views.content.add($.__views.__alloyId7);
+    $.__views.content.add($.__views.__alloyId11);
     $.__views.email = Ti.UI.createTextField({
         borderColor: "#e9e9e9",
         borderWidth: "2",
@@ -88,16 +88,16 @@ function Controller() {
         height: "35",
         hintText: "correo electrónico"
     });
-    $.__views.__alloyId7.add($.__views.email);
-    $.__views.__alloyId8 = Ti.UI.createView({
+    $.__views.__alloyId11.add($.__views.email);
+    $.__views.__alloyId12 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 40,
         top: 0,
         left: 0,
-        id: "__alloyId8"
+        id: "__alloyId12"
     });
-    $.__views.content.add($.__views.__alloyId8);
+    $.__views.content.add($.__views.__alloyId12);
     $.__views.password = Ti.UI.createTextField({
         borderColor: "#e9e9e9",
         borderWidth: "2",
@@ -109,16 +109,16 @@ function Controller() {
         height: "35",
         hintText: "contraseña"
     });
-    $.__views.__alloyId8.add($.__views.password);
-    $.__views.__alloyId9 = Ti.UI.createView({
+    $.__views.__alloyId12.add($.__views.password);
+    $.__views.__alloyId13 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 70,
         top: 0,
         left: 0,
-        id: "__alloyId9"
+        id: "__alloyId13"
     });
-    $.__views.content.add($.__views.__alloyId9);
+    $.__views.content.add($.__views.__alloyId13);
     $.__views.tryLogin = Ti.UI.createButton({
         id: "tryLogin",
         title: "Entrar",
@@ -126,7 +126,7 @@ function Controller() {
         height: "50",
         left: "20"
     });
-    $.__views.__alloyId9.add($.__views.tryLogin);
+    $.__views.__alloyId13.add($.__views.tryLogin);
     tryLogin ? $.__views.tryLogin.addEventListener("click", tryLogin) : __defers["$.__views.tryLogin!click!tryLogin"] = true;
     $.__views.newUser = Ti.UI.createButton({
         id: "newUser",
@@ -135,17 +135,17 @@ function Controller() {
         height: "50",
         right: "20"
     });
-    $.__views.__alloyId9.add($.__views.newUser);
+    $.__views.__alloyId13.add($.__views.newUser);
     newUserForm ? $.__views.newUser.addEventListener("click", newUserForm) : __defers["$.__views.newUser!click!newUserForm"] = true;
-    $.__views.__alloyId10 = Ti.UI.createView({
+    $.__views.__alloyId14 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 70,
         top: 0,
         left: 0,
-        id: "__alloyId10"
+        id: "__alloyId14"
     });
-    $.__views.content.add($.__views.__alloyId10);
+    $.__views.content.add($.__views.__alloyId14);
     $.__views.terms = Ti.UI.createButton({
         id: "terms",
         title: "TERMINOS Y CONDICIONES",
@@ -154,7 +154,7 @@ function Controller() {
         backgroundColor: "white",
         color: "black"
     });
-    $.__views.__alloyId10.add($.__views.terms);
+    $.__views.__alloyId14.add($.__views.terms);
     terms ? $.__views.terms.addEventListener("click", terms) : __defers["$.__views.terms!click!terms"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);

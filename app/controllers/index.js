@@ -1,3 +1,4 @@
+
 function tryLogin(e){
     //Displays log message on console
     Titanium.API.info("Trying login...");

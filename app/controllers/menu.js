@@ -1,16 +1,3 @@
-function showMenu(e){
-    //Displays log message on console
-    Titanium.API.info("Quit menu");
-    $.win.close();
-};
-
-
-function showNewIdea(e){
-    //Displays log message on console
-    Titanium.API.info("show new idea");
-    var newIdea = Alloy.createController('newIdea').getView();
-    newIdea.open();
-}
 
 function showProfile(e){
     //Displays log message on console
@@ -26,6 +13,11 @@ function showIdeas(e){
     Titanium.API.info("show ideas");
     Alloy.createController('main').getView().open();
 };
+
+
+if (Ti.UI.Android){
+  $.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN;
+}
 
 var fb = Alloy.Globals.Facebook;
 /*fb.appid = 305737346271076;
