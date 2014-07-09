@@ -44,7 +44,7 @@ function Controller() {
     $.__views.header = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
-        height: 150,
+        height: 120,
         top: 0,
         left: 0,
         id: "header"
@@ -79,6 +79,9 @@ function Controller() {
         borderColor: "#e9e9e9",
         borderWidth: "2",
         borderRadius: "5",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         id: "firstName",
         color: "#336699",
         width: "80%",
@@ -99,6 +102,9 @@ function Controller() {
         borderColor: "#e9e9e9",
         borderWidth: "2",
         borderRadius: "5",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         id: "lastName",
         color: "#336699",
         width: "80%",
@@ -119,6 +125,9 @@ function Controller() {
         borderColor: "#e9e9e9",
         borderWidth: "2",
         borderRadius: "5",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         id: "email",
         color: "#336699",
         width: "80%",
@@ -139,6 +148,9 @@ function Controller() {
         borderColor: "#e9e9e9",
         borderWidth: "2",
         borderRadius: "5",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         id: "password",
         passwordMask: "true",
         color: "#336699",
@@ -160,6 +172,9 @@ function Controller() {
         borderColor: "#e9e9e9",
         borderWidth: "2",
         borderRadius: "5",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         id: "passwordConfirmation",
         passwordMask: "true",
         color: "#336699",
@@ -195,6 +210,9 @@ function Controller() {
     });
     $.__views.content.add($.__views.__alloyId30);
     $.__views.terms = Ti.UI.createButton({
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         id: "terms",
         title: "TERMINOS Y CONDICIONES",
         width: "200",

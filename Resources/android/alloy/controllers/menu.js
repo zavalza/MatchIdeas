@@ -42,6 +42,9 @@ function Controller() {
     $.__views.content.add($.__views.__alloyId16);
     $.__views.profile = Ti.UI.createLabel({
         color: "#cc0a98",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         id: "profile",
         text: "Mi perfil",
         width: Ti.UI.SIZE,
@@ -62,6 +65,9 @@ function Controller() {
     $.__views.content.add($.__views.__alloyId17);
     $.__views.ideas = Ti.UI.createLabel({
         color: "#04cbca",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         id: "ideas",
         text: "Más ideas",
         width: Ti.UI.SIZE,
@@ -80,15 +86,18 @@ function Controller() {
         id: "__alloyId18"
     });
     $.__views.content.add($.__views.__alloyId18);
-    $.__views.ideas = Ti.UI.createLabel({
+    $.__views.newIdea = Ti.UI.createLabel({
         color: "#cbc01f",
-        id: "ideas",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
+        id: "newIdea",
         text: "Nueva idea",
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
     });
-    $.__views.__alloyId18.add($.__views.ideas);
-    showIdeas ? $.__views.ideas.addEventListener("click", showIdeas) : __defers["$.__views.ideas!click!showIdeas"] = true;
+    $.__views.__alloyId18.add($.__views.newIdea);
+    showIdeas ? $.__views.newIdea.addEventListener("click", showIdeas) : __defers["$.__views.newIdea!click!showIdeas"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
@@ -115,7 +124,7 @@ function Controller() {
     }
     __defers["$.__views.profile!click!showProfile"] && $.__views.profile.addEventListener("click", showProfile);
     __defers["$.__views.ideas!click!showIdeas"] && $.__views.ideas.addEventListener("click", showIdeas);
-    __defers["$.__views.ideas!click!showIdeas"] && $.__views.ideas.addEventListener("click", showIdeas);
+    __defers["$.__views.newIdea!click!showIdeas"] && $.__views.newIdea.addEventListener("click", showIdeas);
     _.extend($, exports);
 }
 

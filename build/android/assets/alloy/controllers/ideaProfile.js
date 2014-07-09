@@ -9,11 +9,11 @@ function Controller() {
             top: 0,
             left: 0
         });
-        var textLabel = Ti.UI.createLabel({
+        var textLabel = Ti.UI.createTextField({
             text: commentText,
             top: 10,
             left: "10%",
-            width: "80%",
+            width: "100%",
             height: 60
         });
         comment.add(textLabel);
@@ -35,9 +35,9 @@ function Controller() {
                 fillData();
             } else {
                 $.pitch.text = "No hay ideas";
-                $.match.title = "0";
-                $.noMatch.title = "0";
-            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                $.matchCount.text = "0";
+                $.noMatchCount.text = "0";
+            } else alert("Error:" + (e.error && e.message || JSON.stringify(e)));
         });
     }
     function findIdea(ideaId) {
@@ -77,7 +77,7 @@ function Controller() {
                 user_id: currentIdea.user.id
             };
             Alloy.Globals.Cloud.Objects.update(dict, function(e) {
-                e.success ? Alloy.createController("main").getView().open() : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                e.success ? getCurrentIdea(currentUser) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
             });
         } else alert("Necesitas ideas para votar");
     }
@@ -103,7 +103,7 @@ function Controller() {
                 user_id: currentIdea.user.id
             };
             Alloy.Globals.Cloud.Objects.update(dict, function(e) {
-                e.success ? Alloy.createController("main").getView().open() : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                e.success ? getCurrentIdea(currentUser) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
             });
         } else alert("Necesitas ideas para votar");
     }
@@ -114,8 +114,8 @@ function Controller() {
     }
     function fillData() {
         $.pitch.text = currentIdea.pitch;
-        $.match.title = String(currentIdea.matches);
-        $.noMatch.title = String(currentIdea.noMatches);
+        $.matchCount.text = String(currentIdea.matches);
+        $.noMatchCount.text = String(currentIdea.noMatches);
         $.userName.text = currentIdea.user.first_name ? currentIdea.user.first_name + " " + currentIdea.user.last_name : "Sin nombre";
         Alloy.Globals.Cloud.Objects.query({
             classname: "comments",
@@ -125,7 +125,7 @@ function Controller() {
             order: "make,created_at"
         }, function(e) {
             if (e.success) {
-                $.comment.title = e.comments.length;
+                $.commentCount.text = e.comments.length;
                 for (var i = 0; e.comments.length > i; i++) {
                     var commentView = createComment(e.comments[i].text);
                     $.content.add(commentView);
@@ -153,10 +153,7 @@ function Controller() {
                         user_id: userId
                     };
                     Alloy.Globals.Cloud.Objects.create(dict, function(e) {
-                        if (e.success) {
-                            var main = Alloy.createController("main").getView();
-                            main.open();
-                        } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                        e.success ? findIdea(currentIdea.id) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
                     });
                 });
                 newComment.add(commentArea);
@@ -184,7 +181,7 @@ function Controller() {
     $.__views.content = Ti.UI.createScrollView({
         id: "content",
         top: "30",
-        bottom: "30",
+        bottom: "70",
         contentHeight: "auto",
         layout: "vertical",
         showVerticalScrollIndicator: "true"
@@ -193,7 +190,7 @@ function Controller() {
     $.__views.__alloyId6 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
-        height: 150,
+        height: 120,
         top: 0,
         left: 0,
         id: "__alloyId6"
@@ -202,6 +199,7 @@ function Controller() {
     $.__views.userImage = Ti.UI.createImageView({
         id: "userImage",
         image: "/images/someImage.png",
+        top: "10",
         width: "150",
         height: "100"
     });
@@ -210,92 +208,126 @@ function Controller() {
     $.__views.__alloyId7 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
-        height: 70,
+        height: 40,
         top: 0,
         left: 0,
         id: "__alloyId7"
     });
     $.__views.content.add($.__views.__alloyId7);
     $.__views.userName = Ti.UI.createLabel({
+        color: "#cc0a98",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         id: "userName",
-        color: "#900",
-        shadowColor: "#aaa",
-        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
     });
     $.__views.__alloyId7.add($.__views.userName);
     showProfile ? $.__views.userName.addEventListener("click", showProfile) : __defers["$.__views.userName!click!showProfile"] = true;
     $.__views.__alloyId8 = Ti.UI.createView({
-        backgroundColor: "white",
         width: "100%",
-        height: 70,
-        top: 0,
-        left: 0,
+        top: "0",
+        left: "0",
+        borderWidth: "2",
+        borderColor: "#e9e9e9",
+        height: "120",
         id: "__alloyId8"
     });
     $.__views.content.add($.__views.__alloyId8);
     $.__views.pitch = Ti.UI.createLabel({
+        color: "#04cbca",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         text: "",
         id: "pitch",
-        color: "blue",
-        textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-        width: "200",
-        height: "200"
+        width: "80%"
     });
     $.__views.__alloyId8.add($.__views.pitch);
     $.__views.__alloyId9 = Ti.UI.createView({
         width: "100%",
-        height: 40,
+        height: 70,
+        bottom: "0",
         id: "__alloyId9"
     });
     $.__views.win.add($.__views.__alloyId9);
     $.__views.match = Ti.UI.createButton({
         id: "match",
         backgroundImage: "/images/like.png",
-        bottom: "5",
+        bottom: "20",
         width: "50",
         height: "50",
-        backgroundColor: "green",
+        backgroundColor: "#04cbca",
         left: "50"
     });
     $.__views.__alloyId9.add($.__views.match);
     match ? $.__views.match.addEventListener("click", match) : __defers["$.__views.match!click!match"] = true;
+    $.__views.matchCount = Ti.UI.createLabel({
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
+        color: "#04cbca",
+        id: "matchCount",
+        bottom: "0",
+        left: "75"
+    });
+    $.__views.__alloyId9.add($.__views.matchCount);
+    match ? $.__views.matchCount.addEventListener("click", match) : __defers["$.__views.matchCount!click!match"] = true;
     $.__views.comment = Ti.UI.createButton({
         id: "comment",
         backgroundImage: "/images/comment.png",
-        bottom: "5",
+        bottom: "20",
         width: "50",
         height: "50",
-        backgroundColor: "white"
+        backgroundColor: "#cbc01f"
     });
     $.__views.__alloyId9.add($.__views.comment);
     comment ? $.__views.comment.addEventListener("click", comment) : __defers["$.__views.comment!click!comment"] = true;
+    $.__views.commentCount = Ti.UI.createLabel({
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
+        color: "#cbc01f",
+        id: "commentCount",
+        bottom: "0"
+    });
+    $.__views.__alloyId9.add($.__views.commentCount);
+    comment ? $.__views.commentCount.addEventListener("click", comment) : __defers["$.__views.commentCount!click!comment"] = true;
     $.__views.noMatch = Ti.UI.createButton({
         id: "noMatch",
         backgroundImage: "/images/dislike.png",
-        bottom: "5",
+        bottom: "20",
         width: "50",
         height: "50",
-        backgroundColor: "red",
+        backgroundColor: "#cc0a98",
         right: "50"
     });
     $.__views.__alloyId9.add($.__views.noMatch);
     noMatch ? $.__views.noMatch.addEventListener("click", noMatch) : __defers["$.__views.noMatch!click!noMatch"] = true;
+    $.__views.noMatchCount = Ti.UI.createLabel({
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
+        color: "#cc0a98",
+        id: "noMatchCount",
+        bottom: "0",
+        right: "75"
+    });
+    $.__views.__alloyId9.add($.__views.noMatchCount);
+    noMatch ? $.__views.noMatchCount.addEventListener("click", noMatch) : __defers["$.__views.noMatchCount!click!noMatch"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     var currentIdea = null;
     var currentUser = null;
     var newComment = Ti.UI.createView({
         center: {
-            x: 160,
-            y: 240
+            x: Ti.UI.SIZE / 2,
+            y: Ti.UI.SIZE
         },
         backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
-        width: "100%",
-        height: 150,
+        width: "80%",
+        height: 100,
         top: 0,
         left: 0
     });
@@ -308,8 +340,11 @@ function Controller() {
     __defers["$.__views.userImage!click!showProfile"] && $.__views.userImage.addEventListener("click", showProfile);
     __defers["$.__views.userName!click!showProfile"] && $.__views.userName.addEventListener("click", showProfile);
     __defers["$.__views.match!click!match"] && $.__views.match.addEventListener("click", match);
+    __defers["$.__views.matchCount!click!match"] && $.__views.matchCount.addEventListener("click", match);
     __defers["$.__views.comment!click!comment"] && $.__views.comment.addEventListener("click", comment);
+    __defers["$.__views.commentCount!click!comment"] && $.__views.commentCount.addEventListener("click", comment);
     __defers["$.__views.noMatch!click!noMatch"] && $.__views.noMatch.addEventListener("click", noMatch);
+    __defers["$.__views.noMatchCount!click!noMatch"] && $.__views.noMatchCount.addEventListener("click", noMatch);
     _.extend($, exports);
 }
 

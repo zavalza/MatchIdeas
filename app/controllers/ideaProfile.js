@@ -2,11 +2,9 @@
 var currentIdea = null;
 var currentUser = null;
 var newComment = Ti.UI.createView({
-					center : {x: 160, y: 240},
+					center : {x: Ti.UI.SIZE/2, y: Ti.UI.SIZE},
 				    backgroundColor: 'white',
-				    borderColor: '#bbb',
-				    borderWidth: 1,
-				    width:'100%', height: 150,
+				    width:'80%', height: 100,
 				    top: 0, left: 0
 				  });
 
@@ -18,10 +16,10 @@ function createComment(commentText) {
     width:'100%', height: 70,
     top: 0, left: 0
   });
-  var textLabel = Ti.UI.createLabel({
+  var textLabel = Ti.UI.createTextField({
     text: commentText,
     top: 10, left: '10%',
-    width: '80%', height: 60
+    width: '100%', height: 60
   });
   comment.add(textLabel);
   return comment;
@@ -55,18 +53,17 @@ function getCurrentIdea(userId){
 	        {
 	        	//Lo mas seguro es que despleguemos una ventana totalmente diferente, pero por ahora reseteamos los valores
 	        	$.pitch.text = "No hay ideas";
-	        	$.match.title = "0";
-	        	$.noMatch.title= "0";
-	        	
+	        	$.matchCount.text = "0";
+	        	$.noMatchCount.text = "0";	
 	        }
 	        	
-	        	
-	        
-	    } else {
-	        alert('Error:\n' +
-	            ((e.error && e.message) || JSON.stringify(e)));
+	    } 
+	    else 
+	    {
+	    	
+	        alert('Error:' + ((e.error && e.message) || JSON.stringify(e)));
 	    }
-	});	
+	});
 }
 
 /*Gets the most recent data of an idea, based on its id
@@ -85,8 +82,7 @@ function findIdea(ideaId){
 	        currentIdea = e.ideas[0];
 	        fillData();
 	    } else {
-	        alert('Error:\n' +
-	            ((e.error && e.message) || JSON.stringify(e)));
+	        alert('Error:\n' +((e.error && e.message) || JSON.stringify(e)));
 	    }
 	});	
 }
@@ -123,8 +119,7 @@ function match (e) {
   };
   Alloy.Globals.Cloud.Objects.update(dict, function (e) {
     if (e.success) {
-        //getCurrentIdea(currentUser); //loads another idea
-		Alloy.createController('main').getView().open();
+        getCurrentIdea(currentUser); //loads another idea
     } else {
         alert('Error:\n' +
             ((e.error && e.message) || JSON.stringify(e)));
@@ -167,8 +162,7 @@ function noMatch (e) {
 	  };
 	  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
 	    if (e.success) {
-	        //getCurrentIdea(currentUser); //loads another idea
-	        Alloy.createController('main').getView().open();
+	        getCurrentIdea(currentUser); //loads another idea
 	    } else {
 	        alert('Error:\n' +
 	            ((e.error && e.message) || JSON.stringify(e)));
@@ -193,8 +187,8 @@ function showProfile(e){
 //fills Data once currentIdea (ideaToShow) is defined
 function fillData(e){
 	$.pitch.text = currentIdea.pitch;
-	$.match.title = String(currentIdea.matches);
-	$.noMatch.title = String(currentIdea.noMatches);
+	$.matchCount.text = String(currentIdea.matches);
+	$.noMatchCount.text = String(currentIdea.noMatches);
 	//find authors' data
 	if(currentIdea.user.first_name)
 	{
@@ -214,7 +208,7 @@ function fillData(e){
 	}, function (e) {
 	    if (e.success) {
 	    	//alert("Comentarios encontrados");
-	    	$.comment.title=e.comments.length;
+	    	$.commentCount.text=e.comments.length;
 	    	for(var i = 0; i < e.comments.length; i++){
 			var commentView = createComment(e.comments[i].text);
 			$.content.add(commentView);
@@ -244,8 +238,7 @@ function fillData(e){
 			   //alert("Hecho");
 			   Alloy.Globals.Cloud.Objects.create(dict, function (e) {
 				    if (e.success) {
-				    	var main = Alloy.createController('main').getView();
-						main.open();
+				    	findIdea(currentIdea.id); //update view
 				   		
 				    } else {
 						//Posible funcion para guardar en base de datos

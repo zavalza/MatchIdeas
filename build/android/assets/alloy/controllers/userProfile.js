@@ -84,7 +84,7 @@ function Controller() {
     $.__views.__alloyId35 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
-        height: 150,
+        height: 120,
         top: 0,
         left: 0,
         id: "__alloyId35"

@@ -59,6 +59,7 @@ newButton.addEventListener('click',function(e)
 if (Ti.UI.Android){
   $.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN;
 }
+$.scrollableView.scrollToView(view2);
 $.win.open();
 
 

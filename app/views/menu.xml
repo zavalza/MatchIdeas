@@ -8,7 +8,7 @@
 				<Label id="ideas" class="sansPro aqua" onClick="showIdeas" text="Más ideas"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
 			</View>
 			<View class="row">
-				<Label id="ideas" class="sansPro gold" onClick="showIdeas" text="Nueva idea"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+				<Label id="newIdea" class="sansPro gold" onClick="showIdeas" text="Nueva idea"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
 			</View>
     	</ScrollView>
 	</Window>

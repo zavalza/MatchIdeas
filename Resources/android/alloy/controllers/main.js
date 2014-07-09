@@ -15,7 +15,7 @@ function Controller() {
     $.__views.scrollableView = Ti.UI.createScrollableView({
         views: __alloyId15,
         id: "scrollableView",
-        top: "50",
+        top: "30",
         showPagingControl: "false"
     });
     $.__views.win.add($.__views.scrollableView);
@@ -64,6 +64,7 @@ function Controller() {
         $.scrollableView.scrollToView(view3);
     });
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
+    $.scrollableView.scrollToView(view2);
     $.win.open();
     _.extend($, exports);
 }
