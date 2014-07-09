@@ -67,7 +67,7 @@ function Controller() {
     }
     function match() {
         Titanium.API.info("Match");
-        if (null != currentIdea) {
+        if (null != currentIdea) if (currentIdea.user.id == Alloy.Globals.getUserId()) alert("Tú creaste la idea, no puedes votar"); else {
             findIdea(currentIdea.id);
             var votes = JSON.stringify(currentIdea.votedBy);
             votes = votes.substring(1, votes.length - 1);
@@ -93,7 +93,7 @@ function Controller() {
     }
     function noMatch() {
         Titanium.API.info("No Match");
-        if (null != currentIdea) {
+        if (null != currentIdea) if (currentIdea.user.id == Alloy.Globals.getUserId()) alert("Tú creaste la idea, no puedes votar"); else {
             findIdea(currentIdea.id);
             var votes = JSON.stringify(currentIdea.votedBy);
             votes = votes.substring(1, votes.length - 1);
@@ -164,7 +164,10 @@ function Controller() {
                         user_id: userId
                     };
                     Alloy.Globals.Cloud.Objects.create(dict, function(e) {
-                        e.success ? Alloy.createController("main").getView().open() : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                        if (e.success) {
+                            Alloy.Globals.ideaToShow = currentIdea.id;
+                            Alloy.createController("main").getView().open();
+                        } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
                     });
                 });
                 newComment.add(commentArea);

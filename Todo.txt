@@ -1,4 +1,3 @@
-*Corregir las vistas cuando no caben o cuando se usa landscape
 *Corregir/borrar las lineas para saber si ya está logeado el usuario
 *Verificar si el correo de un usuario de facebook ya fue usado en la forma tradicional de login
 *cambiar la manera en que se está calculando la variable de Alloy.Globals.FbUser, porque solo se calcula una vez y luego se pierde cuando retomamos la sesión
@@ -13,8 +12,13 @@
             ((e.error && e.message) || JSON.stringify(e)));
 
 *que en lugar de mi perfil, salga el nombre
-*email, nombre en formato y formas de contacto, cuando se logea con fb
+*Hacer una pantalla de Settings: nombre,
+redes: palomear correo facebook
+notificaciones
+
+esta sea la pantalla a la que mandemos cuando se logea por primera vez
+CORREGIMOS LO DE FACEBOOK Y HACEMOS QUE EL MAIL SEA PUBLICO
 *bug 	//Se puede comentar, entonces se pierde la idea
 	Alloy.Globals.ideaToShow = null;
-*Terminar el edit: 
+
 

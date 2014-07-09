@@ -16,7 +16,7 @@ function createIdea(id, pitch) {
   idea.add(textLabel);
   idea.addEventListener('click',function(e)
 	{
-		alert('idea ' + id );
+		//alert('idea ' + id );
 		Alloy.Globals.ideaToShow = id;
 		Alloy.createController('main').getView().open();
 		
@@ -39,7 +39,7 @@ function passReset(){
 }
 
 var userId = Alloy.Globals.userToShow;
-alert(userId);
+//alert(userId);
 Alloy.Globals.Cloud.Users.show({
     user_id: userId
 }, function (e) {
@@ -52,14 +52,13 @@ Alloy.Globals.Cloud.Users.show({
         	//alert(JSON.stringify(currentUser.external_accounts[0].external_id));
         	Alloy.Globals.Facebook.requestWithGraphPath(currentUser.external_accounts[0].external_id, {}, 'GET', function(e) {
 			    if (e.success) {
-			    	alert(e.result);
+			    	//alert(e.result);
 			    	var fbUser =  JSON.parse(e.result);
-			    	alert(fbUser);
+			    	//alert(fbUser);
 			        $.name.text = fbUser.first_name+ " "+fbUser.last_name;
 			        var emailButton = Titanium.UI.createButton({
 					   title: 'Email',
 					   top: 10,
-					   left: 20,
 					   width: 100,
 					   height: 50
 					});
@@ -96,7 +95,7 @@ Alloy.Globals.Cloud.Users.show({
         }
         else
         {
-			alert(currentUser);
+			//alert(currentUser);
 	        $.name.text = currentUser.first_name +" "+currentUser.last_name;
 	        /*var emailButton = Titanium.UI.createButton({
 					   title: 'Email',

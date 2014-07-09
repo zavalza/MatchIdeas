@@ -17,3 +17,4 @@
 *bug 	//Se puede comentar, entonces se pierde la idea
 	Alloy.Globals.ideaToShow = null;
 *Terminar el edit: 
+

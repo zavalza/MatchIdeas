@@ -18,7 +18,6 @@ function Controller() {
         });
         idea.add(textLabel);
         idea.addEventListener("click", function() {
-            alert("idea " + id);
             Alloy.Globals.ideaToShow = id;
             Alloy.createController("main").getView().open();
         });
@@ -92,22 +91,18 @@ function Controller() {
     _.extend($, $.__views);
     var currentUser = null;
     var userId = Alloy.Globals.userToShow;
-    alert(userId);
     Alloy.Globals.Cloud.Users.show({
         user_id: userId
     }, function(e) {
         if (e.success) {
             currentUser = e.users[0];
-            if ("undefined" != typeof currentUser.external_accounts[0]) Alloy.Globals.Facebook.requestWithGraphPath(currentUser.external_accounts[0].external_id, {}, "GET", function(e) {
+            "undefined" != typeof currentUser.external_accounts[0] ? Alloy.Globals.Facebook.requestWithGraphPath(currentUser.external_accounts[0].external_id, {}, "GET", function(e) {
                 if (e.success) {
-                    alert(e.result);
                     var fbUser = JSON.parse(e.result);
-                    alert(fbUser);
                     $.name.text = fbUser.first_name + " " + fbUser.last_name;
                     Titanium.UI.createButton({
                         title: "Email",
                         top: 10,
-                        left: 20,
                         width: 100,
                         height: 50
                     });
@@ -130,10 +125,7 @@ function Controller() {
                     });
                     $.networks.add(fbButton);
                 } else e.error ? alert(e.error) : alert("Unknown response");
-            }); else {
-                alert(currentUser);
-                $.name.text = currentUser.first_name + " " + currentUser.last_name;
-            }
+            }) : $.name.text = currentUser.first_name + " " + currentUser.last_name;
             Alloy.Globals.Cloud.Objects.query({
                 classname: "ideas",
                 where: {

@@ -107,33 +107,41 @@ function match (e) {
   Titanium.API.info("Match");
   if(currentIdea != null)//If we have an idea
   {
-  	 findIdea(currentIdea.id); //para cargar los votos más recientes
- //var votes = String(currentIdea.votedBy).split(',').push("10"); //Regresa 2
- var votes =  JSON.stringify(currentIdea.votedBy);
- votes = votes.substring(1, votes.length-1);
- votes = votes + "," +"\""+currentUser+"\"";
- votes = "["+votes+"]";
- votes = JSON.parse(votes);
- //alert(votes);
-  var dict = {
-  	classname: 'ideas',
-    id: currentIdea.id,
-    fields: {
-        votedBy: votes,
-        matches: {$inc: 1}
-    },
-    acl_name:'ideasACL',
-    user_id:currentIdea.user.id //creator updates
-  };
-  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
-    if (e.success) {
-        getCurrentIdea(currentUser); //loads another idea
-    } else {
-        alert('Error:\n' +
-            ((e.error && e.message) || JSON.stringify(e)));
-    }
-	});
-  }
+  	 if(currentIdea.user.id == Alloy.Globals.getUserId()) //If currentUser had created the idea
+  	 {
+  	 	alert("Tú creaste la idea, no puedes votar");
+  	 }
+  	 else
+  	 {
+  	 	 findIdea(currentIdea.id); //para cargar los votos más recientes
+		 //var votes = String(currentIdea.votedBy).split(',').push("10"); //Regresa 2
+		 var votes =  JSON.stringify(currentIdea.votedBy);
+		 votes = votes.substring(1, votes.length-1);
+		 votes = votes + "," +"\""+currentUser+"\"";
+		 votes = "["+votes+"]";
+		 votes = JSON.parse(votes);
+		 //alert(votes);
+		  var dict = {
+		  	classname: 'ideas',
+		    id: currentIdea.id,
+		    fields: {
+		        votedBy: votes,
+		        matches: {$inc: 1}
+		    },
+		    acl_name:'ideasACL',
+		    user_id:currentIdea.user.id //creator updates
+		  };
+		  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
+		    if (e.success) {
+		        getCurrentIdea(currentUser); //loads another idea
+		    } else {
+		        alert('Error:\n' +
+		            ((e.error && e.message) || JSON.stringify(e)));
+		    }
+			});
+		  }
+	  }
+  	
   else
   {
   	alert("Necesitas ideas para votar");
@@ -150,32 +158,40 @@ function noMatch (e) {
   Titanium.API.info("No Match");
   if(currentIdea != null)//If we have an idea
   {
-  	 findIdea(currentIdea.id); //para cargar los votos más recientes
-	 //var votes = String(currentIdea.votedBy).split(',').push("10"); //Regresa 2
-	 var votes =  JSON.stringify(currentIdea.votedBy);
-	 votes = votes.substring(1, votes.length-1);
-	 votes = votes + "," +"\""+currentUser+"\"";
-	 votes = "["+votes+"]";
-	 votes = JSON.parse(votes);
-	 //alert(votes);
-	  var dict = {
-	  	classname: 'ideas',
-	    id: currentIdea.id,
-	    fields: {
-	        votedBy: votes,
-	        noMatches: {$inc: 1}
-	    },
-	    acl_name:'ideasACL',
-	    user_id:currentIdea.user.id //creator updates
-	  };
-	  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
-	    if (e.success) {
-	        getCurrentIdea(currentUser); //loads another idea
-	    } else {
-	        alert('Error:\n' +
-	            ((e.error && e.message) || JSON.stringify(e)));
-	    }
+  	if(currentIdea.user.id == Alloy.Globals.getUserId()) //If currentUser had created the idea
+  	 {
+  	 	alert("Tú creaste la idea, no puedes votar");
+  	 }
+  	 else
+  	 {
+  	 	findIdea(currentIdea.id); //para cargar los votos más recientes
+		 //var votes = String(currentIdea.votedBy).split(',').push("10"); //Regresa 2
+		 var votes =  JSON.stringify(currentIdea.votedBy);
+		 votes = votes.substring(1, votes.length-1);
+		 votes = votes + "," +"\""+currentUser+"\"";
+		 votes = "["+votes+"]";
+		 votes = JSON.parse(votes);
+		 //alert(votes);
+		  var dict = {
+		  	classname: 'ideas',
+		    id: currentIdea.id,
+		    fields: {
+		        votedBy: votes,
+		        noMatches: {$inc: 1}
+		    },
+		    acl_name:'ideasACL',
+		    user_id:currentIdea.user.id //creator updates
+		  };
+		  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
+		    if (e.success) {
+		        getCurrentIdea(currentUser); //loads another idea
+		    } else {
+		        alert('Error:\n' +
+		            ((e.error && e.message) || JSON.stringify(e)));
+		    }
 		});
+  	 }
+  	 
   }
   else
   {
@@ -246,8 +262,12 @@ function fillData(e){
 			   	   };
 			   //alert("Hecho");
 			   Alloy.Globals.Cloud.Objects.create(dict, function (e) {
-				    if (e.success) {
+				    if (e.success)
+				    {
+					  	
+					  	Alloy.Globals.ideaToShow = currentIdea.id; //Show this idea again
 				    	Alloy.createController('main').getView().open();
+				    	
 				    	//$.content.removeAllChildren();
 				    	//findIdea(currentIdea.id); //update view
 				   		
@@ -300,7 +320,6 @@ currentUser = Alloy.Globals.getUserId();
 if(Alloy.Globals.ideaToShow != null)
 {
 	findIdea(Alloy.Globals.ideaToShow);
-	//Se puede comentar, entonces se pierde la idea
 	Alloy.Globals.ideaToShow = null;
 }
 else
