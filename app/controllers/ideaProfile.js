@@ -8,7 +8,7 @@ var newComment = Ti.UI.createView({
 				    top: 0, left: 0
 				  });
 
-function createComment(commentText) {
+function createComment(commentText, author) {
   var comment = Ti.UI.createView({
     backgroundColor: 'white',
     borderColor: '#bbb',
@@ -16,12 +16,20 @@ function createComment(commentText) {
     width:'100%', height: 70,
     top: 0, left: 0
   });
-  var textLabel = Ti.UI.createTextField({
+  var textLabel = Ti.UI.createLabel({
     text: commentText,
+    color: 'black',
     top: 10, left: '10%',
-    width: '100%', height: 60
+    width: '80%', height: 30
+  });
+  var authorLabel = Ti.UI.createLabel({
+    text: author,
+    color: 'blue',
+    bottom:0 , right: '10%',
+    width: '80%', height: 30
   });
   comment.add(textLabel);
+  comment.add(authorLabel);
   return comment;
 }
 
@@ -210,7 +218,8 @@ function fillData(e){
 	    	//alert("Comentarios encontrados");
 	    	$.commentCount.text=e.comments.length;
 	    	for(var i = 0; i < e.comments.length; i++){
-			var commentView = createComment(e.comments[i].text);
+	    	var author = e.comments[i].user.first_name +" "+ e.comments[i].user.last_name;
+			var commentView = createComment(e.comments[i].text, author);
 			$.content.add(commentView);
 			}
 			var commentArea = Titanium.UI.createTextArea({
@@ -238,7 +247,9 @@ function fillData(e){
 			   //alert("Hecho");
 			   Alloy.Globals.Cloud.Objects.create(dict, function (e) {
 				    if (e.success) {
-				    	findIdea(currentIdea.id); //update view
+				    	Alloy.createController('main').getView().open();
+				    	//$.content.removeAllChildren();
+				    	//findIdea(currentIdea.id); //update view
 				   		
 				    } else {
 						//Posible funcion para guardar en base de datos

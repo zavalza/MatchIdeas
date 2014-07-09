@@ -1,5 +1,5 @@
 function Controller() {
-    function createComment(commentText) {
+    function createComment(commentText, author) {
         var comment = Ti.UI.createView({
             backgroundColor: "white",
             borderColor: "#bbb",
@@ -9,14 +9,24 @@ function Controller() {
             top: 0,
             left: 0
         });
-        var textLabel = Ti.UI.createTextField({
+        var textLabel = Ti.UI.createLabel({
             text: commentText,
+            color: "black",
             top: 10,
             left: "10%",
-            width: "100%",
-            height: 60
+            width: "80%",
+            height: 30
+        });
+        var authorLabel = Ti.UI.createLabel({
+            text: author,
+            color: "blue",
+            bottom: 0,
+            right: "10%",
+            width: "80%",
+            height: 30
         });
         comment.add(textLabel);
+        comment.add(authorLabel);
         return comment;
     }
     function getCurrentIdea(userId) {
@@ -127,7 +137,8 @@ function Controller() {
             if (e.success) {
                 $.commentCount.text = e.comments.length;
                 for (var i = 0; e.comments.length > i; i++) {
-                    var commentView = createComment(e.comments[i].text);
+                    var author = e.comments[i].user.first_name + " " + e.comments[i].user.last_name;
+                    var commentView = createComment(e.comments[i].text, author);
                     $.content.add(commentView);
                 }
                 var commentArea = Titanium.UI.createTextArea({
@@ -153,7 +164,7 @@ function Controller() {
                         user_id: userId
                     };
                     Alloy.Globals.Cloud.Objects.create(dict, function(e) {
-                        e.success ? findIdea(currentIdea.id) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                        e.success ? Alloy.createController("main").getView().open() : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
                     });
                 });
                 newComment.add(commentArea);
