@@ -8,15 +8,14 @@
 				<Label id="userName" class="sansPro pink" onClick="showProfile" />
 			</View>
 			<View class="row" borderWidth="2" borderColor="#e9e9e9">
-				<Label id="pitchTitle" class="sansPro gold" text="IDEA" />
-				<Label id="pitch" class="sansPro aqua" top="30" width="80%" >
-	    		</Label>
-	    	</View>
-	    	<View class="row" borderWidth="2" borderColor="#e9e9e9"/>
-	    	<View id="comments" class="row">
+				<Label id="pitchTitle" top="5" class="sansPro gold" text="IDEA" />
+				<Label id="pitch" class="sansPro aqua" top="30" width="80%" />
+			</View>
+			<View class="row" borderWidth="2" borderColor="#e9e9e9"/>
+			<View id="comments" class="row">
 				<Label id="commentsTitle" class="sansPro gold" text="COMENTARIOS" />
-	    	</View>
-    	</ScrollView>
+			</View>
+     	</ScrollView>
     	<View class="actions" bottom="0">
     		<Button id="match" onClick="match" backgroundImage="/images/like.png" bottom="20" width="50" height="50" backgroundColor="#04cbca" left="50"/>
     		<Label id="matchCount" class="sansPro aqua bold"  onClick="match" bottom="0" left="75"/>

@@ -7,8 +7,8 @@ var newComment = Ti.UI.createView({
 				    width:'100%', height: Ti.UI.SIZE,
 				    top: 10, left: 0
 				  });
-
-function createComment(commentText, author) {
+var commentsArray=[]; //store all the views of the comments of CurrentIdea. Parece que los borra bien, pero que los escribe de nuevo por alguna razon
+function createComment(commentText, authorName, authorId) {
   var comment = Ti.UI.createView({
     backgroundColor: 'white',
     width:'100%', height: Ti.UI.SIZE,
@@ -20,12 +20,19 @@ function createComment(commentText, author) {
     top: 10, left:5
   });
   var authorLabel = Ti.UI.createLabel({
-    text: author,
+    text: authorName,
     color: 'blue',
     bottom:0 , right: 5,
   });
+  authorLabel.addEventListener('click',function(e)
+	{
+	   Titanium.API.info("show user profile");
+	   Alloy.Globals.userToShow = authorId;
+	   Alloy.createController('userProfile').getView().open();
+	});
   comment.add(textLabel);
   comment.add(authorLabel);
+  //commentsArray.push(comment);
   return comment;
 }
 
@@ -129,7 +136,15 @@ function match (e) {
 		  };
 		  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
 		    if (e.success) {
-		        getCurrentIdea(currentUser); //loads another idea
+		    	/*for(var i=commentsArray.length-1; i>=0; i--)
+		    	{
+		    		alert(i);
+		    		$.content.remove(commentsArray[i]);
+		    		commentsArray.pop();
+		    	}*/
+		    	//$.comments.removeAllChildren();
+		        //getCurrentIdea(currentUser); //loads another idea
+		         Alloy.createController('main').getView().open(); //reloads window
 		    } else {
 		        alert('Error:\n' +
 		            ((e.error && e.message) || JSON.stringify(e)));
@@ -180,7 +195,9 @@ function noMatch (e) {
 		  };
 		  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
 		    if (e.success) {
-		        getCurrentIdea(currentUser); //loads another idea
+		    	//$.comments.removeAllChildren();
+		        //getCurrentIdea(currentUser); //loads another idea (fast)
+		        Alloy.createController('main').getView().open(); //reloads window (slow)
 		    } else {
 		        alert('Error:\n' +
 		            ((e.error && e.message) || JSON.stringify(e)));
@@ -230,8 +247,9 @@ function fillData(e){
 	    	//alert("Comentarios encontrados");
 	    	$.commentCount.text=e.comments.length;
 	    	for(var i = 0; i < e.comments.length; i++){
-	    	var author = e.comments[i].user.first_name +" "+ e.comments[i].user.last_name;
-			var commentView = createComment(e.comments[i].text, author);
+	    	var authorName = e.comments[i].user.first_name +" "+ e.comments[i].user.last_name;
+	    	var authorId = e.comments[i].user.id;
+			var commentView = createComment(e.comments[i].text, authorName, authorId);
 			$.content.add(commentView);
 			}
 			var commentArea = Titanium.UI.createTextArea({

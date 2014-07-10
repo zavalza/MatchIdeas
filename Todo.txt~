@@ -22,3 +22,7 @@ CORREGIMOS LO DE FACEBOOK Y HACEMOS QUE EL MAIL SEA PUBLICO
 	Alloy.Globals.ideaToShow = null;
 
 *corregir el app.tss con Ti.UI.SIZE,
+
+*no está jalando el save
+con match no se borran los comments al cargar otra idea
+ si corregimos el hecho de que se cierre sesion cuando cierran la aplicacion solo será cuestion de garnatizar que en facebook jale igual

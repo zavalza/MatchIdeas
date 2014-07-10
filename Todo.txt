@@ -23,6 +23,6 @@ CORREGIMOS LO DE FACEBOOK Y HACEMOS QUE EL MAIL SEA PUBLICO
 
 *corregir el app.tss con Ti.UI.SIZE,
 
-
+* en match y no match //getCurrentIdea(currentUser); //loads another idea, pero no elimina comentarios anteriores
 con match no se borran los comments al cargar otra idea
  si corregimos el hecho de que se cierre sesion cuando cierran la aplicacion solo será cuestion de garnatizar que en facebook jale igual

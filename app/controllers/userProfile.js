@@ -5,13 +5,14 @@ function createIdea(id, pitch) {
     backgroundColor: 'white',
     borderColor: '#bbb',
     borderWidth: 1,
-    width:'100%', height: 70,
+    width:'100%', height: Ti.UI.SIZE,
     top: 0, left: 0
   });
   var textLabel = Ti.UI.createLabel({
-    text: pitch,
+    text: "\""+pitch+"\"",
+    color: "#04cbca",
     top: 10, left: '10%',
-    width: '80%', height: 60
+    width: '80%'
   });
   idea.add(textLabel);
   idea.addEventListener('click',function(e)
@@ -74,6 +75,7 @@ Alloy.Globals.Cloud.Users.show({
 			        var fbButton = Titanium.UI.createButton({
 					   title: 'Facebook',
 					   top: 10,
+					   bottom: 5, 
 					   color:'white',
 					   backgroundColor: 'blue',
 					   width: 100,

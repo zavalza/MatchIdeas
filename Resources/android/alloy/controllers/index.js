@@ -8,7 +8,6 @@ function Controller() {
         }, function(e) {
             if (e.success) {
                 Alloy.Globals.NormalUser = e.users[0].id;
-                Ti.App.Properties.setString("sessionId", sessionId);
                 var main = Alloy.createController("main").getView();
                 main.open();
             } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));

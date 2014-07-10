@@ -5,16 +5,16 @@ function Controller() {
             borderColor: "#bbb",
             borderWidth: 1,
             width: "100%",
-            height: 70,
+            height: Ti.UI.SIZE,
             top: 0,
             left: 0
         });
         var textLabel = Ti.UI.createLabel({
-            text: pitch,
+            text: '"' + pitch + '"',
+            color: "#04cbca",
             top: 10,
             left: "10%",
-            width: "80%",
-            height: 60
+            width: "80%"
         });
         idea.add(textLabel);
         idea.addEventListener("click", function() {
@@ -69,9 +69,11 @@ function Controller() {
     });
     $.__views.content.add($.__views.__alloyId32);
     $.__views.name = Ti.UI.createLabel({
+        color: "#cc0a98",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
         id: "name",
-        color: "#900",
-        shadowColor: "#aaa",
         text: "Sin nombre",
         textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
         width: Ti.UI.SIZE,
@@ -87,6 +89,27 @@ function Controller() {
         id: "networks"
     });
     $.__views.content.add($.__views.networks);
+    $.__views.__alloyId33 = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: 40,
+        top: 0,
+        left: 0,
+        id: "__alloyId33"
+    });
+    $.__views.content.add($.__views.__alloyId33);
+    $.__views.ideasTitle = Ti.UI.createLabel({
+        color: "#cbc01f",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
+        id: "ideasTitle",
+        text: "IDEAS",
+        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+        width: Ti.UI.SIZE,
+        height: Ti.UI.SIZE
+    });
+    $.__views.__alloyId33.add($.__views.ideasTitle);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var currentUser = null;
@@ -103,6 +126,7 @@ function Controller() {
                     var fbButton = Titanium.UI.createButton({
                         title: "Facebook",
                         top: 10,
+                        bottom: 5,
                         color: "white",
                         backgroundColor: "blue",
                         width: 100,

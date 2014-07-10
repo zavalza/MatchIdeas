@@ -5,9 +5,12 @@
 				<ImageView id="userImage" image="/images/profilePic.png" width="120" height="120" />
 			</View>
 			<View class="smallRow">
-				<Label id="name" color="#900" shadowColor="#aaa" text="Sin nombre" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+				<Label id="name" class="sansPro pink" text="Sin nombre" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
 			</View>
 			<View class="row" id="networks" />
+			<View class="smallRow">
+				<Label id="ideasTitle" class="sansPro gold" text="IDEAS" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			</View>
     	</ScrollView>
 	</Window>
 </Alloy>

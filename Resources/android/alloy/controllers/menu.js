@@ -44,6 +44,7 @@ function Controller() {
         id: "__alloyId11"
     });
     $.__views.content.add($.__views.__alloyId11);
+    showProfile ? $.__views.__alloyId11.addEventListener("click", showProfile) : __defers["$.__views.__alloyId11!click!showProfile"] = true;
     $.__views.profile = Ti.UI.createLabel({
         font: {
             fontFamily: "SourceSansPro-Regular"
@@ -53,7 +54,6 @@ function Controller() {
         text: "Mi perfil"
     });
     $.__views.__alloyId11.add($.__views.profile);
-    showProfile ? $.__views.profile.addEventListener("click", showProfile) : __defers["$.__views.profile!click!showProfile"] = true;
     $.__views.__alloyId12 = Ti.UI.createView({
         backgroundColor: "white",
         borderColor: "#bbb",
@@ -65,6 +65,7 @@ function Controller() {
         id: "__alloyId12"
     });
     $.__views.content.add($.__views.__alloyId12);
+    showSettings ? $.__views.__alloyId12.addEventListener("click", showSettings) : __defers["$.__views.__alloyId12!click!showSettings"] = true;
     $.__views.config = Ti.UI.createLabel({
         font: {
             fontFamily: "SourceSansPro-Regular"
@@ -74,7 +75,6 @@ function Controller() {
         text: "Configuración"
     });
     $.__views.__alloyId12.add($.__views.config);
-    showSettings ? $.__views.config.addEventListener("click", showSettings) : __defers["$.__views.config!click!showSettings"] = true;
     $.__views.__alloyId13 = Ti.UI.createView({
         backgroundColor: "white",
         borderColor: "#bbb",
@@ -86,6 +86,7 @@ function Controller() {
         id: "__alloyId13"
     });
     $.__views.content.add($.__views.__alloyId13);
+    showIdeas ? $.__views.__alloyId13.addEventListener("click", showIdeas) : __defers["$.__views.__alloyId13!click!showIdeas"] = true;
     $.__views.moreIdeas = Ti.UI.createLabel({
         font: {
             fontFamily: "SourceSansPro-Regular"
@@ -95,7 +96,6 @@ function Controller() {
         text: "Más ideas"
     });
     $.__views.__alloyId13.add($.__views.moreIdeas);
-    showIdeas ? $.__views.moreIdeas.addEventListener("click", showIdeas) : __defers["$.__views.moreIdeas!click!showIdeas"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
@@ -120,9 +120,9 @@ function Controller() {
         });
         $.content.add(button);
     }
-    __defers["$.__views.profile!click!showProfile"] && $.__views.profile.addEventListener("click", showProfile);
-    __defers["$.__views.config!click!showSettings"] && $.__views.config.addEventListener("click", showSettings);
-    __defers["$.__views.moreIdeas!click!showIdeas"] && $.__views.moreIdeas.addEventListener("click", showIdeas);
+    __defers["$.__views.__alloyId11!click!showProfile"] && $.__views.__alloyId11.addEventListener("click", showProfile);
+    __defers["$.__views.__alloyId12!click!showSettings"] && $.__views.__alloyId12.addEventListener("click", showSettings);
+    __defers["$.__views.__alloyId13!click!showIdeas"] && $.__views.__alloyId13.addEventListener("click", showIdeas);
     _.extend($, exports);
 }
 

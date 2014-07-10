@@ -1,4 +1,25 @@
 function Controller() {
+    function saveIdea() {
+        var userId = Alloy.Globals.getUserId();
+        var dict = {
+            classname: "ideas",
+            fields: {
+                pitch: $.pitch.value,
+                matches: 0,
+                noMatches: 0,
+                comments: [],
+                votedBy: [ userId ]
+            },
+            acl_name: "ideasACL",
+            user_id: userId
+        };
+        Alloy.Globals.Cloud.Objects.create(dict, function(e) {
+            if (e.success) {
+                var main = Alloy.createController("main").getView();
+                main.open();
+            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+        });
+    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "newIdea";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
@@ -6,6 +27,7 @@ function Controller() {
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
+    var __defers = {};
     $.__views.win = Ti.UI.createWindow({
         backgroundColor: "white",
         id: "win"
@@ -59,30 +81,11 @@ function Controller() {
         backgroundColor: "#04cbca"
     });
     $.__views.__alloyId16.add($.__views.done);
+    saveIdea ? $.__views.done.addEventListener("click", saveIdea) : __defers["$.__views.done!click!saveIdea"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
-    $.pitch.addEventListener("return", function() {
-        var userId = Alloy.Globals.getUserId();
-        var dict = {
-            classname: "ideas",
-            fields: {
-                pitch: $.pitch.value,
-                matches: 0,
-                noMatches: 0,
-                comments: [],
-                votedBy: [ userId ]
-            },
-            acl_name: "ideasACL",
-            user_id: userId
-        };
-        Alloy.Globals.Cloud.Objects.create(dict, function(e) {
-            if (e.success) {
-                var main = Alloy.createController("main").getView();
-                main.open();
-            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
-        });
-    });
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
+    __defers["$.__views.done!click!saveIdea"] && $.__views.done.addEventListener("click", saveIdea);
     _.extend($, exports);
 }
 

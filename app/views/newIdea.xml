@@ -5,7 +5,7 @@
 				<TextArea id="pitch" class="input" color="#888" textAlign="left" hintText="Nueva idea..." returnKeyType="Titanium.UI.RETURNKEY_DONE" width="90%" height="90%" />
 			</View>	
 	    	<View class="row">
-	    		<Button id="done" width="150" height="50" title="Guardar" color="#fefefe" backgroundColor="#04cbca"/>
+	    		<Button id="done" width="150" height="50" onClick="saveIdea" title="Guardar" color="#fefefe" backgroundColor="#04cbca"/>
     		</View>
     	</ScrollView>	
 	</Window>

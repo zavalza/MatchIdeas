@@ -14,10 +14,7 @@ function closeNewIdea(e){
     $.win.close();
 };
 
-
-$.pitch.addEventListener('return',function(e)
-{
-    //Displays log message on console
+function saveIdea(e){
     var userId = Alloy.Globals.getUserId();
     var dict = {
 		    	classname: 'ideas',
@@ -43,7 +40,7 @@ $.pitch.addEventListener('return',function(e)
 	            ((e.error && e.message) || JSON.stringify(e)));
 	    }
 	});
-});
+}
 if (Ti.UI.Android){
   $.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN;
 }

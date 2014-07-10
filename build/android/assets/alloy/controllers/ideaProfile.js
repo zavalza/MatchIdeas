@@ -1,5 +1,5 @@
 function Controller() {
-    function createComment(commentText, author) {
+    function createComment(commentText, authorName, authorId) {
         var comment = Ti.UI.createView({
             backgroundColor: "white",
             width: "100%",
@@ -13,10 +13,15 @@ function Controller() {
             left: 5
         });
         var authorLabel = Ti.UI.createLabel({
-            text: author,
+            text: authorName,
             color: "blue",
             bottom: 0,
             right: 5
+        });
+        authorLabel.addEventListener("click", function() {
+            Titanium.API.info("show user profile");
+            Alloy.Globals.userToShow = authorId;
+            Alloy.createController("userProfile").getView().open();
         });
         comment.add(textLabel);
         comment.add(authorLabel);
@@ -80,7 +85,7 @@ function Controller() {
                 user_id: currentIdea.user.id
             };
             Alloy.Globals.Cloud.Objects.update(dict, function(e) {
-                e.success ? getCurrentIdea(currentUser) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                e.success ? Alloy.createController("main").getView().open() : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
             });
         } else alert("Necesitas ideas para votar");
     }
@@ -106,7 +111,7 @@ function Controller() {
                 user_id: currentIdea.user.id
             };
             Alloy.Globals.Cloud.Objects.update(dict, function(e) {
-                e.success ? getCurrentIdea(currentUser) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                e.success ? Alloy.createController("main").getView().open() : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
             });
         } else alert("Necesitas ideas para votar");
     }
@@ -130,8 +135,9 @@ function Controller() {
             if (e.success) {
                 $.commentCount.text = e.comments.length;
                 for (var i = 0; e.comments.length > i; i++) {
-                    var author = e.comments[i].user.first_name + " " + e.comments[i].user.last_name;
-                    var commentView = createComment(e.comments[i].text, author);
+                    var authorName = e.comments[i].user.first_name + " " + e.comments[i].user.last_name;
+                    var authorId = e.comments[i].user.id;
+                    var commentView = createComment(e.comments[i].text, authorName, authorId);
                     $.content.add(commentView);
                 }
                 var commentArea = Titanium.UI.createTextArea({
@@ -248,6 +254,7 @@ function Controller() {
             fontFamily: "SourceSansPro-Regular"
         },
         id: "pitchTitle",
+        top: "5",
         text: "IDEA"
     });
     $.__views.__alloyId2.add($.__views.pitchTitle);
@@ -256,7 +263,6 @@ function Controller() {
         font: {
             fontFamily: "SourceSansPro-Regular"
         },
-        text: "",
         id: "pitch",
         top: "30",
         width: "80%"
