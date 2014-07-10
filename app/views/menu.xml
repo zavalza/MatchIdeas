@@ -1,14 +1,14 @@
 <Alloy>
 	<Window id="win" class="container">
 		<ScrollView id="content" top="30" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
-			<View class="row">
-				<Label id="profile" class="sansPro pink" onClick="showProfile"  text="Mi perfil"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			<View class="menuRow">
+				<Label id="profile" class="sansPro pink menuOption" onClick="showProfile"  text="Mi perfil" />
 			</View>
-			<View class="row">
-				<Label id="ideas" class="sansPro aqua" onClick="showIdeas" text="Más ideas"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			<View class="menuRow">
+				<Label id="config" class="sansPro aqua menuOption" onClick="showSettings" text="Configuración"  />
 			</View>
-			<View class="row">
-				<Label id="newIdea" class="sansPro gold" onClick="showIdeas" text="Nueva idea"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			<View class="menuRow">
+				<Label id="moreIdeas" class="sansPro gold menuOption" onClick="showIdeas" text="Más ideas"  />
 			</View>
     	</ScrollView>
 	</Window>

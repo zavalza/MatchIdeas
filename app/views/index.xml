@@ -13,9 +13,9 @@
 		</View>
 		<View class="row">
 			<Button id="tryLogin" onClick="tryLogin" title="Entrar"
-	             width="130" height="50" left="20" />
+	             width="130" height="50" left="20" color="#fefefe" backgroundColor="#cc0a98"/>
 	        <Button id="newUser" onClick="newUserForm" title="Registrarme"
-	         width="130" height="50" right="20" />
+	         width="130" height="50" right="20" color="#fefefe" backgroundColor="#04cbca"/>
         </View>
         <View class="row">
 	        <Button id="terms" class="sansPro" onClick="terms" title="TERMINOS Y CONDICIONES"

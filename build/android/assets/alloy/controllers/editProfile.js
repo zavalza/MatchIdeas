@@ -30,8 +30,6 @@ function Controller() {
     });
     $.__views.win && $.addTopLevelView($.__views.win);
     $.__views.__alloyId0 = Ti.UI.createView({
-        backgroundColor: "darkgray",
-        top: 0,
         width: "100%",
         height: 50,
         id: "__alloyId0"
@@ -68,7 +66,6 @@ function Controller() {
     $.__views.win.add($.__views.content);
     $.__views.__alloyId1 = Ti.UI.createView({
         backgroundColor: "white",
-        borderWidth: 0,
         width: "100%",
         height: 120,
         top: 0,
@@ -85,10 +82,8 @@ function Controller() {
     $.__views.__alloyId1.add($.__views.userImage);
     $.__views.__alloyId2 = Ti.UI.createView({
         backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
         width: "100%",
-        height: 70,
+        height: Ti.UI.SIZE,
         top: 0,
         left: 0,
         id: "__alloyId2"
@@ -106,10 +101,8 @@ function Controller() {
     $.__views.__alloyId2.add($.__views.firstName);
     $.__views.__alloyId3 = Ti.UI.createView({
         backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
         width: "100%",
-        height: 70,
+        height: Ti.UI.SIZE,
         top: 0,
         left: 0,
         id: "__alloyId3"
@@ -127,10 +120,8 @@ function Controller() {
     $.__views.__alloyId3.add($.__views.lastName);
     $.__views.__alloyId4 = Ti.UI.createView({
         backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
         width: "100%",
-        height: 70,
+        height: Ti.UI.SIZE,
         top: 0,
         left: 0,
         id: "__alloyId4"
@@ -148,10 +139,8 @@ function Controller() {
     $.__views.__alloyId4.add($.__views.email);
     $.__views.__alloyId5 = Ti.UI.createView({
         backgroundColor: "white",
-        borderColor: "#bbb",
-        borderWidth: 1,
         width: "100%",
-        height: 70,
+        height: Ti.UI.SIZE,
         top: 0,
         left: 0,
         id: "__alloyId5"

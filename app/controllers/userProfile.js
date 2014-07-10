@@ -56,13 +56,13 @@ Alloy.Globals.Cloud.Users.show({
 			    	var fbUser =  JSON.parse(e.result);
 			    	//alert(fbUser);
 			        $.name.text = fbUser.first_name+ " "+fbUser.last_name;
-			        var emailButton = Titanium.UI.createButton({
+			        /*var emailButton = Titanium.UI.createButton({
 					   title: 'Email',
 					   top: 10,
 					   width: 100,
 					   height: 50
 					});
-					/*emailButton.addEventListener('click',function(e)
+					emailButton.addEventListener('click',function(e)
 					{
 						 var emailDialog = Ti.UI.createEmailDialog();
 						emailDialog.subject = "Contacto de MatchIdeas";
@@ -74,7 +74,8 @@ Alloy.Globals.Cloud.Users.show({
 			        var fbButton = Titanium.UI.createButton({
 					   title: 'Facebook',
 					   top: 10,
-					   right: 20,
+					   color:'white',
+					   backgroundColor: 'blue',
 					   width: 100,
 					   height: 50
 					});
@@ -143,30 +144,5 @@ Alloy.Globals.Cloud.Users.show({
     }
 });
 
-if(userId == Alloy.Globals.getUserId()) //If user to show is the logged user
-{
-	//user can edit
-	var row = Ti.UI.createView({
-    backgroundColor: 'white',
-    borderColor: '#bbb',
-    borderWidth: 1,
-    width:'100%', height: 70,
-    top: 0, left: 0
-  	});
-  
-	var editButton = Titanium.UI.createButton({
-	   title: 'Editar',
-	   top: 10,
-	   width: 100,
-	   height: 50
-	});
-	editButton.addEventListener('click',function(e)
-	{
-	   Alloy.createController('editProfile').getView().open();
-	});
-	
-	row.add(editButton);
-	$.content.add(row);
-}
 
 

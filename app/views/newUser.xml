@@ -22,7 +22,7 @@
 				</View>
 				<View class="row">
 					<Button id="createUser" onClick="createUser" title="Registrarme"
-					width="150" height="50"/>
+					width="150" height="50"  color="#fefefe" backgroundColor="#04cbca"/>
 				</View>
 				<View class="row">
 					<Button id="terms" class="sansPro" onClick="terms" title="TERMINOS Y CONDICIONES"

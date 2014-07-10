@@ -4,14 +4,8 @@
 			<View class="bigRow">
 				<TextArea id="pitch" class="input" color="#888" textAlign="left" hintText="Nueva idea..." returnKeyType="Titanium.UI.RETURNKEY_DONE" width="90%" height="90%" />
 			</View>	
-			<View class="row">
-				<Label id="fb" color="#900" shadowColor="#aaa" text="Compartir en facebook" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
-				<View>
-					<Switch id="shareFb" value="true" left="10">
-				</View>
-	    	</View>
 	    	<View class="row">
-	    		<Button id="done" onClick="done" width="150" height="50" text="Hecho" color="white" backgroundColor="orange"/>
+	    		<Button id="done" width="150" height="50" title="Guardar" color="#fefefe" backgroundColor="#04cbca"/>
     		</View>
     	</ScrollView>	
 	</Window>

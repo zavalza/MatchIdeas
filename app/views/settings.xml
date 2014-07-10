@@ -1,0 +1,18 @@
+<Alloy>
+	<Window id="win" class="container">
+		<ScrollView id="content" top="30" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+			<View class="row">
+				<Label id="contactLabel" class="sansPro pink" text="DATOS DE CONTACTO" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			</View>
+			<View class="row">
+				<TextField id="nameToShow" class="input"  color="#900" shadowColor="#aaa" hintText="Nombre" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="80%" height="Ti.UI.SIZE" />
+			</View>
+			<View class="row">
+				<TextField id="emailOfContact" class="input" color="#900" shadowColor="#aaa" hintText="Correo electrónico" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="80%" height="Ti.UI.SIZE" />
+			</View>
+			<View class="row">
+	    		<Button id="done" width="150" height="50" onClick="saveContactData" title="Guardar" color="#fefefe" backgroundColor="#04cbca"/>
+    		</View>
+    	</ScrollView>
+	</Window>
+</Alloy>

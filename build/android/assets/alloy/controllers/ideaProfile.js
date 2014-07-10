@@ -2,28 +2,21 @@ function Controller() {
     function createComment(commentText, author) {
         var comment = Ti.UI.createView({
             backgroundColor: "white",
-            borderColor: "#bbb",
-            borderWidth: 1,
             width: "100%",
-            height: 70,
-            top: 0,
-            left: 0
+            height: Ti.UI.SIZE,
+            top: 0
         });
         var textLabel = Ti.UI.createLabel({
             text: commentText,
             color: "black",
             top: 10,
-            left: "10%",
-            width: "80%",
-            height: 30
+            left: 5
         });
         var authorLabel = Ti.UI.createLabel({
             text: author,
             color: "blue",
             bottom: 0,
-            right: "10%",
-            width: "80%",
-            height: 30
+            right: 5
         });
         comment.add(textLabel);
         comment.add(authorLabel);
@@ -123,7 +116,7 @@ function Controller() {
         Alloy.createController("userProfile").getView().open();
     }
     function fillData() {
-        $.pitch.text = currentIdea.pitch;
+        $.pitch.text = '"' + currentIdea.pitch + '"';
         $.matchCount.text = String(currentIdea.matches);
         $.noMatchCount.text = String(currentIdea.noMatches);
         $.userName.text = currentIdea.user.first_name ? currentIdea.user.first_name + " " + currentIdea.user.last_name : "Sin nombre";
@@ -143,13 +136,14 @@ function Controller() {
                 }
                 var commentArea = Titanium.UI.createTextArea({
                     id: "comment",
-                    borderStyle: Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
+                    borderColor: "#04cbca",
+                    borderWidth: 2,
                     hintText: "Nuevo comentario...",
                     color: "black",
                     textAlign: "left",
                     returnKeyType: Ti.UI.RETURNKEY_DONE,
                     width: "80%",
-                    height: 100
+                    height: Ti.UI.SIZE
                 });
                 commentArea.addEventListener("return", function() {
                     var textComment = commentArea.value;
@@ -201,15 +195,15 @@ function Controller() {
         showVerticalScrollIndicator: "true"
     });
     $.__views.win.add($.__views.content);
-    $.__views.__alloyId6 = Ti.UI.createView({
+    $.__views.__alloyId0 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
-        height: 120,
+        height: Ti.UI.SIZE,
         top: 0,
         left: 0,
-        id: "__alloyId6"
+        id: "__alloyId0"
     });
-    $.__views.content.add($.__views.__alloyId6);
+    $.__views.content.add($.__views.__alloyId0);
     $.__views.userImage = Ti.UI.createImageView({
         id: "userImage",
         image: "/images/profilePic.png",
@@ -217,38 +211,46 @@ function Controller() {
         width: "120",
         height: "120"
     });
-    $.__views.__alloyId6.add($.__views.userImage);
+    $.__views.__alloyId0.add($.__views.userImage);
     showProfile ? $.__views.userImage.addEventListener("click", showProfile) : __defers["$.__views.userImage!click!showProfile"] = true;
-    $.__views.__alloyId7 = Ti.UI.createView({
+    $.__views.__alloyId1 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
-        height: 40,
+        height: Ti.UI.SIZE,
         top: 0,
         left: 0,
-        id: "__alloyId7"
+        id: "__alloyId1"
     });
-    $.__views.content.add($.__views.__alloyId7);
+    $.__views.content.add($.__views.__alloyId1);
     $.__views.userName = Ti.UI.createLabel({
         color: "#cc0a98",
         font: {
             fontFamily: "SourceSansPro-Regular"
         },
-        id: "userName",
-        width: Ti.UI.SIZE,
-        height: Ti.UI.SIZE
+        id: "userName"
     });
-    $.__views.__alloyId7.add($.__views.userName);
+    $.__views.__alloyId1.add($.__views.userName);
     showProfile ? $.__views.userName.addEventListener("click", showProfile) : __defers["$.__views.userName!click!showProfile"] = true;
-    $.__views.__alloyId8 = Ti.UI.createView({
+    $.__views.__alloyId2 = Ti.UI.createView({
+        backgroundColor: "white",
         width: "100%",
-        top: "0",
-        left: "0",
+        height: Ti.UI.SIZE,
+        top: 0,
+        left: 0,
         borderWidth: "2",
         borderColor: "#e9e9e9",
-        height: "120",
-        id: "__alloyId8"
+        id: "__alloyId2"
     });
-    $.__views.content.add($.__views.__alloyId8);
+    $.__views.content.add($.__views.__alloyId2);
+    $.__views.pitchTitle = Ti.UI.createLabel({
+        color: "#cbc01f",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
+        id: "pitchTitle",
+        text: "IDEA"
+    });
+    $.__views.__alloyId2.add($.__views.pitchTitle);
     $.__views.pitch = Ti.UI.createLabel({
         color: "#04cbca",
         font: {
@@ -256,16 +258,46 @@ function Controller() {
         },
         text: "",
         id: "pitch",
+        top: "30",
         width: "80%"
     });
-    $.__views.__alloyId8.add($.__views.pitch);
-    $.__views.__alloyId9 = Ti.UI.createView({
+    $.__views.__alloyId2.add($.__views.pitch);
+    $.__views.__alloyId3 = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: Ti.UI.SIZE,
+        top: 0,
+        left: 0,
+        borderWidth: "2",
+        borderColor: "#e9e9e9",
+        id: "__alloyId3"
+    });
+    $.__views.content.add($.__views.__alloyId3);
+    $.__views.comments = Ti.UI.createView({
+        backgroundColor: "white",
+        width: "100%",
+        height: Ti.UI.SIZE,
+        top: 0,
+        left: 0,
+        id: "comments"
+    });
+    $.__views.content.add($.__views.comments);
+    $.__views.commentsTitle = Ti.UI.createLabel({
+        color: "#cbc01f",
+        font: {
+            fontFamily: "SourceSansPro-Regular"
+        },
+        id: "commentsTitle",
+        text: "COMENTARIOS"
+    });
+    $.__views.comments.add($.__views.commentsTitle);
+    $.__views.__alloyId4 = Ti.UI.createView({
         width: "100%",
         height: 70,
         bottom: "0",
-        id: "__alloyId9"
+        id: "__alloyId4"
     });
-    $.__views.win.add($.__views.__alloyId9);
+    $.__views.win.add($.__views.__alloyId4);
     $.__views.match = Ti.UI.createButton({
         id: "match",
         backgroundImage: "/images/like.png",
@@ -275,7 +307,7 @@ function Controller() {
         backgroundColor: "#04cbca",
         left: "50"
     });
-    $.__views.__alloyId9.add($.__views.match);
+    $.__views.__alloyId4.add($.__views.match);
     match ? $.__views.match.addEventListener("click", match) : __defers["$.__views.match!click!match"] = true;
     $.__views.matchCount = Ti.UI.createLabel({
         font: {
@@ -286,7 +318,7 @@ function Controller() {
         bottom: "0",
         left: "75"
     });
-    $.__views.__alloyId9.add($.__views.matchCount);
+    $.__views.__alloyId4.add($.__views.matchCount);
     match ? $.__views.matchCount.addEventListener("click", match) : __defers["$.__views.matchCount!click!match"] = true;
     $.__views.comment = Ti.UI.createButton({
         id: "comment",
@@ -296,7 +328,7 @@ function Controller() {
         height: "50",
         backgroundColor: "#cbc01f"
     });
-    $.__views.__alloyId9.add($.__views.comment);
+    $.__views.__alloyId4.add($.__views.comment);
     comment ? $.__views.comment.addEventListener("click", comment) : __defers["$.__views.comment!click!comment"] = true;
     $.__views.commentCount = Ti.UI.createLabel({
         font: {
@@ -306,7 +338,7 @@ function Controller() {
         id: "commentCount",
         bottom: "0"
     });
-    $.__views.__alloyId9.add($.__views.commentCount);
+    $.__views.__alloyId4.add($.__views.commentCount);
     comment ? $.__views.commentCount.addEventListener("click", comment) : __defers["$.__views.commentCount!click!comment"] = true;
     $.__views.noMatch = Ti.UI.createButton({
         id: "noMatch",
@@ -317,7 +349,7 @@ function Controller() {
         backgroundColor: "#cc0a98",
         right: "50"
     });
-    $.__views.__alloyId9.add($.__views.noMatch);
+    $.__views.__alloyId4.add($.__views.noMatch);
     noMatch ? $.__views.noMatch.addEventListener("click", noMatch) : __defers["$.__views.noMatch!click!noMatch"] = true;
     $.__views.noMatchCount = Ti.UI.createLabel({
         font: {
@@ -328,7 +360,7 @@ function Controller() {
         bottom: "0",
         right: "75"
     });
-    $.__views.__alloyId9.add($.__views.noMatchCount);
+    $.__views.__alloyId4.add($.__views.noMatchCount);
     noMatch ? $.__views.noMatchCount.addEventListener("click", noMatch) : __defers["$.__views.noMatchCount!click!noMatch"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
@@ -336,13 +368,13 @@ function Controller() {
     var currentUser = null;
     var newComment = Ti.UI.createView({
         center: {
-            x: Ti.UI.SIZE / 2,
-            y: Ti.UI.SIZE
+            x: 0,
+            y: 1e4
         },
         backgroundColor: "white",
-        width: "80%",
-        height: 100,
-        top: 0,
+        width: "100%",
+        height: Ti.UI.SIZE,
+        top: 10,
         left: 0
     });
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);

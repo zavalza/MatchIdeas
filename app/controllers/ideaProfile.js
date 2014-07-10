@@ -2,31 +2,27 @@
 var currentIdea = null;
 var currentUser = null;
 var newComment = Ti.UI.createView({
-					center : {x: Ti.UI.SIZE/2, y: Ti.UI.SIZE},
+					center : {x: 0, y: 10000}, //solucion momentanea es mandarlo a un y muy grande para que siempre baje
 				    backgroundColor: 'white',
-				    width:'80%', height: 100,
-				    top: 0, left: 0
+				    width:'100%', height: Ti.UI.SIZE,
+				    top: 10, left: 0
 				  });
 
 function createComment(commentText, author) {
   var comment = Ti.UI.createView({
     backgroundColor: 'white',
-    borderColor: '#bbb',
-    borderWidth: 1,
-    width:'100%', height: 70,
-    top: 0, left: 0
+    width:'100%', height: Ti.UI.SIZE,
+    top: 0
   });
   var textLabel = Ti.UI.createLabel({
     text: commentText,
     color: 'black',
-    top: 10, left: '10%',
-    width: '80%', height: 30
+    top: 10, left:5
   });
   var authorLabel = Ti.UI.createLabel({
     text: author,
     color: 'blue',
-    bottom:0 , right: '10%',
-    width: '80%', height: 30
+    bottom:0 , right: 5,
   });
   comment.add(textLabel);
   comment.add(authorLabel);
@@ -210,7 +206,7 @@ function showProfile(e){
 
 //fills Data once currentIdea (ideaToShow) is defined
 function fillData(e){
-	$.pitch.text = currentIdea.pitch;
+	$.pitch.text = "\""+currentIdea.pitch+"\"";
 	$.matchCount.text = String(currentIdea.matches);
 	$.noMatchCount.text = String(currentIdea.noMatches);
 	//find authors' data
@@ -240,12 +236,13 @@ function fillData(e){
 			}
 			var commentArea = Titanium.UI.createTextArea({
 			id: 'comment',
-		    borderStyle : Titanium.UI.INPUT_BORDERSTYLE_BEZEL,
+			borderColor: "#04cbca",
+   			borderWidth: 2,
 		    hintText : 'Nuevo comentario...',
 		    color: 'black',
 		    textAlign: 'left',
 		    returnKeyType: Ti.UI.RETURNKEY_DONE,
-		    width : '80%', height : 100
+		    width : '80%', height : Ti.UI.SIZE
 			});
 			
 			commentArea.addEventListener('return',function(e)

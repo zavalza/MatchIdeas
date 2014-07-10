@@ -15,9 +15,9 @@ function closeNewIdea(e){
 };
 
 
-function done(e){
+$.pitch.addEventListener('return',function(e)
+{
     //Displays log message on console
-    Titanium.API.info("Quit terms");
     var userId = Alloy.Globals.getUserId();
     var dict = {
 		    	classname: 'ideas',
@@ -29,10 +29,10 @@ function done(e){
 		   	   acl_name: 'ideasACL',
 		   	   user_id: userId
 		   	   };
-	if($.shareFb.value)
+	/*if($.shareFb.value)
 		    {
 		    	alert("Idea compartida en Fb");
-		    }
+		    }*/
     Alloy.Globals.Cloud.Objects.create(dict, function (e) {
 	    if (e.success) {
 		    var main = Alloy.createController('main').getView();
@@ -43,7 +43,7 @@ function done(e){
 	            ((e.error && e.message) || JSON.stringify(e)));
 	    }
 	});
-};
+});
 if (Ti.UI.Android){
   $.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN;
 }

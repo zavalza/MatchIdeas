@@ -9,6 +9,9 @@ function tryLogin(e){
 }, function (e) {
     if (e.success) {
     	Alloy.Globals.NormalUser = e.users[0].id;
+    	//var sessionId = Alloy.Globals.Cloud.sessionId;
+    	//alert(sessionId);
+    	Ti.App.Properties.setString('sessionId', sessionId);
         var main = Alloy.createController('main').getView();
         main.open();
     } else {
@@ -74,7 +77,6 @@ fb.addEventListener('login', function(e) {
 $.fbLogin.add(fb.createLoginButton({
     style : fb.BUTTON_STYLE_WIDE
 }));
-
 
 //Check if user is logged in
 Alloy.Globals.Cloud.Users.showMe(function (e) {

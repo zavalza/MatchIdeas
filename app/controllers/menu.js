@@ -5,7 +5,12 @@ function showProfile(e){
     Alloy.Globals.userToShow = Alloy.Globals.getUserId();
     Alloy.createController('userProfile').getView().open();
     
+};
 
+function showSettings(e){
+    //Displays log message on console
+    Titanium.API.info("show settings");
+    Alloy.createController('settings').getView().open();
 };
 
 function showIdeas(e){
@@ -25,13 +30,14 @@ fb.permissions = ['public_profile']; // Permissions your app needs
 fb.forceDialogAuth = false; //Uses the native app of Facebook if aviable*/
 fb.addEventListener('logout', function(e) {
     //alert('Logged out');
-    if (e.success) {
-        Alloy.createController('index').getView().open();
+     Alloy.createController('index').getView().open();
+    /*if (e.success) {
+       
     } else {
         alert('Error:\n' +
             ((e.error && e.message) || JSON.stringify(e)));
         //Alloy.createController('index').getView().open();
-      }
+      }*/
 });
 
 
@@ -57,6 +63,7 @@ else
 		//Alloy.createController('index').getView().open();
 	   Alloy.Globals.Cloud.Users.logout(function (e) {
 		    if (e.success) {
+		    	//Titanium.App.Properties.removeProperty("sessionId");
 		        Alloy.createController('index').getView().open();
 		    } else {
 		        alert('Error:\n' +

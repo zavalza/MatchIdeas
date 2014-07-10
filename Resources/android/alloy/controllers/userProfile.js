@@ -43,31 +43,31 @@ function Controller() {
         showVerticalScrollIndicator: "true"
     });
     $.__views.win.add($.__views.content);
-    $.__views.__alloyId34 = Ti.UI.createView({
+    $.__views.__alloyId31 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 120,
         top: 0,
         left: 0,
-        id: "__alloyId34"
+        id: "__alloyId31"
     });
-    $.__views.content.add($.__views.__alloyId34);
+    $.__views.content.add($.__views.__alloyId31);
     $.__views.userImage = Ti.UI.createImageView({
         id: "userImage",
         image: "/images/profilePic.png",
         width: "120",
         height: "120"
     });
-    $.__views.__alloyId34.add($.__views.userImage);
-    $.__views.__alloyId35 = Ti.UI.createView({
+    $.__views.__alloyId31.add($.__views.userImage);
+    $.__views.__alloyId32 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 40,
         top: 0,
         left: 0,
-        id: "__alloyId35"
+        id: "__alloyId32"
     });
-    $.__views.content.add($.__views.__alloyId35);
+    $.__views.content.add($.__views.__alloyId32);
     $.__views.name = Ti.UI.createLabel({
         id: "name",
         color: "#900",
@@ -77,11 +77,11 @@ function Controller() {
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
     });
-    $.__views.__alloyId35.add($.__views.name);
+    $.__views.__alloyId32.add($.__views.name);
     $.__views.networks = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
-        height: 70,
+        height: Ti.UI.SIZE,
         top: 0,
         left: 0,
         id: "networks"
@@ -100,16 +100,11 @@ function Controller() {
                 if (e.success) {
                     var fbUser = JSON.parse(e.result);
                     $.name.text = fbUser.first_name + " " + fbUser.last_name;
-                    Titanium.UI.createButton({
-                        title: "Email",
-                        top: 10,
-                        width: 100,
-                        height: 50
-                    });
                     var fbButton = Titanium.UI.createButton({
                         title: "Facebook",
                         top: 10,
-                        right: 20,
+                        color: "white",
+                        backgroundColor: "blue",
                         width: 100,
                         height: 50
                     });
@@ -140,28 +135,6 @@ function Controller() {
             });
         } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
     });
-    if (userId == Alloy.Globals.getUserId()) {
-        var row = Ti.UI.createView({
-            backgroundColor: "white",
-            borderColor: "#bbb",
-            borderWidth: 1,
-            width: "100%",
-            height: 70,
-            top: 0,
-            left: 0
-        });
-        var editButton = Titanium.UI.createButton({
-            title: "Editar",
-            top: 10,
-            width: 100,
-            height: 50
-        });
-        editButton.addEventListener("click", function() {
-            Alloy.createController("editProfile").getView().open();
-        });
-        row.add(editButton);
-        $.content.add(row);
-    }
     _.extend($, exports);
 }
 
