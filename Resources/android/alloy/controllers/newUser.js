@@ -10,7 +10,9 @@ function Controller() {
             password_confirmation: $.passwordConfirmation.value
         }, function(e) {
             if (e.success) {
-                Alloy.Globals.NormalUser = e.users[0].id;
+                var sessionId = Alloy.Globals.Cloud.sessionId;
+                alert(sessionId);
+                Ti.App.Properties.setString("storedSession", sessionId);
                 var newIdea = Alloy.createController("newIdea").getView();
                 newIdea.open();
             } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
@@ -227,24 +229,6 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var fb = Alloy.Globals.Facebook;
-    fb.appid = 305737346271076;
-    fb.permissions = [ "public_profile" ];
-    fb.forceDialogAuth = false;
-    fb.addEventListener("login", function(e) {
-        if (e.success) {
-            Alloy.Globals.Cloud.SocialIntegrations.externalAccountLogin({
-                type: "facebook",
-                token: fb.accessToken
-            }, function(e) {
-                if (e.success) {
-                    var user = e.users[0];
-                    Alloy.Globals.FbUser = user.id;
-                } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
-            });
-            var main = Alloy.createController("main").getView();
-            main.open();
-        } else e.error ? alert(e.error) : e.cancelled && alert("Canceled");
-    });
     $.fbLogin.add(fb.createLoginButton({
         style: fb.BUTTON_STYLE_WIDE
     }));

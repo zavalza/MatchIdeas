@@ -7,7 +7,6 @@ function Controller() {
             password: $.password.value
         }, function(e) {
             if (e.success) {
-                Alloy.Globals.NormalUser = e.users[0].id;
                 var sessionId = Alloy.Globals.Cloud.sessionId;
                 alert(sessionId);
                 Ti.App.Properties.setString("storedSession", sessionId);
@@ -178,15 +177,6 @@ function Controller() {
     $.fbLogin.add(fb.createLoginButton({
         style: fb.BUTTON_STYLE_WIDE
     }));
-    Alloy.Globals.Cloud.Users.showMe(function(e) {
-        if (e.success) {
-            var main = Alloy.createController("main").getView();
-            main.open();
-        } else if (fb.loggedIn) {
-            var main = Alloy.createController("main").getView();
-            main.open();
-        } else $.index.open();
-    });
     __defers["$.__views.tryLogin!click!tryLogin"] && $.__views.tryLogin.addEventListener("click", tryLogin);
     __defers["$.__views.newUser!click!newUserForm"] && $.__views.newUser.addEventListener("click", newUserForm);
     __defers["$.__views.terms!click!terms"] && $.__views.terms.addEventListener("click", terms);

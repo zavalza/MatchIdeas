@@ -10,49 +10,46 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 
-
+//Modules
 Alloy.Globals.Facebook = require('facebook');
 Alloy.Globals.Cloud = require('ti.cloud');
-//Store the ids of currentUser according to used login function
-Alloy.Globals.FbUser = null;
-Alloy.Globals.NormalUser = null;
+
+//Globar var
+Alloy.Globals.UserId = null;
+
 //Stores the id of the profile to show
 Alloy.Globals.userToShow = null;
 //Stores the id of the idea to show
 Alloy.Globals.ideaToShow = null;
 
 Alloy.Globals.getUserId = function(){
-	if(Alloy.Globals.Facebook.loggedIn)
-	{
-		//alert("Face");
-		return Alloy.Globals.FbUser;
-	}
-	else
-	{
-		Alloy.Globals.Cloud.Users.showMe(function (e) {
-		    if (e.success) 
-		    {//User is logged with email
-		    	//alert("Email");
-		    	Alloy.Globals.NormalUser = e.users[0].id;
-		    } 
-		    else
-		    {
-		    	alert("No hay usuario con sesión");
-		    }
-		});
-		return Alloy.Globals.NormalUser;
-	}
+	Alloy.Globals.Cloud.Users.showMe(function (e) {
+	    if (e.success) 
+	    {//User is logged 
+	    	Alloy.Globals.UserId = e.users[0].id;
+	    } 
+	    else
+	    {
+	    	alert("No hay usuario con sesión");
+	    }
+	});
+	return Alloy.Globals.UserId;
+	//}
 };
 
 
 
-//If User is loggedIn
+//If user is logged, go to main view
 if(Ti.App.Properties.hasProperty("storedSession"))
 {
 	alert("Hay una sesión guardada");
 	alert(Ti.App.Properties.getString('storedSession'));
 	Alloy.Globals.Cloud.sessionId = Ti.App.Properties.getString('storedSession');
 	Alloy.createController('main').getView().open();
+}
+else
+{
+	Alloy.createController('index').getView().open();
 }
 
 var fb  = Alloy.Globals.Facebook;
@@ -68,10 +65,10 @@ fb.addEventListener('login', function(e) {
 		token: fb.accessToken
 		}, function (e) {
 		if (e.success) {
-		var user = e.users[0];
-		Alloy.Globals.FbUser = user.id;
+		var sessionId = Alloy.Globals.Cloud.sessionId;
+    	alert(sessionId);
+    	Ti.App.Properties.setString('storedSession', sessionId);
 		
-	    
 		var main = Alloy.createController('main').getView();
         main.open();
 		} 
@@ -93,7 +90,18 @@ fb.addEventListener('login', function(e) {
 });
 fb.addEventListener('logout', function(e) {
     //alert('Logged out');
-     Alloy.createController('index').getView().open();
+    fb.logout();
+    Alloy.Globals.Cloud.Users.logout(function (e) {
+		    if (e.success) {
+		    	Titanium.App.Properties.removeProperty("storedSession");
+		    	alert("se ha removido la sesión");
+		        Alloy.createController('index').getView().open();
+		    } else {
+		        alert('Error:\n' +
+		            ((e.error && e.message) || JSON.stringify(e)));
+		    }
+		});
+     
     /*if (e.success) {
        
     } else {

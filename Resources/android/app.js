@@ -4,20 +4,17 @@ Alloy.Globals.Facebook = require("facebook");
 
 Alloy.Globals.Cloud = require("ti.cloud");
 
-Alloy.Globals.FbUser = null;
-
-Alloy.Globals.NormalUser = null;
+Alloy.Globals.UserId = null;
 
 Alloy.Globals.userToShow = null;
 
 Alloy.Globals.ideaToShow = null;
 
 Alloy.Globals.getUserId = function() {
-    if (Alloy.Globals.Facebook.loggedIn) return Alloy.Globals.FbUser;
     Alloy.Globals.Cloud.Users.showMe(function(e) {
-        e.success ? Alloy.Globals.NormalUser = e.users[0].id : alert("No hay usuario con sesión");
+        e.success ? Alloy.Globals.UserId = e.users[0].id : alert("No hay usuario con sesión");
     });
-    return Alloy.Globals.NormalUser;
+    return Alloy.Globals.UserId;
 };
 
 if (Ti.App.Properties.hasProperty("storedSession")) {
@@ -25,7 +22,7 @@ if (Ti.App.Properties.hasProperty("storedSession")) {
     alert(Ti.App.Properties.getString("storedSession"));
     Alloy.Globals.Cloud.sessionId = Ti.App.Properties.getString("storedSession");
     Alloy.createController("main").getView().open();
-}
+} else Alloy.createController("index").getView().open();
 
 var fb = Alloy.Globals.Facebook;
 
@@ -41,8 +38,9 @@ fb.addEventListener("login", function(e) {
         token: fb.accessToken
     }, function(e) {
         if (e.success) {
-            var user = e.users[0];
-            Alloy.Globals.FbUser = user.id;
+            var sessionId = Alloy.Globals.Cloud.sessionId;
+            alert(sessionId);
+            Ti.App.Properties.setString("storedSession", sessionId);
             var main = Alloy.createController("main").getView();
             main.open();
         } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
@@ -50,7 +48,14 @@ fb.addEventListener("login", function(e) {
 });
 
 fb.addEventListener("logout", function() {
-    Alloy.createController("index").getView().open();
+    fb.logout();
+    Alloy.Globals.Cloud.Users.logout(function(e) {
+        if (e.success) {
+            Titanium.App.Properties.removeProperty("storedSession");
+            alert("se ha removido la sesión");
+            Alloy.createController("index").getView().open();
+        } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+    });
 });
 
 Alloy.createController("index");
