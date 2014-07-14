@@ -100,9 +100,6 @@ function Controller() {
     _.extend($, $.__views);
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
     var fb = Alloy.Globals.Facebook;
-    fb.addEventListener("logout", function() {
-        Alloy.createController("index").getView().open();
-    });
     if (fb.loggedIn) $.content.add(fb.createLoginButton({
         top: 10,
         style: fb.BUTTON_STYLE_WIDE
@@ -115,7 +112,11 @@ function Controller() {
         });
         button.addEventListener("click", function() {
             Alloy.Globals.Cloud.Users.logout(function(e) {
-                e.success ? Alloy.createController("index").getView().open() : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+                if (e.success) {
+                    Titanium.App.Properties.removeProperty("storedSession");
+                    alert("se ha removido la sesión");
+                    Alloy.createController("index").getView().open();
+                } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
             });
         });
         $.content.add(button);

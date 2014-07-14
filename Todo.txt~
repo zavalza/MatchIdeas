@@ -1,7 +1,23 @@
+==Por implementar==
+2.Buscar ideas por palabra clave
+4.Compartir ideas en redes sociales
+6.Valorar comentarios (estrellas)
+7.Alertas en app cuando llegue mensaje a tu idea o cuando idea llegue a 100, 200, 300 likes
+8.Ver ideas por distancia 10km 20km 30km 40km hasta todo el mundo(everywhere)
+9.Crear ideas favoritas
+
+==Ideas==
+Poder subir un video en donde esta la foto no mas de 45sec
+Poder crear eventos de StartUps
+"news feed" Premium ideas las que pagaron suscripcion mensual de 13pesos al mes su idea aparece ahi.
+
+
+
+
+==Manejo de sesión y datos persistes==
 *Corregir/borrar las lineas para saber si ya está logeado el usuario
 *Verificar si el correo de un usuario de facebook ya fue usado en la forma tradicional de login
 *cambiar la manera en que se está calculando la variable de Alloy.Globals.FbUser, porque solo se calcula una vez y luego se pierde cuando retomamos la sesión
-*el scroll al picarle al boton de comment no baja hasta el commentArea
 *hacer un mensaje de error donde diga que verifiques tu conexion a internet y se despliegue en lugar de los alerts
 *esto en fb logout genera error:
     //alert('Logged out');
@@ -10,19 +26,21 @@
     } else {
         alert('Error:\n' +
             ((e.error && e.message) || JSON.stringify(e)));
-
-*que en lugar de mi perfil, salga el nombre
+==Settings==
 *Hacer una pantalla de Settings: nombre,
 redes: palomear correo facebook
 notificaciones
-
 esta sea la pantalla a la que mandemos cuando se logea por primera vez
 CORREGIMOS LO DE FACEBOOK Y HACEMOS QUE EL MAIL SEA PUBLICO
-*bug 	//Se puede comentar, entonces se pierde la idea
-	Alloy.Globals.ideaToShow = null;
 
+
+==Diseño==
+*Integrar lo que se pueda de Alex Galvan
 *corregir el app.tss con Ti.UI.SIZE,
 
-*no está jalando el save
+==Rendimiento==
+* en match y no match //getCurrentIdea(currentUser); //loads another idea, pero no elimina comentarios anteriores
 con match no se borran los comments al cargar otra idea
  si corregimos el hecho de que se cierre sesion cuando cierran la aplicacion solo será cuestion de garnatizar que en facebook jale igual
+* Hacer objetos tipo voto y verificar que no existan objetos con el id de la idea y el del usuario en lugar del arreglo votedBy. El conteo se debe mantener con inc, para que sea atomico
+
