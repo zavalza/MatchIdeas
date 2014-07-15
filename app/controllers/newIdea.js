@@ -1,19 +1,3 @@
-
-
-
-function showMenu(e){
-    //Displays log message on console
-    Titanium.API.info("Quit terms");
-    var newUser = Alloy.createController('newUser').getView();
-    newUser.open();
-};
-
-function closeNewIdea(e){
-    //Displays log message on console
-    Titanium.API.info("close new idea");
-    $.win.close();
-};
-
 function saveIdea(e){
     var userId = Alloy.Globals.getUserId();
     var dict = {
@@ -32,8 +16,9 @@ function saveIdea(e){
 		    }*/
     Alloy.Globals.Cloud.Objects.create(dict, function (e) {
 	    if (e.success) {
-		    var main = Alloy.createController('main').getView();
-		    main.open();
+	    	Alloy.Globals.Scrollable.scrollToView(Alloy.Globals.Ideas);
+		    //var main = Alloy.createController('main').getView();
+		    //main.open();
 	    } else {
 			//Posible funcion para guardar en base de datos
 	        alert('Error:\n' +

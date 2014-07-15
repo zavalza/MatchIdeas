@@ -10,7 +10,7 @@ function Controller() {
     }
     function showIdeas() {
         Titanium.API.info("show ideas");
-        Alloy.createController("main").getView().open();
+        Alloy.Globals.Scrollable.scrollToView(Alloy.Globals.Ideas);
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "menu";

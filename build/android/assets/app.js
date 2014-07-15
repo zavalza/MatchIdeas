@@ -6,6 +6,14 @@ Alloy.Globals.Cloud = require("ti.cloud");
 
 Alloy.Globals.UserId = null;
 
+Alloy.Globals.Scrollable = null;
+
+Alloy.Globals.Menu = null;
+
+Alloy.Globals.Ideas = null;
+
+Alloy.Globals.NewIdea = null;
+
 Alloy.Globals.userToShow = null;
 
 Alloy.Globals.ideaToShow = null;

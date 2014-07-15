@@ -43,4 +43,5 @@ CORREGIMOS LO DE FACEBOOK Y HACEMOS QUE EL MAIL SEA PUBLICO
 con match no se borran los comments al cargar otra idea
  si corregimos el hecho de que se cierre sesion cuando cierran la aplicacion solo será cuestion de garnatizar que en facebook jale igual
 * Hacer objetos tipo voto y verificar que no existan objetos con el id de la idea y el del usuario en lugar del arreglo votedBy. El conteo se debe mantener con inc, para que sea atomico
+*Eliminar campos de comments al crear una nueva idea
 

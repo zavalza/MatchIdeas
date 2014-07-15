@@ -14,9 +14,12 @@
 Alloy.Globals.Facebook = require('facebook');
 Alloy.Globals.Cloud = require('ti.cloud');
 
-//Globar var
+//Globar vars
 Alloy.Globals.UserId = null;
-
+Alloy.Globals.Scrollable = null;
+Alloy.Globals.Menu = null;
+Alloy.Globals.Ideas = null;
+Alloy.Globals.NewIdea = null;
 //Stores the id of the profile to show
 Alloy.Globals.userToShow = null;
 //Stores the id of the idea to show

@@ -47,24 +47,25 @@ function Controller() {
     $.win.add(menuButton);
     $.win.add(ideasButton);
     $.win.add(newButton);
-    var view1 = Alloy.createController("menu").getView();
-    var view2 = Alloy.createController("ideaProfile").getView();
-    var view3 = Alloy.createController("newIdea").getView();
-    $.scrollableView.views = [ view1, view2, view3 ];
+    Alloy.Globals.Menu = Alloy.createController("menu").getView();
+    Alloy.Globals.Ideas = Alloy.createController("ideaProfile").getView();
+    Alloy.Globals.NewIdea = Alloy.createController("newIdea").getView();
+    $.scrollableView.views = [ Alloy.Globals.Menu, Alloy.Globals.Ideas, Alloy.Globals.NewIdea ];
+    Alloy.Globals.Scrollable = $.scrollableView;
     menuButton.addEventListener("click", function() {
         Titanium.API.info("Go to menu view");
-        $.scrollableView.scrollToView(view1);
+        $.scrollableView.scrollToView(Alloy.Globals.Menu);
     });
     ideasButton.addEventListener("click", function() {
         Titanium.API.info("Go to ideas view");
-        $.scrollableView.scrollToView(view2);
+        $.scrollableView.scrollToView(Alloy.Globals.Ideas);
     });
     newButton.addEventListener("click", function() {
         Titanium.API.info("Go to newIdea view");
-        $.scrollableView.scrollToView(view3);
+        $.scrollableView.scrollToView(Alloy.Globals.NewIdea);
     });
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
-    $.scrollableView.scrollToView(view2);
+    $.scrollableView.scrollToView(Alloy.Globals.Ideas);
     $.win.open();
     _.extend($, exports);
 }

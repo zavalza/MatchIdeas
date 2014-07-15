@@ -16,7 +16,8 @@ function showSettings(e){
 function showIdeas(e){
     //Displays log message on console
     Titanium.API.info("show ideas");
-    Alloy.createController('main').getView().open();
+    //Alloy.createController('main').getView().open();
+    Alloy.Globals.Scrollable.scrollToView(Alloy.Globals.Ideas);
 };
 
 

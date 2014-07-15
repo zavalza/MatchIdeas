@@ -14,10 +14,7 @@ function Controller() {
             user_id: userId
         };
         Alloy.Globals.Cloud.Objects.create(dict, function(e) {
-            if (e.success) {
-                var main = Alloy.createController("main").getView();
-                main.open();
-            } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
+            e.success ? Alloy.Globals.Scrollable.scrollToView(Alloy.Globals.Ideas) : alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
         });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
