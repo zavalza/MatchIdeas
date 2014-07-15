@@ -24,36 +24,32 @@ Alloy.Globals.NewIdea = null;
 Alloy.Globals.userToShow = null;
 //Stores the id of the idea to show
 Alloy.Globals.ideaToShow = null;
+Alloy.Globals.Cloud.sessionId = Ti.App.Properties.getString('storedSession');
 
-Alloy.Globals.getUserId = function(){
-	Alloy.Globals.Cloud.Users.showMe(function (e) {
-	    if (e.success) 
-	    {//User is logged 
-	    	Alloy.Globals.UserId = e.users[0].id;
-	    } 
-	    else
-	    {
-	    	alert("No hay usuario con sesión");
-	    }
-	});
-	return Alloy.Globals.UserId;
-	//}
-};
-
-
-
-//If user is logged, go to main view
-if(Ti.App.Properties.hasProperty("storedSession"))
-{
-	alert("Hay una sesión guardada");
-	alert(Ti.App.Properties.getString('storedSession'));
-	Alloy.Globals.Cloud.sessionId = Ti.App.Properties.getString('storedSession');
-	Alloy.createController('main').getView().open();
+Alloy.Globals.Cloud.Users.showMe(function (e) {
+if (e.success)
+{//User is logged
+//alert("Email");
+Alloy.Globals.UserId = e.users[0].id;
+Alloy.createController('main').getView().open();
 }
 else
 {
+//alert("No hay usuario con sesión");
 	Alloy.createController('index').getView().open();
 }
+});
+
+
+
+/*if(Ti.App.Properties.hasProperty("storedSession"))
+{
+	alert("Hay una sesión guardada");
+	alert(Ti.App.Properties.getString('storedSession'));	
+}*/
+
+
+
 
 var fb  = Alloy.Globals.Facebook;
 fb.appid = 305737346271076;
@@ -62,12 +58,12 @@ fb.forceDialogAuth = false; //Uses the native app of Facebook if aviable
 fb.addEventListener('login', function(e) {
     if (e.success) 
     {
-    	
         Alloy.Globals.Cloud.SocialIntegrations.externalAccountLogin({
 		type: 'facebook',
 		token: fb.accessToken
 		}, function (e) {
 		if (e.success) {
+		Alloy.Globals.UserId = e.users[0].id;
 		var sessionId = Alloy.Globals.Cloud.sessionId;
     	alert(sessionId);
     	Ti.App.Properties.setString('storedSession', sessionId);

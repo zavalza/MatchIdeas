@@ -1,7 +1,7 @@
 function Controller() {
     function showProfile() {
         Titanium.API.info("show profile");
-        Alloy.Globals.userToShow = Alloy.Globals.getUserId();
+        Alloy.Globals.userToShow = Alloy.Globals.UserId;
         Alloy.createController("userProfile").getView().open();
     }
     function showSettings() {

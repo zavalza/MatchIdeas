@@ -28,6 +28,7 @@ function Controller() {
         return comment;
     }
     function getCurrentIdea(userId) {
+        alert(userId);
         Alloy.Globals.Cloud.Objects.query({
             classname: "ideas",
             limit: 1,
@@ -65,7 +66,7 @@ function Controller() {
     }
     function match() {
         Titanium.API.info("Match");
-        if (null != currentIdea) if (currentIdea.user.id == Alloy.Globals.getUserId()) alert("Tú creaste la idea, no puedes votar"); else {
+        if (null != currentIdea) if (currentIdea.user.id == Alloy.Globals.UserId) alert("Tú creaste la idea, no puedes votar"); else {
             findIdea(currentIdea.id);
             var votes = JSON.stringify(currentIdea.votedBy);
             votes = votes.substring(1, votes.length - 1);
@@ -91,7 +92,7 @@ function Controller() {
     }
     function noMatch() {
         Titanium.API.info("No Match");
-        if (null != currentIdea) if (currentIdea.user.id == Alloy.Globals.getUserId()) alert("Tú creaste la idea, no puedes votar"); else {
+        if (null != currentIdea) if (currentIdea.user.id == Alloy.Globals.UserId) alert("Tú creaste la idea, no puedes votar"); else {
             findIdea(currentIdea.id);
             var votes = JSON.stringify(currentIdea.votedBy);
             votes = votes.substring(1, votes.length - 1);
@@ -153,7 +154,7 @@ function Controller() {
                 });
                 commentArea.addEventListener("return", function() {
                     var textComment = commentArea.value;
-                    var userId = Alloy.Globals.getUserId();
+                    var userId = Alloy.Globals.UserId;
                     var dict = {
                         classname: "comments",
                         fields: {
@@ -384,11 +385,10 @@ function Controller() {
         left: 0
     });
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
-    currentUser = Alloy.Globals.getUserId();
     if (null != Alloy.Globals.ideaToShow) {
         findIdea(Alloy.Globals.ideaToShow);
         Alloy.Globals.ideaToShow = null;
-    } else getCurrentIdea(currentUser);
+    } else getCurrentIdea(Alloy.Globals.UserId);
     __defers["$.__views.userImage!click!showProfile"] && $.__views.userImage.addEventListener("click", showProfile);
     __defers["$.__views.userName!click!showProfile"] && $.__views.userName.addEventListener("click", showProfile);
     __defers["$.__views.match!click!match"] && $.__views.match.addEventListener("click", match);

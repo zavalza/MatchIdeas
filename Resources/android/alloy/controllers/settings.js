@@ -111,7 +111,7 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var currentUser = null;
-    var userId = Alloy.Globals.getUserId();
+    var userId = Alloy.Globals.UserId;
     Alloy.Globals.Cloud.Users.show({
         user_id: userId
     }, function(e) {

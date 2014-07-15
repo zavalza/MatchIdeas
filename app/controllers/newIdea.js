@@ -1,5 +1,5 @@
 function saveIdea(e){
-    var userId = Alloy.Globals.getUserId();
+    var userId = Alloy.Globals.UserId;
     var dict = {
 		    	classname: 'ideas',
 		   	   fields: {pitch: $.pitch.value,

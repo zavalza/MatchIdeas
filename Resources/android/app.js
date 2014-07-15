@@ -18,19 +18,14 @@ Alloy.Globals.userToShow = null;
 
 Alloy.Globals.ideaToShow = null;
 
-Alloy.Globals.getUserId = function() {
-    Alloy.Globals.Cloud.Users.showMe(function(e) {
-        e.success ? Alloy.Globals.UserId = e.users[0].id : alert("No hay usuario con sesión");
-    });
-    return Alloy.Globals.UserId;
-};
+Alloy.Globals.Cloud.sessionId = Ti.App.Properties.getString("storedSession");
 
-if (Ti.App.Properties.hasProperty("storedSession")) {
-    alert("Hay una sesión guardada");
-    alert(Ti.App.Properties.getString("storedSession"));
-    Alloy.Globals.Cloud.sessionId = Ti.App.Properties.getString("storedSession");
-    Alloy.createController("main").getView().open();
-} else Alloy.createController("index").getView().open();
+Alloy.Globals.Cloud.Users.showMe(function(e) {
+    if (e.success) {
+        Alloy.Globals.UserId = e.users[0].id;
+        Alloy.createController("main").getView().open();
+    } else Alloy.createController("index").getView().open();
+});
 
 var fb = Alloy.Globals.Facebook;
 
@@ -46,6 +41,7 @@ fb.addEventListener("login", function(e) {
         token: fb.accessToken
     }, function(e) {
         if (e.success) {
+            Alloy.Globals.UserId = e.users[0].id;
             var sessionId = Alloy.Globals.Cloud.sessionId;
             alert(sessionId);
             Ti.App.Properties.setString("storedSession", sessionId);

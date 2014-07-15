@@ -7,6 +7,7 @@ function tryLogin(e){
     password: $.password.value
 }, function (e) {
     if (e.success) {
+    	Alloy.Globals.UserId = e.users[0].id;
     	var sessionId = Alloy.Globals.Cloud.sessionId;
     	alert(sessionId);
     	Ti.App.Properties.setString('storedSession', sessionId);

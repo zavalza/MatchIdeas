@@ -42,7 +42,7 @@ function createComment(commentText, authorName, authorId) {
  * global currentIdea contains the result
  */
 function getCurrentIdea(userId){
-	//alert(userId);
+	alert(userId);
 	Alloy.Globals.Cloud.Objects.query({
 	    classname: 'ideas',
 	    limit: 1,
@@ -110,7 +110,7 @@ function match (e) {
   Titanium.API.info("Match");
   if(currentIdea != null)//If we have an idea
   {
-  	 if(currentIdea.user.id == Alloy.Globals.getUserId()) //If currentUser had created the idea
+  	 if(currentIdea.user.id == Alloy.Globals.UserId ) //If currentUser had created the idea
   	 {
   	 	alert("Tú creaste la idea, no puedes votar");
   	 }
@@ -169,7 +169,7 @@ function noMatch (e) {
   Titanium.API.info("No Match");
   if(currentIdea != null)//If we have an idea
   {
-  	if(currentIdea.user.id == Alloy.Globals.getUserId()) //If currentUser had created the idea
+  	if(currentIdea.user.id == Alloy.Globals.UserId) //If currentUser had created the idea
   	 {
   	 	alert("Tú creaste la idea, no puedes votar");
   	 }
@@ -266,7 +266,7 @@ function fillData(e){
 			commentArea.addEventListener('return',function(e)
 			{
 				var textComment = commentArea.value;
-				var userId = Alloy.Globals.getUserId();
+				var userId = Alloy.Globals.UserId;
 				var dict = {
 		    	classname: 'comments',
 			   	   fields: {text: textComment, 
@@ -330,8 +330,7 @@ if (Ti.UI.Android){
   $.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN;
 }
 
-//Get current User id
-currentUser = Alloy.Globals.getUserId();
+
 if(Alloy.Globals.ideaToShow != null)
 {
 	findIdea(Alloy.Globals.ideaToShow);
@@ -339,5 +338,5 @@ if(Alloy.Globals.ideaToShow != null)
 }
 else
 {
-	getCurrentIdea(currentUser);
+	getCurrentIdea(Alloy.Globals.UserId);
 }

@@ -33,7 +33,7 @@ function passReset(){
 }
 
 
-var userId = Alloy.Globals.getUserId();
+var userId = Alloy.Globals.UserId;
 //alert(userId);
 Alloy.Globals.Cloud.Users.show({
     user_id: userId

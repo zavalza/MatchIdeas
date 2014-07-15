@@ -1,6 +1,6 @@
 function Controller() {
     function saveIdea() {
-        var userId = Alloy.Globals.getUserId();
+        var userId = Alloy.Globals.UserId;
         var dict = {
             classname: "ideas",
             fields: {
