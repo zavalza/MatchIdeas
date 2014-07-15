@@ -1,16 +1,19 @@
 function Controller() {
     function saveIdea() {
         var userId = Alloy.Globals.UserId;
+        var pitchText = $.pitch.value;
+        var hashtags = pitchText.match(/#\S+/g);
+        for (var i = 0; hashtags.length > i; i++) hashtags[i] = hashtags[i].slice(1);
         var dict = {
             classname: "ideas",
             fields: {
-                pitch: $.pitch.value,
+                pitch: pitchText,
                 matches: 0,
                 noMatches: 0,
-                comments: [],
                 votedBy: [ userId ]
             },
             acl_name: "ideasACL",
+            tags: hashtags,
             user_id: userId
         };
         Alloy.Globals.Cloud.Objects.create(dict, function(e) {

@@ -126,6 +126,7 @@ Alloy.Globals.Cloud.Users.show({
 		    where: {
 		        user_id: currentUser.id
 		    },
+		    limit: 20,
 		    order: "make,created_at"
 		 }, function (e) {
 		    if (e.success) {

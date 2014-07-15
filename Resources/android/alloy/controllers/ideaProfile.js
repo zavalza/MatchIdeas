@@ -27,6 +27,23 @@ function Controller() {
         comment.add(authorLabel);
         return comment;
     }
+    function formatText(text) {
+        var words = text.split(" ");
+        var htmlText = "";
+        for (var i = 0; words.length > i; i++) {
+            switch (words[i][0]) {
+              case "#":
+                htmlText = htmlText + "<b>" + words[i] + "</b>";
+                break;
+
+              default:
+                htmlText += words[i];
+            }
+            htmlText += " ";
+        }
+        alert(htmlText);
+        return htmlText;
+    }
     function getCurrentIdea(userId) {
         alert(userId);
         Alloy.Globals.Cloud.Objects.query({
@@ -122,7 +139,7 @@ function Controller() {
         Alloy.createController("userProfile").getView().open();
     }
     function fillData() {
-        $.pitch.text = '"' + currentIdea.pitch + '"';
+        $.pitch.html = formatText(currentIdea.pitch);
         $.matchCount.text = String(currentIdea.matches);
         $.noMatchCount.text = String(currentIdea.noMatches);
         $.userName.text = currentIdea.user.first_name ? currentIdea.user.first_name + " " + currentIdea.user.last_name : "Sin nombre";
@@ -260,7 +277,6 @@ function Controller() {
     });
     $.__views.__alloyId2.add($.__views.pitchTitle);
     $.__views.pitch = Ti.UI.createLabel({
-        color: "#04cbca",
         font: {
             fontFamily: "SourceSansPro-Regular"
         },

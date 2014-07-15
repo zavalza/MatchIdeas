@@ -36,7 +36,25 @@ function createComment(commentText, authorName, authorId) {
   return comment;
 }
 
-
+//creates the unicode format for each word to show
+function formatText(text){
+	var words = text.split(" ");
+	var htmlText = "";
+	for (var i=0; i < words.length; i++)
+	{
+		switch(words[i][0]){
+			case '#':
+						htmlText = htmlText +'<b>' +words[i]+'</b>';
+						break;
+			default:
+						htmlText = htmlText + words[i];
+						 break;
+		}
+		htmlText=htmlText+" ";
+	}
+	alert(htmlText);
+	return htmlText;
+}
 
 /*Get an Idea from ACS, where the user has not already voted and that it has not created.
  * global currentIdea contains the result
@@ -223,7 +241,8 @@ function showProfile(e){
 
 //fills Data once currentIdea (ideaToShow) is defined
 function fillData(e){
-	$.pitch.text = "\""+currentIdea.pitch+"\"";
+	//$.pitch.text = "\""+formatText(currentIdea.pitch)+"\"";
+	$.pitch.html= formatText(currentIdea.pitch);
 	$.matchCount.text = String(currentIdea.matches);
 	$.noMatchCount.text = String(currentIdea.noMatches);
 	//find authors' data

@@ -1,5 +1,5 @@
 ==Por implementar==
-2.Buscar ideas por palabra clave
+2.Buscar ideas por palabra clave y zona geográfica
 4.Compartir ideas en redes sociales
 6.Valorar comentarios (estrellas)
 7.Alertas en app cuando llegue mensaje a tu idea o cuando idea llegue a 100, 200, 300 likes
