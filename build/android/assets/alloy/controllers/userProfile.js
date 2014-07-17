@@ -43,31 +43,31 @@ function Controller() {
         showVerticalScrollIndicator: "true"
     });
     $.__views.win.add($.__views.content);
-    $.__views.__alloyId31 = Ti.UI.createView({
+    $.__views.__alloyId29 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 120,
         top: 0,
         left: 0,
-        id: "__alloyId31"
+        id: "__alloyId29"
     });
-    $.__views.content.add($.__views.__alloyId31);
+    $.__views.content.add($.__views.__alloyId29);
     $.__views.userImage = Ti.UI.createImageView({
         id: "userImage",
         image: "/images/profilePic.png",
         width: "120",
         height: "120"
     });
-    $.__views.__alloyId31.add($.__views.userImage);
-    $.__views.__alloyId32 = Ti.UI.createView({
+    $.__views.__alloyId29.add($.__views.userImage);
+    $.__views.__alloyId30 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 40,
         top: 0,
         left: 0,
-        id: "__alloyId32"
+        id: "__alloyId30"
     });
-    $.__views.content.add($.__views.__alloyId32);
+    $.__views.content.add($.__views.__alloyId30);
     $.__views.name = Ti.UI.createLabel({
         color: "#cc0a98",
         font: {
@@ -79,7 +79,7 @@ function Controller() {
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
     });
-    $.__views.__alloyId32.add($.__views.name);
+    $.__views.__alloyId30.add($.__views.name);
     $.__views.networks = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
@@ -89,15 +89,15 @@ function Controller() {
         id: "networks"
     });
     $.__views.content.add($.__views.networks);
-    $.__views.__alloyId33 = Ti.UI.createView({
+    $.__views.__alloyId31 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 40,
         top: 0,
         left: 0,
-        id: "__alloyId33"
+        id: "__alloyId31"
     });
-    $.__views.content.add($.__views.__alloyId33);
+    $.__views.content.add($.__views.__alloyId31);
     $.__views.ideasTitle = Ti.UI.createLabel({
         color: "#cbc01f",
         font: {
@@ -109,7 +109,7 @@ function Controller() {
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
     });
-    $.__views.__alloyId33.add($.__views.ideasTitle);
+    $.__views.__alloyId31.add($.__views.ideasTitle);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var currentUser = null;

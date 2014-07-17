@@ -7,11 +7,12 @@
 			<View class="row">
 				<Label id="userName" class="sansPro pink" onClick="showProfile" />
 			</View>
-			<View class="row" borderWidth="2" borderColor="#e9e9e9">
+			<View id="description" class="row" >
 				<Label id="pitchTitle" top="5" class="sansPro gold" text="IDEA" />
-				<Label id="pitch" class="sansPro" top="30" width="80%" />
+				<Label id="pitch" class="sansPro aqua" top="30" width="80%" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER" />
 			</View>
-			<View class="row" borderWidth="2" borderColor="#e9e9e9"/>
+			<View id="explore" class="row" >
+			</View>
 			<View id="comments" class="row">
 				<Label id="commentsTitle" class="sansPro gold" text="COMENTARIOS" />
 			</View>

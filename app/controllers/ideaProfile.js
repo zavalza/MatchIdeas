@@ -36,31 +36,33 @@ function createComment(commentText, authorName, authorId) {
   return comment;
 }
 
-//creates the unicode format for each word to show
+/*
+//creates the format for each word to show
 function formatText(text){
 	var words = text.split(" ");
-	var htmlText = "";
+	var newText = "";
 	for (var i=0; i < words.length; i++)
 	{
 		switch(words[i][0]){
 			case '#':
-						htmlText = htmlText +'<b>' +words[i]+'</b>';
+						newText = newText +words[i].toUpperCase();
 						break;
 			default:
-						htmlText = htmlText + words[i];
+						newText = newText + words[i];
 						 break;
 		}
-		htmlText=htmlText+" ";
+		newText=newText+" ";
 	}
-	alert(htmlText);
-	return htmlText;
+	alert(newText);
+	return newText;
 }
+*/
 
 /*Get an Idea from ACS, where the user has not already voted and that it has not created.
  * global currentIdea contains the result
  */
 function getCurrentIdea(userId){
-	alert(userId);
+	//alert(userId);
 	Alloy.Globals.Cloud.Objects.query({
 	    classname: 'ideas',
 	    limit: 1,
@@ -241,8 +243,64 @@ function showProfile(e){
 
 //fills Data once currentIdea (ideaToShow) is defined
 function fillData(e){
-	//$.pitch.text = "\""+formatText(currentIdea.pitch)+"\"";
-	$.pitch.html= formatText(currentIdea.pitch);
+	$.pitch.text = "\""+currentIdea.pitch+"\"";
+	if(typeof currentIdea.tags != 'undefined')
+	{
+		var numberOfTags = currentIdea.tags.length;
+		var totalWidth = 80;
+		var writtenChars = 0;
+		//<Label id="tagsTitle" class="sansPro gold" left="10%" top="5" text="TAGS" />
+		var label = Ti.UI.createLabel({
+					  color:'blue',
+					  text: 'TAGS',
+					  textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+					  top: 5,
+					  left:'15%',
+					});
+		$.explore.add(label);
+		alert ($.explore.size.width);
+		alert (typeof $.explore.size.width);
+		var oneSpace = 8/$.explore.size.width*100; //8 px of font, width in px for android 
+		alert(oneSpace);
+		//var oneSpace = 4;
+		var initIdentation = 10;
+		var rowNumber = 0;
+		var usedSpace = 0;
+		for(var i=0; i < numberOfTags; i++)
+		{
+			var tag = currentIdea.tags[i];
+			if(i==0)
+			{
+				tag = tag.slice(1); //deletes '[' char
+			}
+			if(i==numberOfTags -1)
+			{
+				tag = tag = tag.slice(0, tag.length-1); //deletes ']' char
+			}
+			tag = tag.slice(1, tag.length-1); //deletes '\"' chars
+		
+		if (usedSpace + tag.length*oneSpace > 85)
+			{
+				rowNumber+=1;
+				usedSpace = 0;
+				writtenChars = 0;
+			}
+		usedSpace =  oneSpace*writtenChars+2*oneSpace;
+		var label = Ti.UI.createLabel({
+					  color:'blue',
+					  text: tag,
+					  textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+					  top: 30+rowNumber*30,
+					  left:String(initIdentation+usedSpace)+'%',
+					});
+			writtenChars += tag.length+2;
+		//<Label id="tags" class="sansPro pink" left="15%" top="30"/>
+		//$.tags.text = $.tags.text + tag + " ";
+		$.explore.add(label);
+		}
+	}
+	
+	//$.pitch.html= formatText(currentIdea.pitch);
 	$.matchCount.text = String(currentIdea.matches);
 	$.noMatchCount.text = String(currentIdea.noMatches);
 	//find authors' data

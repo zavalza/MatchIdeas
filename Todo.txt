@@ -35,10 +35,18 @@ CORREGIMOS LO DE FACEBOOK Y HACEMOS QUE EL MAIL SEA PUBLICO
 ==Diseño==
 *Integrar lo que se pueda de Alex Galvan
 *corregir el app.tss con Ti.UI.SIZE,
+*Desplegar una webview local para la pagina de ideaProfile o para la seccion de hashtags, si le pican al pitch?. Se puede usar un scritp local que genere eventos:
+When running local web content (that is, content that is included in the application's resources), scripts have access to the Titanium namespace. In particular, when running local web content:
+
+    You can use Titanium.App.addEventListener and Titanium.App.fireEvent to receive and send application-level events.
+
+    Events can be logged using the Titanium.API logging methods.
+
 
 ==Rendimiento==
+*Que todo el content de ideasProfile se llene en javascript, de acuerdo a si hay idea o no, si hay tags o no, etc.
 * en match y no match //getCurrentIdea(currentUser); //loads another idea, pero no elimina comentarios anteriores
 con match no se borran los comments al cargar otra idea
 * Hacer objetos tipo voto y verificar que no existan objetos con el id de la idea y el del usuario en lugar del arreglo votedBy. El conteo se debe mantener con inc, para que sea atomico
-*Eliminar campos de comments al crear una nueva idea
+
 

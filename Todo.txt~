@@ -1,5 +1,5 @@
 ==Por implementar==
-2.Buscar ideas por palabra clave
+2.Buscar ideas por palabra clave y zona geográfica
 4.Compartir ideas en redes sociales
 6.Valorar comentarios (estrellas)
 7.Alertas en app cuando llegue mensaje a tu idea o cuando idea llegue a 100, 200, 300 likes
@@ -35,6 +35,13 @@ CORREGIMOS LO DE FACEBOOK Y HACEMOS QUE EL MAIL SEA PUBLICO
 ==Diseño==
 *Integrar lo que se pueda de Alex Galvan
 *corregir el app.tss con Ti.UI.SIZE,
+*Desplegar una webview local para la pagina de ideaProfile o para la seccion de hashtags, si le pican al pitch?. Se puede usar un scritp local que genere eventos:
+When running local web content (that is, content that is included in the application's resources), scripts have access to the Titanium namespace. In particular, when running local web content:
+
+    You can use Titanium.App.addEventListener and Titanium.App.fireEvent to receive and send application-level events.
+
+    Events can be logged using the Titanium.API logging methods.
+
 
 ==Rendimiento==
 * en match y no match //getCurrentIdea(currentUser); //loads another idea, pero no elimina comentarios anteriores

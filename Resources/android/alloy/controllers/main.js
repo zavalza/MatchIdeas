@@ -11,9 +11,9 @@ function Controller() {
         id: "win"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    var __alloyId10 = [];
+    var __alloyId8 = [];
     $.__views.scrollableView = Ti.UI.createScrollableView({
-        views: __alloyId10,
+        views: __alloyId8,
         id: "scrollableView",
         top: "30",
         showPagingControl: "false"
