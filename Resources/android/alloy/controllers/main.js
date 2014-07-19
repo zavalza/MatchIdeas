@@ -11,9 +11,9 @@ function Controller() {
         id: "win"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    var __alloyId8 = [];
+    var __alloyId5 = [];
     $.__views.scrollableView = Ti.UI.createScrollableView({
-        views: __alloyId8,
+        views: __alloyId5,
         id: "scrollableView",
         top: "30",
         showPagingControl: "false"
@@ -66,6 +66,7 @@ function Controller() {
     });
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
     $.scrollableView.scrollToView(Alloy.Globals.Ideas);
+    $.win.orientationModes = [ Titanium.UI.PORTRAIT ];
     $.win.open();
     _.extend($, exports);
 }

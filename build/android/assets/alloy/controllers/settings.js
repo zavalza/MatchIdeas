@@ -24,15 +24,15 @@ function Controller() {
         showVerticalScrollIndicator: "true"
     });
     $.__views.win.add($.__views.content);
-    $.__views.__alloyId22 = Ti.UI.createView({
+    $.__views.__alloyId19 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: Ti.UI.SIZE,
         top: 0,
         left: 0,
-        id: "__alloyId22"
+        id: "__alloyId19"
     });
-    $.__views.content.add($.__views.__alloyId22);
+    $.__views.content.add($.__views.__alloyId19);
     $.__views.contactLabel = Ti.UI.createLabel({
         color: "#cc0a98",
         font: {
@@ -44,16 +44,16 @@ function Controller() {
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE
     });
-    $.__views.__alloyId22.add($.__views.contactLabel);
-    $.__views.__alloyId23 = Ti.UI.createView({
+    $.__views.__alloyId19.add($.__views.contactLabel);
+    $.__views.__alloyId20 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: Ti.UI.SIZE,
         top: 0,
         left: 0,
-        id: "__alloyId23"
+        id: "__alloyId20"
     });
-    $.__views.content.add($.__views.__alloyId23);
+    $.__views.content.add($.__views.__alloyId20);
     $.__views.nameToShow = Ti.UI.createTextField({
         borderColor: "#e9e9e9",
         borderWidth: "2",
@@ -66,16 +66,16 @@ function Controller() {
         width: "80%",
         height: Ti.UI.SIZE
     });
-    $.__views.__alloyId23.add($.__views.nameToShow);
-    $.__views.__alloyId24 = Ti.UI.createView({
+    $.__views.__alloyId20.add($.__views.nameToShow);
+    $.__views.__alloyId21 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: Ti.UI.SIZE,
         top: 0,
         left: 0,
-        id: "__alloyId24"
+        id: "__alloyId21"
     });
-    $.__views.content.add($.__views.__alloyId24);
+    $.__views.content.add($.__views.__alloyId21);
     $.__views.emailOfContact = Ti.UI.createTextField({
         borderColor: "#e9e9e9",
         borderWidth: "2",
@@ -88,16 +88,16 @@ function Controller() {
         width: "80%",
         height: Ti.UI.SIZE
     });
-    $.__views.__alloyId24.add($.__views.emailOfContact);
-    $.__views.__alloyId25 = Ti.UI.createView({
+    $.__views.__alloyId21.add($.__views.emailOfContact);
+    $.__views.__alloyId22 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: Ti.UI.SIZE,
         top: 0,
         left: 0,
-        id: "__alloyId25"
+        id: "__alloyId22"
     });
-    $.__views.content.add($.__views.__alloyId25);
+    $.__views.content.add($.__views.__alloyId22);
     $.__views.done = Ti.UI.createButton({
         id: "done",
         width: "150",
@@ -106,7 +106,7 @@ function Controller() {
         color: "#fefefe",
         backgroundColor: "#04cbca"
     });
-    $.__views.__alloyId25.add($.__views.done);
+    $.__views.__alloyId22.add($.__views.done);
     saveContactData ? $.__views.done.addEventListener("click", saveContactData) : __defers["$.__views.done!click!saveContactData"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);

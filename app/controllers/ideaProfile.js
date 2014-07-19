@@ -7,34 +7,20 @@ var newComment = Ti.UI.createView({
 				    width:'100%', height: Ti.UI.SIZE,
 				    top: 10, left: 0
 				  });
+
 var commentsArray=[]; //store all the views of the comments of CurrentIdea. Parece que los borra bien, pero que los escribe de nuevo por alguna razon
-function createComment(commentText, authorName, authorId) {
-  var comment = Ti.UI.createView({
-    backgroundColor: 'white',
-    width:'100%', height: Ti.UI.SIZE,
-    top: 0
-  });
-  var textLabel = Ti.UI.createLabel({
-    text: commentText,
-    color: 'black',
-    top: 10, left:5
-  });
-  var authorLabel = Ti.UI.createLabel({
-    text: authorName,
-    color: 'blue',
-    bottom:0 , right: 5,
-  });
-  authorLabel.addEventListener('click',function(e)
-	{
-	   Titanium.API.info("show user profile");
-	   Alloy.Globals.userToShow = authorId;
-	   Alloy.createController('userProfile').getView().open();
-	});
-  comment.add(textLabel);
-  comment.add(authorLabel);
-  //commentsArray.push(comment);
-  return comment;
+
+function newRow(){
+	var row = Titanium.UI.createView({
+		   backgroundColor:'white',
+		   width:'100%',
+		   height:Ti.UI.SIZE,
+		   top:0,
+		   left:0
+		});
+	return row;
 }
+
 
 /*
 //creates the format for each word to show
@@ -243,92 +229,181 @@ function showProfile(e){
 
 //fills Data once currentIdea (ideaToShow) is defined
 function fillData(e){
-	$.pitch.text = "\""+currentIdea.pitch+"\"";
-	if(typeof currentIdea.tags != 'undefined')
-	{
-		var numberOfTags = currentIdea.tags.length;
-		var totalWidth = 80;
-		var writtenChars = 0;
-		//<Label id="tagsTitle" class="sansPro gold" left="10%" top="5" text="TAGS" />
-		var label = Ti.UI.createLabel({
-					  color:'blue',
-					  text: 'TAGS',
-					  textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-					  top: 5,
-					  left:'15%',
-					});
-		$.explore.add(label);
-		alert ($.explore.size.width);
-		alert (typeof $.explore.size.width);
-		var oneSpace = 8/$.explore.size.width*100; //8 px of font, width in px for android 
-		alert(oneSpace);
-		//var oneSpace = 4;
-		var initIdentation = 10;
-		var rowNumber = 0;
-		var usedSpace = 0;
-		for(var i=0; i < numberOfTags; i++)
-		{
-			var tag = currentIdea.tags[i];
-			if(i==0)
-			{
-				tag = tag.slice(1); //deletes '[' char
-			}
-			if(i==numberOfTags -1)
-			{
-				tag = tag = tag.slice(0, tag.length-1); //deletes ']' char
-			}
-			tag = tag.slice(1, tag.length-1); //deletes '\"' chars
+		var scrollView = Ti.UI.createScrollView({
+		  contentHeight: 'auto',
+		  layout : 'vertical',
+		  showVerticalScrollIndicator: true,
+		  top:30,
+		  bottom:70,
+		});	
+	
+		var imageRow = newRow();
+		var profilePic = Ti.UI.createImageView({
+  			image:'/images/profilePic.png',
+  			top:10,
+  			width:120,
+  			height:120
+		});
+		profilePic.addEventListener('click', function(e){
+			showProfile();
+		});
+		imageRow.add(profilePic);
+		scrollView.add(imageRow);
 		
-		if (usedSpace + tag.length*oneSpace > 85)
+		var nameRow = newRow();
+		var nameLabel = Ti.UI.createLabel({
+			text: currentIdea.user.first_name +" "+ currentIdea.user.last_name,
+			font: {
+				     fontFamily: 'SourceSansPro-Regular'
+				 },
+			color: "#cc0a98" //pink match
+		});
+		nameRow.add(nameLabel);
+		scrollView.add(nameRow);
+		
+		var pitchRow = newRow();
+		var pitchTitle = Ti.UI.createLabel({
+			text: 'IDEA',
+			font: {
+				     fontFamily: 'SourceSansPro-Regular'
+				 },
+			color: "#cbc01f", //gold match
+			top:5  
+		});
+		var pitchLabel = Ti.UI.createLabel({
+			text: "\""+currentIdea.pitch+"\"",
+			font: {
+				     fontFamily: 'SourceSansPro-Regular'
+				 },
+			color: "#04cbca",//aqua match
+			top:30,
+			width:'80%',
+			textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
+			
+		});
+		pitchRow.add(pitchTitle);
+		pitchRow.add(pitchLabel);
+		scrollView.add(pitchRow);
+	
+		if(typeof currentIdea.tags != 'undefined')
+		{
+			var tagRow = newRow();
+			var numberOfTags = currentIdea.tags.length;
+			var writtenChars = 0;
+			//<Label id="tagsTitle" class="sansPro gold" left="10%" top="5" text="TAGS" />
+			var tagTitle = Ti.UI.createLabel({
+			text: 'TAGS',
+			font: {
+				     fontFamily: 'SourceSansPro-Regular'
+				 },
+			color: "#cbc01f", //gold match
+			textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+			top: 5,
+			left:'15%',
+			});
+			tagRow.add(tagTitle);
+			var  winWidth = Titanium.Platform.displayCaps.platformWidth;
+			///////Probar con cambio de orientacion llamar otra vez a fillData, porque width si se adapta bien cuando ya esta en posicion todo
+			
+			//alert (typeof $.explore.size.width);
+			var oneSpace = 0;
+			while(oneSpace == 0 || oneSpace >10){ //fixez bug on the get of size which gives oneSpace a value of infinity
+				oneSpace = 8/winWidth*100; //8 px of font, width in px for android
+			}
+			//alert(Titanium.Gesture.orientation);
+			//alert(oneSpace);
+			//var oneSpace = 4;
+			var initIdentation = 10;
+			var rowNumber = 0;
+			var usedSpace = 0;
+			for(var i=0; i < numberOfTags; i++)
 			{
+				var tag = currentIdea.tags[i];
+				if(i==0)
+				{
+				tag = tag.slice(1); //deletes '[' char
+				}
+				if(i==numberOfTags -1)
+				{
+				tag = tag = tag.slice(0, tag.length-1); //deletes ']' char
+				}
+				tag = tag.slice(1, tag.length-1); //deletes '\"' chars
+				
+				if (usedSpace + tag.length*oneSpace > 70)
+				{
 				rowNumber+=1;
 				usedSpace = 0;
 				writtenChars = 0;
+				}
+				usedSpace = oneSpace*writtenChars+oneSpace;
+				var tagLabel = Ti.UI.createLabel({
+				color:'blue',
+				text: tag,
+				textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+				top: 30+rowNumber*30,
+				left:String(initIdentation+usedSpace)+'%',
+				});
+				writtenChars += tag.length+1;
+				//<Label id="tags" class="sansPro pink" left="15%" top="30"/>
+				//$.tags.text = $.tags.text + tag + " ";
+				tagRow.add(tagLabel);
 			}
-		usedSpace =  oneSpace*writtenChars+2*oneSpace;
-		var label = Ti.UI.createLabel({
-					  color:'blue',
-					  text: tag,
-					  textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-					  top: 30+rowNumber*30,
-					  left:String(initIdentation+usedSpace)+'%',
-					});
-			writtenChars += tag.length+2;
-		//<Label id="tags" class="sansPro pink" left="15%" top="30"/>
-		//$.tags.text = $.tags.text + tag + " ";
-		$.explore.add(label);
+			scrollView.add(tagRow);
 		}
-	}
 	
-	//$.pitch.html= formatText(currentIdea.pitch);
-	$.matchCount.text = String(currentIdea.matches);
-	$.noMatchCount.text = String(currentIdea.noMatches);
-	//find authors' data
-	if(currentIdea.user.first_name)
-	{
-		$.userName.text = currentIdea.user.first_name +" "+ currentIdea.user.last_name;
-	}
-	else
-	{
-		$.userName.text = "Sin nombre";
-	}
-	//Returns all the comments of the specified ideaId
-	Alloy.Globals.Cloud.Objects.query({
-	    classname: 'comments',
-	    where: {
-	        ideaId: currentIdea.id
-	    },
-	    order: "make,created_at"
-	}, function (e) {
+		//Returns all the comments of the specified ideaId
+		Alloy.Globals.Cloud.Objects.query({
+		    classname: 'comments',
+		    where: {
+		        ideaId: currentIdea.id
+		    },
+		    order: "make,created_at"
+		}, function (e) {
 	    if (e.success) {
 	    	//alert("Comentarios encontrados");
-	    	$.commentCount.text=e.comments.length;
-	    	for(var i = 0; i < e.comments.length; i++){
-	    	var authorName = e.comments[i].user.first_name +" "+ e.comments[i].user.last_name;
-	    	var authorId = e.comments[i].user.id;
-			var commentView = createComment(e.comments[i].text, authorName, authorId);
-			$.content.add(commentView);
-			}
+	    	if(e.comments.length > 0) //if there are comments
+	    	{
+	    		var commentsRow = newRow();
+	    		var commentsTitle = Ti.UI.createLabel({
+				font: {
+				     fontFamily: 'SourceSansPro-Regular'
+				 },
+				color: "#cbc01f", //gold match
+				text: 'COMENTARIOS'
+				});
+				commentsRow.add(commentsTitle);
+				scrollView.add(commentsRow);
+				
+	    		for(var i = 0; i < e.comments.length; i++){
+			    	var authorName = e.comments[i].user.first_name +" "+ e.comments[i].user.last_name;
+			    	var authorId = e.comments[i].user.id;
+			    	var comment = Ti.UI.createView({
+					    backgroundColor: 'white',
+					    width:'100%', height: Ti.UI.SIZE,
+					    top: 0
+					 });
+					var textLabel = Ti.UI.createLabel({
+					    text: e.comments[i].text,
+					    color: 'black',
+					    top: 10, left:5
+					 });
+					var authorLabel = Ti.UI.createLabel({
+					    text: authorName,
+					    color: 'blue',
+					    bottom:0 , right: 5,
+					  });
+					authorLabel.addEventListener('click',function(e)
+						{
+						   Titanium.API.info("show user profile");
+						   Alloy.Globals.userToShow = authorId;
+						   Alloy.createController('userProfile').getView().open();
+					});
+	  				comment.add(textLabel);
+	  				comment.add(authorLabel);
+					scrollView.add(comment);
+				}
+	    	}
+	    	
 			var commentArea = Titanium.UI.createTextArea({
 			id: 'comment',
 			borderColor: "#04cbca",
@@ -372,12 +447,100 @@ function fillData(e){
 	   
 			});
 			newComment.add(commentArea);
-			$.content.add(newComment);
+			scrollView.add(newComment);
+			$.win.add(scrollView); //Si no se puede traer los comentarios no desplegará nada, verificar sincronia
+			
+			var matchActions = Titanium.UI.createView({
+			   backgroundColor:'white',
+			   width:'100%',
+			   height:'70',
+			   bottom:0,
+			});
+	
+			var matchButton = Titanium.UI.createButton({
+			   backgroundImage: '/images/like.png',
+			   bottom: 20,
+			   width: 50,
+			   height: 50,
+			   backgroundColor:"#04cbca",
+			   left:"25%"
+			});
+			matchButton.addEventListener('click',function(e)
+			{
+			   match();
+			});
+			var matchLabel = Ti.UI.createLabel({
+			text:String(currentIdea.matches),
+			font: {
+				     fontFamily: 'SourceSansPro-Regular'
+				 },
+			color: "#04cbca",//aqua match
+			bottom:0,
+			left:"25%",
+			textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
+			
+			});
+			matchActions.add(matchButton);
+			matchActions.add(matchLabel);
+			
+			
+			var commentButton = Titanium.UI.createButton({
+			   backgroundImage: '/images/comment.png',
+			   bottom: 20,
+			   width: 50,
+			   height: 50,
+			   backgroundColor:"#cbc01f",
+			});
+			commentButton.addEventListener('click',function(e)
+			{
+			   comment();
+			});
+			var commentLabel = Ti.UI.createLabel({
+			text:e.comments.length,
+			font: {
+				     fontFamily: 'SourceSansPro-Regular'
+				 },
+			color: "#cbc01f",//gold match
+			bottom:0,
+			textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
+			
+			});
+			matchActions.add(commentButton);
+			matchActions.add(commentLabel);
+			
+			var noMatchButton = Titanium.UI.createButton({
+			   backgroundImage: '/images/dislike.png',
+			   bottom: 20,
+			   width: 50,
+			   height: 50,
+			   backgroundColor:"#cc0a98",
+			   right:"25%"
+			});
+			noMatchButton.addEventListener('click',function(e)
+			{
+			   noMatch();
+			});
+			var noMatchLabel = Ti.UI.createLabel({
+			text:String(currentIdea.noMatches),
+			font: {
+				     fontFamily: 'SourceSansPro-Regular'
+				 },
+			color: "#cc0a98", //pink match
+			bottom:0,
+			right:"25%",
+			textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
+			
+			});
+			matchActions.add(noMatchButton);
+			matchActions.add(noMatchLabel);
+			$.win.add(matchActions);
+			
 		    } else {
 		        alert('Error:\n' +
 		            ((e.error && e.message) || JSON.stringify(e)));
 		    }
-		});	
+			});
+			
 }
 
 
@@ -417,3 +580,7 @@ else
 {
 	getCurrentIdea(Alloy.Globals.UserId);
 }
+
+Titanium.Gesture.addEventListener('orientationchange', function(e){
+	fillData();
+});

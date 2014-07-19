@@ -1,29 +1,5 @@
 <Alloy>
 	<Window id="win" class="container">
-		<ScrollView id="content" top="30" bottom="70" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
-			<View class="row" >
-				<ImageView id="userImage" onClick="showProfile" image="/images/profilePic.png" top="10" width="120" height="120" />
-			</View>
-			<View class="row">
-				<Label id="userName" class="sansPro pink" onClick="showProfile" />
-			</View>
-			<View id="description" class="row" >
-				<Label id="pitchTitle" top="5" class="sansPro gold" text="IDEA" />
-				<Label id="pitch" class="sansPro aqua" top="30" width="80%" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER" />
-			</View>
-			<View id="explore" class="row" >
-			</View>
-			<View id="comments" class="row">
-				<Label id="commentsTitle" class="sansPro gold" text="COMENTARIOS" />
-			</View>
-     	</ScrollView>
-    	<View class="actions" bottom="0">
-    		<Button id="match" onClick="match" backgroundImage="/images/like.png" bottom="20" width="50" height="50" backgroundColor="#04cbca" left="50"/>
-    		<Label id="matchCount" class="sansPro aqua bold"  onClick="match" bottom="0" left="75"/>
-    		<Button id="comment" onClick="comment" backgroundImage="/images/comment.png" bottom="20" width="50" height="50" backgroundColor="#cbc01f"/>
-    		<Label id="commentCount" class="sansPro gold bold"  onClick="comment" bottom="0"/>
-    		<Button id="noMatch" onClick="noMatch" backgroundImage="/images/dislike.png" bottom="20" width="50" height="50" backgroundColor="#cc0a98" right="50"/>
-    		<Label id="noMatchCount" class="sansPro pink bold" onClick="noMatch" bottom="0" right="75"/>
-		</View>	
+		
 	</Window>
 </Alloy>

@@ -1,31 +1,13 @@
 function Controller() {
-    function createComment(commentText, authorName, authorId) {
-        var comment = Ti.UI.createView({
+    function newRow() {
+        var row = Titanium.UI.createView({
             backgroundColor: "white",
             width: "100%",
             height: Ti.UI.SIZE,
-            top: 0
+            top: 0,
+            left: 0
         });
-        var textLabel = Ti.UI.createLabel({
-            text: commentText,
-            color: "black",
-            top: 10,
-            left: 5
-        });
-        var authorLabel = Ti.UI.createLabel({
-            text: authorName,
-            color: "blue",
-            bottom: 0,
-            right: 5
-        });
-        authorLabel.addEventListener("click", function() {
-            Titanium.API.info("show user profile");
-            Alloy.Globals.userToShow = authorId;
-            Alloy.createController("userProfile").getView().open();
-        });
-        comment.add(textLabel);
-        comment.add(authorLabel);
-        return comment;
+        return row;
     }
     function getCurrentIdea(userId) {
         Alloy.Globals.Cloud.Objects.query({
@@ -121,22 +103,75 @@ function Controller() {
         Alloy.createController("userProfile").getView().open();
     }
     function fillData() {
-        $.pitch.text = '"' + currentIdea.pitch + '"';
+        var scrollView = Ti.UI.createScrollView({
+            contentHeight: "auto",
+            layout: "vertical",
+            showVerticalScrollIndicator: true,
+            top: 30,
+            bottom: 70
+        });
+        var imageRow = newRow();
+        var profilePic = Ti.UI.createImageView({
+            image: "/images/profilePic.png",
+            top: 10,
+            width: 120,
+            height: 120
+        });
+        profilePic.addEventListener("click", function() {
+            showProfile();
+        });
+        imageRow.add(profilePic);
+        scrollView.add(imageRow);
+        var nameRow = newRow();
+        var nameLabel = Ti.UI.createLabel({
+            text: currentIdea.user.first_name + " " + currentIdea.user.last_name,
+            font: {
+                fontFamily: "SourceSansPro-Regular"
+            },
+            color: "#cc0a98"
+        });
+        nameRow.add(nameLabel);
+        scrollView.add(nameRow);
+        var pitchRow = newRow();
+        var pitchTitle = Ti.UI.createLabel({
+            text: "IDEA",
+            font: {
+                fontFamily: "SourceSansPro-Regular"
+            },
+            color: "#cbc01f",
+            top: 5
+        });
+        var pitchLabel = Ti.UI.createLabel({
+            text: '"' + currentIdea.pitch + '"',
+            font: {
+                fontFamily: "SourceSansPro-Regular"
+            },
+            color: "#04cbca",
+            top: 30,
+            width: "80%",
+            textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+        });
+        pitchRow.add(pitchTitle);
+        pitchRow.add(pitchLabel);
+        scrollView.add(pitchRow);
         if ("undefined" != typeof currentIdea.tags) {
+            var tagRow = newRow();
             var numberOfTags = currentIdea.tags.length;
             var writtenChars = 0;
-            var label = Ti.UI.createLabel({
-                color: "blue",
+            var tagTitle = Ti.UI.createLabel({
                 text: "TAGS",
+                font: {
+                    fontFamily: "SourceSansPro-Regular"
+                },
+                color: "#cbc01f",
                 textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
                 top: 5,
                 left: "15%"
             });
-            $.explore.add(label);
-            alert($.explore.size.width);
-            alert(typeof $.explore.size.width);
-            var oneSpace = 100 * (8 / $.explore.size.width);
-            alert(oneSpace);
+            tagRow.add(tagTitle);
+            var winWidth = Titanium.Platform.displayCaps.platformWidth;
+            var oneSpace = 0;
+            while (0 == oneSpace || oneSpace > 10) oneSpace = 100 * (8 / winWidth);
             var initIdentation = 10;
             var rowNumber = 0;
             var usedSpace = 0;
@@ -145,26 +180,24 @@ function Controller() {
                 0 == i && (tag = tag.slice(1));
                 i == numberOfTags - 1 && (tag = tag = tag.slice(0, tag.length - 1));
                 tag = tag.slice(1, tag.length - 1);
-                if (usedSpace + tag.length * oneSpace > 85) {
+                if (usedSpace + tag.length * oneSpace > 70) {
                     rowNumber += 1;
                     usedSpace = 0;
                     writtenChars = 0;
                 }
-                usedSpace = oneSpace * writtenChars + 2 * oneSpace;
-                var label = Ti.UI.createLabel({
+                usedSpace = oneSpace * writtenChars + oneSpace;
+                var tagLabel = Ti.UI.createLabel({
                     color: "blue",
                     text: tag,
                     textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
                     top: 30 + 30 * rowNumber,
                     left: String(initIdentation + usedSpace) + "%"
                 });
-                writtenChars += tag.length + 2;
-                $.explore.add(label);
+                writtenChars += tag.length + 1;
+                tagRow.add(tagLabel);
             }
+            scrollView.add(tagRow);
         }
-        $.matchCount.text = String(currentIdea.matches);
-        $.noMatchCount.text = String(currentIdea.noMatches);
-        $.userName.text = currentIdea.user.first_name ? currentIdea.user.first_name + " " + currentIdea.user.last_name : "Sin nombre";
         Alloy.Globals.Cloud.Objects.query({
             classname: "comments",
             where: {
@@ -173,12 +206,47 @@ function Controller() {
             order: "make,created_at"
         }, function(e) {
             if (e.success) {
-                $.commentCount.text = e.comments.length;
-                for (var i = 0; e.comments.length > i; i++) {
-                    var authorName = e.comments[i].user.first_name + " " + e.comments[i].user.last_name;
-                    var authorId = e.comments[i].user.id;
-                    var commentView = createComment(e.comments[i].text, authorName, authorId);
-                    $.content.add(commentView);
+                if (e.comments.length > 0) {
+                    var commentsRow = newRow();
+                    var commentsTitle = Ti.UI.createLabel({
+                        font: {
+                            fontFamily: "SourceSansPro-Regular"
+                        },
+                        color: "#cbc01f",
+                        text: "COMENTARIOS"
+                    });
+                    commentsRow.add(commentsTitle);
+                    scrollView.add(commentsRow);
+                    for (var i = 0; e.comments.length > i; i++) {
+                        var authorName = e.comments[i].user.first_name + " " + e.comments[i].user.last_name;
+                        var authorId = e.comments[i].user.id;
+                        var comment = Ti.UI.createView({
+                            backgroundColor: "white",
+                            width: "100%",
+                            height: Ti.UI.SIZE,
+                            top: 0
+                        });
+                        var textLabel = Ti.UI.createLabel({
+                            text: e.comments[i].text,
+                            color: "black",
+                            top: 10,
+                            left: 5
+                        });
+                        var authorLabel = Ti.UI.createLabel({
+                            text: authorName,
+                            color: "blue",
+                            bottom: 0,
+                            right: 5
+                        });
+                        authorLabel.addEventListener("click", function() {
+                            Titanium.API.info("show user profile");
+                            Alloy.Globals.userToShow = authorId;
+                            Alloy.createController("userProfile").getView().open();
+                        });
+                        comment.add(textLabel);
+                        comment.add(authorLabel);
+                        scrollView.add(comment);
+                    }
                 }
                 var commentArea = Titanium.UI.createTextArea({
                     id: "comment",
@@ -211,13 +279,84 @@ function Controller() {
                     });
                 });
                 newComment.add(commentArea);
-                $.content.add(newComment);
+                scrollView.add(newComment);
+                $.win.add(scrollView);
+                var matchActions = Titanium.UI.createView({
+                    backgroundColor: "white",
+                    width: "100%",
+                    height: "70",
+                    bottom: 0
+                });
+                var matchButton = Titanium.UI.createButton({
+                    backgroundImage: "/images/like.png",
+                    bottom: 20,
+                    width: 50,
+                    height: 50,
+                    backgroundColor: "#04cbca",
+                    left: "25%"
+                });
+                matchButton.addEventListener("click", function() {
+                    match();
+                });
+                var matchLabel = Ti.UI.createLabel({
+                    text: String(currentIdea.matches),
+                    font: {
+                        fontFamily: "SourceSansPro-Regular"
+                    },
+                    color: "#04cbca",
+                    bottom: 0,
+                    left: "25%",
+                    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+                });
+                matchActions.add(matchButton);
+                matchActions.add(matchLabel);
+                var commentButton = Titanium.UI.createButton({
+                    backgroundImage: "/images/comment.png",
+                    bottom: 20,
+                    width: 50,
+                    height: 50,
+                    backgroundColor: "#cbc01f"
+                });
+                commentButton.addEventListener("click", function() {
+                    comment();
+                });
+                var commentLabel = Ti.UI.createLabel({
+                    text: e.comments.length,
+                    font: {
+                        fontFamily: "SourceSansPro-Regular"
+                    },
+                    color: "#cbc01f",
+                    bottom: 0,
+                    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+                });
+                matchActions.add(commentButton);
+                matchActions.add(commentLabel);
+                var noMatchButton = Titanium.UI.createButton({
+                    backgroundImage: "/images/dislike.png",
+                    bottom: 20,
+                    width: 50,
+                    height: 50,
+                    backgroundColor: "#cc0a98",
+                    right: "25%"
+                });
+                noMatchButton.addEventListener("click", function() {
+                    noMatch();
+                });
+                var noMatchLabel = Ti.UI.createLabel({
+                    text: String(currentIdea.noMatches),
+                    font: {
+                        fontFamily: "SourceSansPro-Regular"
+                    },
+                    color: "#cc0a98",
+                    bottom: 0,
+                    right: "25%",
+                    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+                });
+                matchActions.add(noMatchButton);
+                matchActions.add(noMatchLabel);
+                $.win.add(matchActions);
             } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
         });
-    }
-    function comment() {
-        Titanium.API.info("comment");
-        $.content.scrollTo(newComment.getCenter().x, newComment.getCenter().y);
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "ideaProfile";
@@ -226,185 +365,11 @@ function Controller() {
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
-    var __defers = {};
     $.__views.win = Ti.UI.createWindow({
         backgroundColor: "white",
         id: "win"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    $.__views.content = Ti.UI.createScrollView({
-        id: "content",
-        top: "30",
-        bottom: "70",
-        contentHeight: "auto",
-        layout: "vertical",
-        showVerticalScrollIndicator: "true"
-    });
-    $.__views.win.add($.__views.content);
-    $.__views.__alloyId0 = Ti.UI.createView({
-        backgroundColor: "white",
-        width: "100%",
-        height: Ti.UI.SIZE,
-        top: 0,
-        left: 0,
-        id: "__alloyId0"
-    });
-    $.__views.content.add($.__views.__alloyId0);
-    $.__views.userImage = Ti.UI.createImageView({
-        id: "userImage",
-        image: "/images/profilePic.png",
-        top: "10",
-        width: "120",
-        height: "120"
-    });
-    $.__views.__alloyId0.add($.__views.userImage);
-    showProfile ? $.__views.userImage.addEventListener("click", showProfile) : __defers["$.__views.userImage!click!showProfile"] = true;
-    $.__views.__alloyId1 = Ti.UI.createView({
-        backgroundColor: "white",
-        width: "100%",
-        height: Ti.UI.SIZE,
-        top: 0,
-        left: 0,
-        id: "__alloyId1"
-    });
-    $.__views.content.add($.__views.__alloyId1);
-    $.__views.userName = Ti.UI.createLabel({
-        color: "#cc0a98",
-        font: {
-            fontFamily: "SourceSansPro-Regular"
-        },
-        id: "userName"
-    });
-    $.__views.__alloyId1.add($.__views.userName);
-    showProfile ? $.__views.userName.addEventListener("click", showProfile) : __defers["$.__views.userName!click!showProfile"] = true;
-    $.__views.description = Ti.UI.createView({
-        backgroundColor: "white",
-        width: "100%",
-        height: Ti.UI.SIZE,
-        top: 0,
-        left: 0,
-        id: "description"
-    });
-    $.__views.content.add($.__views.description);
-    $.__views.pitchTitle = Ti.UI.createLabel({
-        color: "#cbc01f",
-        font: {
-            fontFamily: "SourceSansPro-Regular"
-        },
-        id: "pitchTitle",
-        top: "5",
-        text: "IDEA"
-    });
-    $.__views.description.add($.__views.pitchTitle);
-    $.__views.pitch = Ti.UI.createLabel({
-        color: "#04cbca",
-        font: {
-            fontFamily: "SourceSansPro-Regular"
-        },
-        id: "pitch",
-        top: "30",
-        width: "80%",
-        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
-    });
-    $.__views.description.add($.__views.pitch);
-    $.__views.explore = Ti.UI.createView({
-        backgroundColor: "white",
-        width: "100%",
-        height: Ti.UI.SIZE,
-        top: 0,
-        left: 0,
-        id: "explore"
-    });
-    $.__views.content.add($.__views.explore);
-    $.__views.comments = Ti.UI.createView({
-        backgroundColor: "white",
-        width: "100%",
-        height: Ti.UI.SIZE,
-        top: 0,
-        left: 0,
-        id: "comments"
-    });
-    $.__views.content.add($.__views.comments);
-    $.__views.commentsTitle = Ti.UI.createLabel({
-        color: "#cbc01f",
-        font: {
-            fontFamily: "SourceSansPro-Regular"
-        },
-        id: "commentsTitle",
-        text: "COMENTARIOS"
-    });
-    $.__views.comments.add($.__views.commentsTitle);
-    $.__views.__alloyId2 = Ti.UI.createView({
-        width: "100%",
-        height: 70,
-        bottom: "0",
-        id: "__alloyId2"
-    });
-    $.__views.win.add($.__views.__alloyId2);
-    $.__views.match = Ti.UI.createButton({
-        id: "match",
-        backgroundImage: "/images/like.png",
-        bottom: "20",
-        width: "50",
-        height: "50",
-        backgroundColor: "#04cbca",
-        left: "50"
-    });
-    $.__views.__alloyId2.add($.__views.match);
-    match ? $.__views.match.addEventListener("click", match) : __defers["$.__views.match!click!match"] = true;
-    $.__views.matchCount = Ti.UI.createLabel({
-        font: {
-            fontFamily: "SourceSansPro-Regular"
-        },
-        color: "#04cbca",
-        id: "matchCount",
-        bottom: "0",
-        left: "75"
-    });
-    $.__views.__alloyId2.add($.__views.matchCount);
-    match ? $.__views.matchCount.addEventListener("click", match) : __defers["$.__views.matchCount!click!match"] = true;
-    $.__views.comment = Ti.UI.createButton({
-        id: "comment",
-        backgroundImage: "/images/comment.png",
-        bottom: "20",
-        width: "50",
-        height: "50",
-        backgroundColor: "#cbc01f"
-    });
-    $.__views.__alloyId2.add($.__views.comment);
-    comment ? $.__views.comment.addEventListener("click", comment) : __defers["$.__views.comment!click!comment"] = true;
-    $.__views.commentCount = Ti.UI.createLabel({
-        font: {
-            fontFamily: "SourceSansPro-Regular"
-        },
-        color: "#cbc01f",
-        id: "commentCount",
-        bottom: "0"
-    });
-    $.__views.__alloyId2.add($.__views.commentCount);
-    comment ? $.__views.commentCount.addEventListener("click", comment) : __defers["$.__views.commentCount!click!comment"] = true;
-    $.__views.noMatch = Ti.UI.createButton({
-        id: "noMatch",
-        backgroundImage: "/images/dislike.png",
-        bottom: "20",
-        width: "50",
-        height: "50",
-        backgroundColor: "#cc0a98",
-        right: "50"
-    });
-    $.__views.__alloyId2.add($.__views.noMatch);
-    noMatch ? $.__views.noMatch.addEventListener("click", noMatch) : __defers["$.__views.noMatch!click!noMatch"] = true;
-    $.__views.noMatchCount = Ti.UI.createLabel({
-        font: {
-            fontFamily: "SourceSansPro-Regular"
-        },
-        color: "#cc0a98",
-        id: "noMatchCount",
-        bottom: "0",
-        right: "75"
-    });
-    $.__views.__alloyId2.add($.__views.noMatchCount);
-    noMatch ? $.__views.noMatchCount.addEventListener("click", noMatch) : __defers["$.__views.noMatchCount!click!noMatch"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     var currentIdea = null;
@@ -425,14 +390,9 @@ function Controller() {
         findIdea(Alloy.Globals.ideaToShow);
         Alloy.Globals.ideaToShow = null;
     } else getCurrentIdea(Alloy.Globals.UserId);
-    __defers["$.__views.userImage!click!showProfile"] && $.__views.userImage.addEventListener("click", showProfile);
-    __defers["$.__views.userName!click!showProfile"] && $.__views.userName.addEventListener("click", showProfile);
-    __defers["$.__views.match!click!match"] && $.__views.match.addEventListener("click", match);
-    __defers["$.__views.matchCount!click!match"] && $.__views.matchCount.addEventListener("click", match);
-    __defers["$.__views.comment!click!comment"] && $.__views.comment.addEventListener("click", comment);
-    __defers["$.__views.commentCount!click!comment"] && $.__views.commentCount.addEventListener("click", comment);
-    __defers["$.__views.noMatch!click!noMatch"] && $.__views.noMatch.addEventListener("click", noMatch);
-    __defers["$.__views.noMatchCount!click!noMatch"] && $.__views.noMatchCount.addEventListener("click", noMatch);
+    Titanium.Gesture.addEventListener("orientationchange", function() {
+        fillData();
+    });
     _.extend($, exports);
 }
 

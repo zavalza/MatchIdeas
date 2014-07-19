@@ -61,6 +61,7 @@ if (Ti.UI.Android){
   $.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN;
 }
 $.scrollableView.scrollToView(Alloy.Globals.Ideas);
+$.win.orientationModes = [Titanium.UI.PORTRAIT]; //Limitar a una sola orientación
 $.win.open();
 
 

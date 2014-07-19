@@ -33,23 +33,23 @@ function Controller() {
         id: "win"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    $.__views.__alloyId12 = Ti.UI.createScrollView({
+    $.__views.__alloyId9 = Ti.UI.createScrollView({
         top: "30",
         contentHeight: "auto",
         layout: "vertical",
         showVerticalScrollIndicator: "true",
-        id: "__alloyId12"
+        id: "__alloyId9"
     });
-    $.__views.win.add($.__views.__alloyId12);
-    $.__views.__alloyId13 = Ti.UI.createView({
+    $.__views.win.add($.__views.__alloyId9);
+    $.__views.__alloyId10 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: 120,
         top: 0,
         left: 0,
-        id: "__alloyId13"
+        id: "__alloyId10"
     });
-    $.__views.__alloyId12.add($.__views.__alloyId13);
+    $.__views.__alloyId9.add($.__views.__alloyId10);
     $.__views.pitch = Ti.UI.createTextArea({
         borderColor: "#e9e9e9",
         borderWidth: "2",
@@ -62,16 +62,16 @@ function Controller() {
         width: "90%",
         height: "90%"
     });
-    $.__views.__alloyId13.add($.__views.pitch);
-    $.__views.__alloyId14 = Ti.UI.createView({
+    $.__views.__alloyId10.add($.__views.pitch);
+    $.__views.__alloyId11 = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
         height: Ti.UI.SIZE,
         top: 0,
         left: 0,
-        id: "__alloyId14"
+        id: "__alloyId11"
     });
-    $.__views.__alloyId12.add($.__views.__alloyId14);
+    $.__views.__alloyId9.add($.__views.__alloyId11);
     $.__views.done = Ti.UI.createButton({
         id: "done",
         width: "150",
@@ -80,7 +80,7 @@ function Controller() {
         color: "#fefefe",
         backgroundColor: "#04cbca"
     });
-    $.__views.__alloyId14.add($.__views.done);
+    $.__views.__alloyId11.add($.__views.done);
     saveIdea ? $.__views.done.addEventListener("click", saveIdea) : __defers["$.__views.done!click!saveIdea"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);

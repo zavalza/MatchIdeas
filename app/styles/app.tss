@@ -34,9 +34,6 @@
 ".navBar":{
   	  width: '100%', height:50
 },
-".actions":{
-  	  width: '100%', height:70
-},
 ".aqua": {
   color: "#04cbca"
 },

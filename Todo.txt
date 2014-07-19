@@ -41,7 +41,7 @@ When running local web content (that is, content that is included in the applica
     You can use Titanium.App.addEventListener and Titanium.App.fireEvent to receive and send application-level events.
 
     Events can be logged using the Titanium.API logging methods.
-
+*Tal vez al label se le pueda poner un background image en la barra de acciones
 
 ==Rendimiento==
 *Que todo el content de ideasProfile se llene en javascript, de acuerdo a si hay idea o no, si hay tags o no, etc.
