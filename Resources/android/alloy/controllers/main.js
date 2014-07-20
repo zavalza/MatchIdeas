@@ -8,7 +8,8 @@ function Controller() {
     var exports = {};
     $.__views.win = Ti.UI.createWindow({
         backgroundColor: "white",
-        id: "win"
+        id: "win",
+        exitOnClose: "true"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
     var __alloyId5 = [];
@@ -67,6 +68,17 @@ function Controller() {
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
     $.scrollableView.scrollToView(Alloy.Globals.Ideas);
     $.win.orientationModes = [ Titanium.UI.PORTRAIT ];
+    $.win.activity.onCreateOptionsMenu = function(e) {
+        var menu = e.menu;
+        var menuItem = menu.add({
+            title: "Compose",
+            icon: "images/searchIcon.png",
+            showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM
+        });
+        menuItem.addEventListener("click", function() {
+            Ti.API.info("Action Item Clicked!");
+        });
+    };
     $.win.open();
     _.extend($, exports);
 }

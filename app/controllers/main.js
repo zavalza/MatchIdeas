@@ -62,6 +62,22 @@ if (Ti.UI.Android){
 }
 $.scrollableView.scrollToView(Alloy.Globals.Ideas);
 $.win.orientationModes = [Titanium.UI.PORTRAIT]; //Limitar a una sola orientación
+if (Ti.Platform.name === "android"){
+	$.win.activity.onCreateOptionsMenu = function(e) { 
+	var menu = e.menu; 
+	var menuItem = menu.add({ 
+		title : "Buscar idea", 
+		icon : "images/searchIcon.png", 
+		showAsAction : Ti.Android.SHOW_AS_ACTION_IF_ROOM 
+	}); 
+	menuItem.addEventListener("click", function(e) { 
+		Ti.API.info("Action Item Clicked!"); 
+	}); 
+	};
+}
+//else cambiar las properties del window para mostrar cosas en iOS
+
+
 $.win.open();
 
 

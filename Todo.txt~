@@ -41,10 +41,9 @@ When running local web content (that is, content that is included in the applica
     You can use Titanium.App.addEventListener and Titanium.App.fireEvent to receive and send application-level events.
 
     Events can be logged using the Titanium.API logging methods.
-
+*Tal vez al label se le pueda poner un background image en la barra de acciones
 
 ==Rendimiento==
-*Que todo el content de ideasProfile se llene en javascript, de acuerdo a si hay idea o no, si hay tags o no, etc.
 * en match y no match //getCurrentIdea(currentUser); //loads another idea, pero no elimina comentarios anteriores
 con match no se borran los comments al cargar otra idea
 * Hacer objetos tipo voto y verificar que no existan objetos con el id de la idea y el del usuario en lugar del arreglo votedBy. El conteo se debe mantener con inc, para que sea atomico
