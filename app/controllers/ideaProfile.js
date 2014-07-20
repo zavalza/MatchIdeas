@@ -1,6 +1,5 @@
 //Globals in this file
 var currentIdea = null;
-var currentUser = null;
 var newComment = Ti.UI.createView({
 					center : {x: 0, y: 10000}, //solucion momentanea es mandarlo a un y muy grande para que siempre baje
 				    backgroundColor: 'white',
@@ -82,8 +81,8 @@ function getCurrentIdea(userId){
 	    if (e.success) {
 	    	if(e.ideas[0] != null)
 	    	{
-	    		currentIdea = e.ideas[0];
-	    		fillData();
+	    			currentIdea = e.ideas[0];
+	    			fillData();
 	    	}
 	        	
 	        else
@@ -116,8 +115,15 @@ function findIdea(ideaId){
 	    }
 	}, function (e) {
 	    if (e.success) {
-	        currentIdea = e.ideas[0];
-	        fillData();
+	    	if(currentIdea != null) //if we just actualized data
+    		{
+    			currentIdea = e.ideas[0];
+    		}
+    		else
+    		{
+    			currentIdea = e.ideas[0];
+    			fillData();
+    		}
 	    } else {
 	        alert('Error:\n' +((e.error && e.message) || JSON.stringify(e)));
 	    }
@@ -146,7 +152,7 @@ function match () {
 		 //var votes = String(currentIdea.votedBy).split(',').push("10"); //Regresa 2
 		 var votes =  JSON.stringify(currentIdea.votedBy);
 		 votes = votes.substring(1, votes.length-1);
-		 votes = votes + "," +"\""+currentUser+"\"";
+		 votes = votes + "," +"\""+Alloy.Globals.UserId+"\"";
 		 votes = "["+votes+"]";
 		 votes = JSON.parse(votes);
 		 //alert(votes);
@@ -162,14 +168,8 @@ function match () {
 		  };
 		  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
 		    if (e.success) {
-		    	/*for(var i=commentsArray.length-1; i>=0; i--)
-		    	{
-		    		alert(i);
-		    		$.content.remove(commentsArray[i]);
-		    		commentsArray.pop();
-		    	}*/
-		    	//$.comments.removeAllChildren();
-		        //getCurrentIdea(currentUser); //loads another idea
+				/*scrollView.removeAllChildren();
+		        getCurrentIdea(Alloy.Globals.UserId); //loads another idea*/
 		         Alloy.createController('main').getView().open(); //reloads window
 		    } else {
 		        alert('Error:\n' +
@@ -205,7 +205,7 @@ function noMatch () {
 		 //var votes = String(currentIdea.votedBy).split(',').push("10"); //Regresa 2
 		 var votes =  JSON.stringify(currentIdea.votedBy);
 		 votes = votes.substring(1, votes.length-1);
-		 votes = votes + "," +"\""+currentUser+"\"";
+		 votes = votes + "," +"\""+Alloy.Globals.UserId+"\"";
 		 votes = "["+votes+"]";
 		 votes = JSON.parse(votes);
 		 //alert(votes);
@@ -221,8 +221,9 @@ function noMatch () {
 		  };
 		  Alloy.Globals.Cloud.Objects.update(dict, function (e) {
 		    if (e.success) {
-		    	//$.comments.removeAllChildren();
-		        //getCurrentIdea(currentUser); //loads another idea (fast)
+		    	
+				/*scrollView.removeAllChildren();
+		        getCurrentIdea(Alloy.Globals.UserId); //loads another idea (fast)*/
 		        Alloy.createController('main').getView().open(); //reloads window (slow)
 		    } else {
 		        alert('Error:\n' +
@@ -249,7 +250,8 @@ function showProfile(e){
 
 //fills Data once currentIdea (ideaToShow) is defined
 function fillData(e){
-	
+	if (currentIdea != null)
+	{
 		var imageRow = newRow();
 		var profilePic = Ti.UI.createImageView({
   			image:'/images/profilePic.png',
@@ -417,7 +419,7 @@ function fillData(e){
 					  	//Alloy.Globals.ideaToShow = currentIdea.id; //Show this idea again
 				    	//Alloy.createController('main').getView().open();
 				    	newComment.blur();
-				    	newComment = newComment = Ti.UI.createView({
+				    	newComment = Ti.UI.createView({
 						center : {x: 0, y: 10000}, //solucion momentanea es mandarlo a un y muy grande para que siempre baje
 					    backgroundColor: 'white',
 					    width:'100%', height: Ti.UI.SIZE,
@@ -530,7 +532,8 @@ function fillData(e){
 		        alert('Error:\n' +
 		            ((e.error && e.message) || JSON.stringify(e)));
 		    }
-			});
+			});	
+	}
 			
 }
 
@@ -549,9 +552,6 @@ if(Alloy.Globals.ideaToShow != null)
 }
 else
 {
-	getCurrentIdea(Alloy.Globals.UserId);
+		getCurrentIdea(Alloy.Globals.UserId);
 }
 
-Titanium.Gesture.addEventListener('orientationchange', function(e){
-	fillData();
-});
