@@ -103,13 +103,6 @@ function Controller() {
         Alloy.createController("userProfile").getView().open();
     }
     function fillData() {
-        var scrollView = Ti.UI.createScrollView({
-            contentHeight: "auto",
-            layout: "vertical",
-            showVerticalScrollIndicator: true,
-            top: 30,
-            bottom: 70
-        });
         var imageRow = newRow();
         var profilePic = Ti.UI.createImageView({
             image: "/images/profilePic.png",
@@ -145,14 +138,14 @@ function Controller() {
         var text = '"' + currentIdea.pitch + '"';
         var words = text.split(" ");
         var winWidth = Titanium.Platform.displayCaps.platformWidth;
-        var oneSpace = 100 * (8 / winWidth);
+        var oneSpace = 100 * (7 / winWidth);
         var rowNumber = 0;
         var writtenChars = 0;
-        var usedSpace = 0;
+        var usedSpace = 7;
         for (var i = 0; words.length > i; i++) {
             if (usedSpace + words[i].length * oneSpace > 85) {
                 rowNumber += 1;
-                usedSpace = 0;
+                usedSpace = 7;
                 writtenChars = 0;
             }
             usedSpace = oneSpace * writtenChars + oneSpace;
@@ -261,8 +254,20 @@ function Controller() {
                     };
                     Alloy.Globals.Cloud.Objects.create(dict, function(e) {
                         if (e.success) {
-                            Alloy.Globals.ideaToShow = currentIdea.id;
-                            Alloy.createController("main").getView().open();
+                            newComment.blur();
+                            newComment = newComment = Ti.UI.createView({
+                                center: {
+                                    x: 0,
+                                    y: 1e4
+                                },
+                                backgroundColor: "white",
+                                width: "100%",
+                                height: Ti.UI.SIZE,
+                                top: 10,
+                                left: 0
+                            });
+                            scrollView.removeAllChildren();
+                            fillData();
                         } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
                     });
                 });
@@ -306,7 +311,8 @@ function Controller() {
                     backgroundColor: "#cbc01f"
                 });
                 commentButton.addEventListener("click", function() {
-                    comment();
+                    Titanium.API.info("comment");
+                    scrollView.scrollTo(newComment.getCenter().x, newComment.getCenter().y);
                 });
                 var commentLabel = Ti.UI.createLabel({
                     text: e.comments.length,
@@ -372,6 +378,13 @@ function Controller() {
         height: Ti.UI.SIZE,
         top: 10,
         left: 0
+    });
+    var scrollView = Ti.UI.createScrollView({
+        contentHeight: "auto",
+        layout: "vertical",
+        showVerticalScrollIndicator: true,
+        top: 30,
+        bottom: 70
     });
     Ti.UI.Android && ($.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN);
     if (null != Alloy.Globals.ideaToShow) {

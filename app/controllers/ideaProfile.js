@@ -7,9 +7,14 @@ var newComment = Ti.UI.createView({
 				    width:'100%', height: Ti.UI.SIZE,
 				    top: 10, left: 0
 				  });
-
-var commentsArray=[]; //store all the views of the comments of CurrentIdea. Parece que los borra bien, pero que los escribe de nuevo por alguna razon
-
+var scrollView = Ti.UI.createScrollView({
+		  contentHeight: 'auto',
+		  layout : 'vertical',
+		  showVerticalScrollIndicator: true,
+		  top:30,
+		  bottom:70,
+		});	
+		
 function newRow(){
 	var row = Titanium.UI.createView({
 		   backgroundColor:'white',
@@ -21,6 +26,21 @@ function newRow(){
 	return row;
 }
 
+
+function showMenu(e){
+    //Displays log message on console
+    Titanium.API.info("Menu");
+    Alloy.createController('menu').getView().open();
+    /*var newUser = Alloy.createController('newUser').getView();
+    newUser.open();*/
+};
+
+function showNewIdea(e){
+    //Displays log message on console
+    Titanium.API.info("show new idea");
+    var newIdea = Alloy.createController('newIdea').getView();
+    newIdea.open();
+}
 
 /*
 //creates the format for each word to show
@@ -112,7 +132,7 @@ function findIdea(ideaId){
  * cosa que sucederá hasta que se escale mucho la aplicación
  */
 
-function match (e) {
+function match () {
   Titanium.API.info("Match");
   if(currentIdea != null)//If we have an idea
   {
@@ -171,7 +191,7 @@ function match (e) {
  * se corre el riesgo de perder votos cuando dos usuarios accesen a la misma idea y la alteren casi simultaneamente,
  * cosa que sucederá hasta que se escale mucho la aplicación
  */
-function noMatch (e) {
+function noMatch () {
   Titanium.API.info("No Match");
   if(currentIdea != null)//If we have an idea
   {
@@ -229,13 +249,6 @@ function showProfile(e){
 
 //fills Data once currentIdea (ideaToShow) is defined
 function fillData(e){
-		var scrollView = Ti.UI.createScrollView({
-		  contentHeight: 'auto',
-		  layout : 'vertical',
-		  showVerticalScrollIndicator: true,
-		  top:30,
-		  bottom:70,
-		});	
 	
 		var imageRow = newRow();
 		var profilePic = Ti.UI.createImageView({
@@ -274,16 +287,16 @@ function fillData(e){
 		var text = "\""+currentIdea.pitch+"\"";
 		var words = text.split(" ");
 		var  winWidth = Titanium.Platform.displayCaps.platformWidth;
-		var  oneSpace = 8/winWidth*100; //8 px of font, width in px for android
+		var  oneSpace = 7/winWidth*100; //7 px of font, width in px for android
 		var rowNumber = 0;
 		var writtenChars = 0;
-		var usedSpace = 0;
+		var usedSpace = 7; //Initial identation (center effect)
 		for (var i=0; i < words.length; i++)
 		{
 			if (usedSpace + words[i].length*oneSpace > 85)
 			{
 			rowNumber+=1;
-			usedSpace = 0;
+			usedSpace = 7;
 			writtenChars = 0;
 			}
 			usedSpace = oneSpace*writtenChars+oneSpace;
@@ -401,9 +414,17 @@ function fillData(e){
 				    if (e.success)
 				    {
 					  	
-					  	Alloy.Globals.ideaToShow = currentIdea.id; //Show this idea again
-				    	Alloy.createController('main').getView().open();
-				    	
+					  	//Alloy.Globals.ideaToShow = currentIdea.id; //Show this idea again
+				    	//Alloy.createController('main').getView().open();
+				    	newComment.blur();
+				    	newComment = newComment = Ti.UI.createView({
+						center : {x: 0, y: 10000}, //solucion momentanea es mandarlo a un y muy grande para que siempre baje
+					    backgroundColor: 'white',
+					    width:'100%', height: Ti.UI.SIZE,
+					    top: 10, left: 0
+					  });
+				    	scrollView.removeAllChildren();
+				    	fillData();
 				    	//$.content.removeAllChildren();
 				    	//findIdea(currentIdea.id); //update view
 				   		
@@ -462,7 +483,8 @@ function fillData(e){
 			});
 			commentButton.addEventListener('click',function(e)
 			{
-			   comment();
+			     Titanium.API.info("comment");
+   				scrollView.scrollTo(newComment.getCenter().x, newComment.getCenter().y);
 			});
 			var commentLabel = Ti.UI.createLabel({
 			text:e.comments.length,
@@ -513,27 +535,7 @@ function fillData(e){
 }
 
 
-function showMenu(e){
-    //Displays log message on console
-    Titanium.API.info("Menu");
-    Alloy.createController('menu').getView().open();
-    /*var newUser = Alloy.createController('newUser').getView();
-    newUser.open();*/
-};
 
-function comment(e){
-    //Displays log message on console
-    Titanium.API.info("comment");
-    //commentArea.focus();
-    $.content.scrollTo(newComment.getCenter().x, newComment.getCenter().y);
-};
-
-function showNewIdea(e){
-    //Displays log message on console
-    Titanium.API.info("show new idea");
-    var newIdea = Alloy.createController('newIdea').getView();
-    newIdea.open();
-}
 
 if (Ti.UI.Android){
   $.win.windowSoftInputMode = Ti.UI.Android.SOFT_INPUT_ADJUST_PAN;
