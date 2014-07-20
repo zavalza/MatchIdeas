@@ -141,63 +141,51 @@ function Controller() {
             color: "#cbc01f",
             top: 5
         });
-        var pitchLabel = Ti.UI.createLabel({
-            text: '"' + currentIdea.pitch + '"',
-            font: {
-                fontFamily: "SourceSansPro-Regular"
-            },
-            color: "#04cbca",
-            top: 30,
-            width: "80%",
-            textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
-        });
         pitchRow.add(pitchTitle);
-        pitchRow.add(pitchLabel);
-        scrollView.add(pitchRow);
-        if ("undefined" != typeof currentIdea.tags) {
-            var tagRow = newRow();
-            var numberOfTags = currentIdea.tags.length;
-            var writtenChars = 0;
-            var tagTitle = Ti.UI.createLabel({
-                text: "TAGS",
-                font: {
-                    fontFamily: "SourceSansPro-Regular"
-                },
-                color: "#cbc01f",
-                textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-                top: 5,
-                left: "15%"
-            });
-            tagRow.add(tagTitle);
-            var winWidth = Titanium.Platform.displayCaps.platformWidth;
-            var oneSpace = 0;
-            while (0 == oneSpace || oneSpace > 10) oneSpace = 100 * (8 / winWidth);
-            var initIdentation = 10;
-            var rowNumber = 0;
-            var usedSpace = 0;
-            for (var i = 0; numberOfTags > i; i++) {
-                var tag = currentIdea.tags[i];
-                0 == i && (tag = tag.slice(1));
-                i == numberOfTags - 1 && (tag = tag = tag.slice(0, tag.length - 1));
-                tag = tag.slice(1, tag.length - 1);
-                if (usedSpace + tag.length * oneSpace > 70) {
-                    rowNumber += 1;
-                    usedSpace = 0;
-                    writtenChars = 0;
-                }
-                usedSpace = oneSpace * writtenChars + oneSpace;
-                var tagLabel = Ti.UI.createLabel({
-                    color: "blue",
-                    text: tag,
+        var text = '"' + currentIdea.pitch + '"';
+        var words = text.split(" ");
+        var winWidth = Titanium.Platform.displayCaps.platformWidth;
+        var oneSpace = 100 * (8 / winWidth);
+        var rowNumber = 0;
+        var writtenChars = 0;
+        var usedSpace = 0;
+        for (var i = 0; words.length > i; i++) {
+            if (usedSpace + words[i].length * oneSpace > 85) {
+                rowNumber += 1;
+                usedSpace = 0;
+                writtenChars = 0;
+            }
+            usedSpace = oneSpace * writtenChars + oneSpace;
+            switch (words[i][0]) {
+              case "#":
+                var wordLabel = Ti.UI.createLabel({
+                    color: "#04cbca",
+                    font: {
+                        fontFamily: "SourceSansPro-Regular"
+                    },
+                    text: words[i],
                     textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
                     top: 30 + 30 * rowNumber,
-                    left: String(initIdentation + usedSpace) + "%"
+                    left: String(usedSpace) + "%"
                 });
-                writtenChars += tag.length + 1;
-                tagRow.add(tagLabel);
+                break;
+
+              default:
+                var wordLabel = Ti.UI.createLabel({
+                    color: "black",
+                    font: {
+                        fontFamily: "SourceSansPro-Regular"
+                    },
+                    text: words[i],
+                    textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+                    top: 30 + 30 * rowNumber,
+                    left: String(usedSpace) + "%"
+                });
             }
-            scrollView.add(tagRow);
+            writtenChars += words[i].length + 1;
+            pitchRow.add(wordLabel);
         }
+        scrollView.add(pitchRow);
         Alloy.Globals.Cloud.Objects.query({
             classname: "comments",
             where: {

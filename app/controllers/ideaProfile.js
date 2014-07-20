@@ -270,87 +270,56 @@ function fillData(e){
 			color: "#cbc01f", //gold match
 			top:5  
 		});
-		var pitchLabel = Ti.UI.createLabel({
-			text: "\""+currentIdea.pitch+"\"",
-			font: {
-				     fontFamily: 'SourceSansPro-Regular'
-				 },
-			color: "#04cbca",//aqua match
-			top:30,
-			width:'80%',
-			textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER
-			
-		});
 		pitchRow.add(pitchTitle);
-		pitchRow.add(pitchLabel);
-		scrollView.add(pitchRow);
-	
-		if(typeof currentIdea.tags != 'undefined')
+		var text = "\""+currentIdea.pitch+"\"";
+		var words = text.split(" ");
+		var  winWidth = Titanium.Platform.displayCaps.platformWidth;
+		var  oneSpace = 8/winWidth*100; //8 px of font, width in px for android
+		var rowNumber = 0;
+		var writtenChars = 0;
+		var usedSpace = 0;
+		for (var i=0; i < words.length; i++)
 		{
-			var tagRow = newRow();
-			var numberOfTags = currentIdea.tags.length;
-			var writtenChars = 0;
-			//<Label id="tagsTitle" class="sansPro gold" left="10%" top="5" text="TAGS" />
-			var tagTitle = Ti.UI.createLabel({
-			text: 'TAGS',
-			font: {
-				     fontFamily: 'SourceSansPro-Regular'
-				 },
-			color: "#cbc01f", //gold match
-			textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-			top: 5,
-			left:'15%',
-			});
-			tagRow.add(tagTitle);
-			var  winWidth = Titanium.Platform.displayCaps.platformWidth;
-			///////Probar con cambio de orientacion llamar otra vez a fillData, porque width si se adapta bien cuando ya esta en posicion todo
-			
-			//alert (typeof $.explore.size.width);
-			var oneSpace = 0;
-			while(oneSpace == 0 || oneSpace >10){ //fixez bug on the get of size which gives oneSpace a value of infinity
-				oneSpace = 8/winWidth*100; //8 px of font, width in px for android
-			}
-			//alert(Titanium.Gesture.orientation);
-			//alert(oneSpace);
-			//var oneSpace = 4;
-			var initIdentation = 10;
-			var rowNumber = 0;
-			var usedSpace = 0;
-			for(var i=0; i < numberOfTags; i++)
+			if (usedSpace + words[i].length*oneSpace > 85)
 			{
-				var tag = currentIdea.tags[i];
-				if(i==0)
-				{
-				tag = tag.slice(1); //deletes '[' char
-				}
-				if(i==numberOfTags -1)
-				{
-				tag = tag = tag.slice(0, tag.length-1); //deletes ']' char
-				}
-				tag = tag.slice(1, tag.length-1); //deletes '\"' chars
-				
-				if (usedSpace + tag.length*oneSpace > 70)
-				{
-				rowNumber+=1;
-				usedSpace = 0;
-				writtenChars = 0;
-				}
-				usedSpace = oneSpace*writtenChars+oneSpace;
-				var tagLabel = Ti.UI.createLabel({
-				color:'blue',
-				text: tag,
-				textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
-				top: 30+rowNumber*30,
-				left:String(initIdentation+usedSpace)+'%',
-				});
-				writtenChars += tag.length+1;
-				//<Label id="tags" class="sansPro pink" left="15%" top="30"/>
-				//$.tags.text = $.tags.text + tag + " ";
-				tagRow.add(tagLabel);
+			rowNumber+=1;
+			usedSpace = 0;
+			writtenChars = 0;
 			}
-			scrollView.add(tagRow);
+			usedSpace = oneSpace*writtenChars+oneSpace;
+			
+			switch(words[i][0]){
+				case '#':
+							var wordLabel = Ti.UI.createLabel({
+							color:"#04cbca", //aqua
+							font: {
+							     fontFamily: 'SourceSansPro-Regular'
+							 },
+							text: words[i],
+							textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+							top: 30+rowNumber*30,
+							left:String(usedSpace)+'%',
+							});
+							break;
+				default:
+							var wordLabel = Ti.UI.createLabel({
+							color:'black',
+							font: {
+							     fontFamily: 'SourceSansPro-Regular'
+							 },
+							text: words[i],
+							textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
+							top: 30+rowNumber*30,
+							left:String(usedSpace)+'%',
+							});
+							 break;
+			}
+			writtenChars += words[i].length+1;
+			pitchRow.add(wordLabel);
 		}
-	
+			
+		scrollView.add(pitchRow);	
+		
 		//Returns all the comments of the specified ideaId
 		Alloy.Globals.Cloud.Objects.query({
 		    classname: 'comments',
