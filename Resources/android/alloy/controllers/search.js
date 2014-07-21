@@ -36,26 +36,41 @@ function Controller() {
             $.win.close();
         });
     };
-    var data = [];
-    data.push(Ti.UI.createTableViewRow({
-        title: "Apple"
-    }));
-    data.push(Ti.UI.createTableViewRow({
-        title: "Banana"
-    }));
-    data.push(Ti.UI.createTableViewRow({
-        title: "Orange"
-    }));
-    data.push(Ti.UI.createTableViewRow({
-        title: "Raspberry"
-    }));
-    var tableview = Titanium.UI.createTableView({
-        data: data,
-        search: search,
-        searchAsChild: false
+    Alloy.Globals.Cloud.Objects.query({
+        classname: "ideas",
+        limit: 50,
+        where: {
+            user_id: Alloy.Globals.UserId,
+            tags: {
+                $exists: true
+            }
+        },
+        sel: {
+            all: [ "tags" ]
+        }
+    }, function(e) {
+        if (e.success) if (e.ideas.length > 0) {
+            var data = [];
+            for (var i = 0; e.ideas.length > i; i++) if ("undefined" != typeof e.ideas[i].tags) for (var j = 0; e.ideas[i].tags.length > j; j++) {
+                var tagRow = Ti.UI.createTableViewRow({
+                    title: e.ideas[i].tags[j],
+                    width: "100%",
+                    height: Ti.UI.SIZE
+                });
+                tagRow.addEventListener("click", function(e) {
+                    search.value = search.value + " " + e.rowData.title;
+                });
+                data.push(tagRow);
+            }
+            var tableview = Titanium.UI.createTableView({
+                data: data,
+                search: search,
+                searchAsChild: false
+            });
+            $.win.add(tableview);
+            $.win.open();
+        } else alert("No ha usado tags"); else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
     });
-    $.win.add(tableview);
-    $.win.open();
     _.extend($, exports);
 }
 

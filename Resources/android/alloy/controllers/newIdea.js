@@ -10,10 +10,10 @@ function Controller() {
                 pitch: pitchText,
                 matches: 0,
                 noMatches: 0,
+                tags: hashtags,
                 votedBy: [ userId ]
             },
             acl_name: "ideasACL",
-            tags: hashtags,
             user_id: userId
         };
         Alloy.Globals.Cloud.Objects.create(dict, function(e) {

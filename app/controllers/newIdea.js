@@ -11,9 +11,9 @@ function saveIdea(e){
 		   	   fields: {pitch: pitchText,
 		   	   			matches: 0,
 		   	   			noMatches: 0,
+		   	   			tags: hashtags,
 		   	   			votedBy: [userId]},
 		   	   acl_name: 'ideasACL',
-		   	   tags: hashtags,
 		   	   user_id: userId
 		   	   };
 	/*if($.shareFb.value)
