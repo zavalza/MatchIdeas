@@ -71,12 +71,13 @@ function Controller() {
     $.win.activity.onCreateOptionsMenu = function(e) {
         var menu = e.menu;
         var menuItem = menu.add({
-            title: "Compose",
+            title: "Buscar idea",
             icon: "images/searchIcon.png",
             showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM
         });
         menuItem.addEventListener("click", function() {
-            Ti.API.info("Action Item Clicked!");
+            Ti.API.info("Go to search");
+            Alloy.createController("search").getView();
         });
     };
     $.win.open();

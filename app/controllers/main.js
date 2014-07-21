@@ -71,7 +71,8 @@ if (Ti.Platform.name === "android"){
 		showAsAction : Ti.Android.SHOW_AS_ACTION_IF_ROOM 
 	}); 
 	menuItem.addEventListener("click", function(e) { 
-		Ti.API.info("Action Item Clicked!"); 
+		Ti.API.info("Go to search");
+		Alloy.createController('search').getView(); 
 	}); 
 	};
 }

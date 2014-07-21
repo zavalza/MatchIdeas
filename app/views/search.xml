@@ -1,0 +1,6 @@
+<Alloy>
+	<Window id="win" class="container">
+		<ScrollView id="content" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+    	</ScrollView>
+	</Window>
+</Alloy>
