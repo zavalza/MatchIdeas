@@ -18,6 +18,8 @@ Alloy.Globals.userToShow = null;
 
 Alloy.Globals.ideaToShow = null;
 
+Alloy.Globals.tagsToSearch = [];
+
 Alloy.Globals.Cloud.sessionId = Ti.App.Properties.getString("storedSession");
 
 Alloy.Globals.Cloud.Users.showMe(function(e) {

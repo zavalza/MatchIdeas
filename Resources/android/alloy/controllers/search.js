@@ -20,8 +20,13 @@ function Controller() {
     $.__views.win.add($.__views.content);
     exports.destroy = function() {};
     _.extend($, $.__views);
+    var data = [];
     var search = Ti.UI.Android.createSearchView({
         hintText: "Buscar idea"
+    });
+    search.addEventListener("submit", function() {
+        Alloy.Globals.tagsToSearch = search.value.split(" ");
+        Alloy.createController("searchResults").getView();
     });
     $.win.activity.onCreateOptionsMenu = function(e) {
         var menu = e.menu;
@@ -50,8 +55,9 @@ function Controller() {
         }
     }, function(e) {
         if (e.success) if (e.ideas.length > 0) {
-            var data = [];
-            for (var i = 0; e.ideas.length > i; i++) if ("undefined" != typeof e.ideas[i].tags) for (var j = 0; e.ideas[i].tags.length > j; j++) {
+            var tagsToShow = [];
+            for (var i = 0; e.ideas.length > i; i++) if ("undefined" != typeof e.ideas[i].tags) for (var j = 0; e.ideas[i].tags.length > j; j++) if (-1 == tagsToShow.indexOf(e.ideas[i].tags[j])) {
+                tagsToShow.push(e.ideas[i].tags[j]);
                 var tagRow = Ti.UI.createTableViewRow({
                     title: e.ideas[i].tags[j],
                     width: "100%",
@@ -59,6 +65,12 @@ function Controller() {
                 });
                 tagRow.addEventListener("click", function(e) {
                     search.value = search.value + " " + e.rowData.title;
+                    var tableview = Titanium.UI.createTableView({
+                        data: data,
+                        search: search,
+                        searchAsChild: false
+                    });
+                    $.win.add(tableview);
                 });
                 data.push(tagRow);
             }

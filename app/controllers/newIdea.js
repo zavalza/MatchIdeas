@@ -22,6 +22,7 @@ function saveIdea(e){
 		    }*/
     Alloy.Globals.Cloud.Objects.create(dict, function (e) {
 	    if (e.success) {
+	    	$.pitch.value="";
 	    	Alloy.Globals.Scrollable.scrollToView(Alloy.Globals.Ideas);
 		    //var main = Alloy.createController('main').getView();
 		    //main.open();

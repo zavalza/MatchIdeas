@@ -16,14 +16,14 @@ function Controller() {
         id: "win"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    $.__views.__alloyId23 = Ti.UI.createScrollView({
+    $.__views.__alloyId24 = Ti.UI.createScrollView({
         contentHeight: "auto",
         layout: "vertical",
         showVerticalScrollIndicator: "true",
         bottom: "50",
-        id: "__alloyId23"
+        id: "__alloyId24"
     });
-    $.__views.win.add($.__views.__alloyId23);
+    $.__views.win.add($.__views.__alloyId24);
     $.__views.mainView = Ti.UI.createView({
         backgroundColor: "white",
         width: "100%",
@@ -32,7 +32,7 @@ function Controller() {
         left: 0,
         id: "mainView"
     });
-    $.__views.__alloyId23.add($.__views.mainView);
+    $.__views.__alloyId24.add($.__views.mainView);
     $.__views.label1 = Ti.UI.createLabel({
         color: "#04cbca",
         font: {
@@ -46,12 +46,12 @@ function Controller() {
         height: Ti.UI.SIZE
     });
     $.__views.mainView.add($.__views.label1);
-    $.__views.__alloyId24 = Ti.UI.createView({
+    $.__views.__alloyId25 = Ti.UI.createView({
         width: "100%",
         height: "1000",
-        id: "__alloyId24"
+        id: "__alloyId25"
     });
-    $.__views.__alloyId23.add($.__views.__alloyId24);
+    $.__views.__alloyId24.add($.__views.__alloyId25);
     $.__views.label2 = Ti.UI.createLabel({
         font: {
             fontFamily: "SourceSansPro-Regular"
@@ -60,11 +60,11 @@ function Controller() {
         id: "label2",
         color: "#333333"
     });
-    $.__views.__alloyId24.add($.__views.label2);
-    $.__views.__alloyId25 = Ti.UI.createView({
-        id: "__alloyId25"
+    $.__views.__alloyId25.add($.__views.label2);
+    $.__views.__alloyId26 = Ti.UI.createView({
+        id: "__alloyId26"
     });
-    $.__views.win.add($.__views.__alloyId25);
+    $.__views.win.add($.__views.__alloyId26);
     $.__views.ok = Ti.UI.createButton({
         id: "ok",
         title: "Acepto",
@@ -74,7 +74,7 @@ function Controller() {
         backgroundColor: "white",
         color: "black"
     });
-    $.__views.__alloyId25.add($.__views.ok);
+    $.__views.__alloyId26.add($.__views.ok);
     done ? $.__views.ok.addEventListener("click", done) : __defers["$.__views.ok!click!done"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);

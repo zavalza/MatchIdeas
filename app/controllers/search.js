@@ -1,7 +1,15 @@
+var data = []; //Data to be shown in tableView
+   		
+
 if (Ti.Platform.name === "android"){
 	// Use action bar search view
 	var search = Ti.UI.Android.createSearchView({
 	    hintText: "Buscar idea"
+	});
+	
+	search.addEventListener('submit', function(e){
+		Alloy.Globals.tagsToSearch = search.value.split(" ");
+		Alloy.createController('searchResults').getView();
 	});
 	$.win.activity.onCreateOptionsMenu = function(e) {
 	    var menu = e.menu;
@@ -32,25 +40,35 @@ if (Ti.Platform.name === "android"){
 	    if (e.success) {
 	    	if (e.ideas.length > 0) //if there are results
 	    	{
-	    		var data = [];
-	    		
+	    		var tagsToShow =[]; 
 	    		for(var i=0; i < e.ideas.length; i++)
 	    		{
 	    			if(typeof e.ideas[i].tags != 'undefined')
 	    			{
 	    				for(var j = 0; j < e.ideas[i].tags.length; j++)
 		    			{
-		    				var tagRow = Ti.UI.createTableViewRow(
+		    				if(tagsToShow.indexOf(e.ideas[i].tags[j]) == -1) //if there is not already that tag
+		    				{
+		    					tagsToShow.push(e.ideas[i].tags[j]);
+		    					var tagRow = Ti.UI.createTableViewRow(
 		    					{title: e.ideas[i].tags[j],
 		    					 width:'100%',
 		    					 height: Ti.UI.SIZE,
 		    					}
 		    					);
-		    				tagRow.addEventListener('click', function(e){
-		    					search.value = search.value + " "+ e.rowData.title;
-		    				});
-		    				data.push(tagRow);
+			    				tagRow.addEventListener('click', function(e){
+			    					search.value = search.value + " "+ e.rowData.title;
+			    					var tableview = Titanium.UI.createTableView({
+									    data: data,
+									    search: search,
+									    searchAsChild: false
+									});
+									$.win.add(tableview);
+			    				});
+			    				data.push(tagRow);
+			    			}
 		    			}
+		    				
 	    			}
 	    			
 	    		}
@@ -60,7 +78,7 @@ if (Ti.Platform.name === "android"){
 			    search: search,
 			    searchAsChild: false
 			});
-	
+			
 			$.win.add(tableview);
 			$.win.open();
 	    	}

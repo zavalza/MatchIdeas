@@ -1,0 +1,9 @@
+<Alloy>
+	<Window id="win" class="container">
+		<ScrollView id="content" top="30" contentHeight="auto" layout="vertical" showVerticalScrollIndicator="true">
+			<View class="row">
+				<Label id="ideasTitle" class="sansPro gold" text="IDEAS ENCONTRADAS" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"  width="Ti.UI.SIZE" height="Ti.UI.SIZE" />
+			</View>
+    	</ScrollView>
+	</Window>
+</Alloy>

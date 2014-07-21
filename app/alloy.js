@@ -24,6 +24,9 @@ Alloy.Globals.NewIdea = null;
 Alloy.Globals.userToShow = null;
 //Stores the id of the idea to show
 Alloy.Globals.ideaToShow = null;
+//Stores an array of the the tags to search
+Alloy.Globals.tagsToSearch = [];
+
 Alloy.Globals.Cloud.sessionId = Ti.App.Properties.getString('storedSession');
 
 Alloy.Globals.Cloud.Users.showMe(function (e) {
