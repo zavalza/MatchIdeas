@@ -48,4 +48,5 @@ When running local web content (that is, content that is included in the applica
 con match no se borran los comments al cargar otra idea
 * Hacer objetos tipo voto y verificar que no existan objetos con el id de la idea y el del usuario en lugar del arreglo votedBy. El conteo se debe mantener con inc, para que sea atomico
 *que se generen menos labels en el pitch de las ideas, buscando el siguiente #, todas las demas palabras se guardan y hasta que se encuentra el hashtag se escriben
+*Hacer que los tags se guarden como field? //tags: {"$exists" : true}  no funciona
 

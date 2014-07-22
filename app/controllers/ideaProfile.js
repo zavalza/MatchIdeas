@@ -286,34 +286,61 @@ function fillData(e){
 			top:5  
 		});
 		pitchRow.add(pitchTitle);
-		var text = "\""+currentIdea.pitch+"\"";
-		var words = text.split(" ");
+		var text = "\""+" "+currentIdea.pitch+" "+"\"";
+		var beginPos = 0;
+		var nextTagPos = 0;
+		var labels = [];
+		var label;
+		while(nextTagPos != -1)
+		{	
+			nextTagPos = text.indexOf('#');
+			if(nextTagPos != -1)
+			{
+				label = text.slice(0,nextTagPos);
+				labels.push(label);
+				//alert(label);
+				text = text.replace(label, "");
+				//label with hashtag
+				label = text.slice(0, text.indexOf(' '));
+				labels.push(label);
+				//alert(label);
+				text = text.replace(label, "");
+			}
+		}
+		label = text.slice(0, text.length);
+		labels.push(label);
+		//alert(label);
+		
 		var  winWidth = Titanium.Platform.displayCaps.platformWidth;
 		var  oneSpace = 7/winWidth*100; //7 px of font, width in px for android
 		var rowNumber = 0;
 		var writtenChars = 0;
-		var usedSpace = 7; //Initial identation (center effect)
-		for (var i=0; i < words.length; i++)
+		var usedSpace = 15; //Initial identation (center effect)
+		for (var i=0; i < labels.length; i++)
 		{
-			if (usedSpace + words[i].length*oneSpace > 85)
+			if (usedSpace + labels[i].length*oneSpace > 85)
 			{
 			rowNumber+=1;
-			usedSpace = 7;
+			usedSpace = 15;
 			writtenChars = 0;
 			}
 			usedSpace = oneSpace*writtenChars+oneSpace;
 			
-			switch(words[i][0]){
+			switch(labels[i][0]){
 				case '#':
 							var wordLabel = Ti.UI.createLabel({
 							color:"#04cbca", //aqua
 							font: {
 							     fontFamily: 'SourceSansPro-Regular'
 							 },
-							text: words[i],
+							text: labels[i],
 							textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
 							top: 30+rowNumber*30,
 							left:String(usedSpace)+'%',
+							});
+							wordLabel.addEventListener('click', function(e){
+								Alloy.Globals.tagsToSearch.push(this.text.slice(1)); //delete '#'
+								 Alloy.createController('searchResults').getView();
 							});
 							break;
 				default:
@@ -322,14 +349,14 @@ function fillData(e){
 							font: {
 							     fontFamily: 'SourceSansPro-Regular'
 							 },
-							text: words[i],
+							text: labels[i],
 							textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
 							top: 30+rowNumber*30,
 							left:String(usedSpace)+'%',
 							});
 							 break;
 			}
-			writtenChars += words[i].length+1;
+			writtenChars += labels[i].length+1;
 			pitchRow.add(wordLabel);
 		}
 			

@@ -81,6 +81,7 @@ function Controller() {
                 var ideasView = createIdea(e.ideas[i].id, e.ideas[i].pitch);
                 $.content.add(ideasView);
             }
+            Alloy.Globals.tagsToSearch = [];
             $.win.open();
         } else alert("Error:\n" + (e.error && e.message || JSON.stringify(e)));
     });

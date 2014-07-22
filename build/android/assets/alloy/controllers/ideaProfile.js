@@ -136,31 +136,50 @@ function Controller() {
                 top: 5
             });
             pitchRow.add(pitchTitle);
-            var text = '"' + currentIdea.pitch + '"';
-            var words = text.split(" ");
+            var text = '" ' + currentIdea.pitch + " " + '"';
+            var nextTagPos = 0;
+            var labels = [];
+            var label;
+            while (-1 != nextTagPos) {
+                nextTagPos = text.indexOf("#");
+                if (-1 != nextTagPos) {
+                    label = text.slice(0, nextTagPos);
+                    labels.push(label);
+                    text = text.replace(label, "");
+                    label = text.slice(0, text.indexOf(" "));
+                    labels.push(label);
+                    text = text.replace(label, "");
+                }
+            }
+            label = text.slice(0, text.length);
+            labels.push(label);
             var winWidth = Titanium.Platform.displayCaps.platformWidth;
             var oneSpace = 100 * (7 / winWidth);
             var rowNumber = 0;
             var writtenChars = 0;
-            var usedSpace = 7;
-            for (var i = 0; words.length > i; i++) {
-                if (usedSpace + words[i].length * oneSpace > 85) {
+            var usedSpace = 15;
+            for (var i = 0; labels.length > i; i++) {
+                if (usedSpace + labels[i].length * oneSpace > 85) {
                     rowNumber += 1;
-                    usedSpace = 7;
+                    usedSpace = 15;
                     writtenChars = 0;
                 }
                 usedSpace = oneSpace * writtenChars + oneSpace;
-                switch (words[i][0]) {
+                switch (labels[i][0]) {
                   case "#":
                     var wordLabel = Ti.UI.createLabel({
                         color: "#04cbca",
                         font: {
                             fontFamily: "SourceSansPro-Regular"
                         },
-                        text: words[i],
+                        text: labels[i],
                         textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
                         top: 30 + 30 * rowNumber,
                         left: String(usedSpace) + "%"
+                    });
+                    wordLabel.addEventListener("click", function() {
+                        Alloy.Globals.tagsToSearch.push(this.text.slice(1));
+                        Alloy.createController("searchResults").getView();
                     });
                     break;
 
@@ -170,13 +189,13 @@ function Controller() {
                         font: {
                             fontFamily: "SourceSansPro-Regular"
                         },
-                        text: words[i],
+                        text: labels[i],
                         textAlign: Ti.UI.TEXT_ALIGNMENT_LEFT,
                         top: 30 + 30 * rowNumber,
                         left: String(usedSpace) + "%"
                     });
                 }
-                writtenChars += words[i].length + 1;
+                writtenChars += labels[i].length + 1;
                 pitchRow.add(wordLabel);
             }
             scrollView.add(pitchRow);
